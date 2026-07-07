@@ -1,0 +1,68 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+  /* Aged-paper base with a whisper of texture */
+  background-color: theme('colors.paper.DEFAULT');
+  background-image:
+    radial-gradient(ellipse at 20% 0%, rgba(217, 147, 35, 0.06), transparent 55%),
+    radial-gradient(ellipse at 85% 100%, rgba(30, 75, 142, 0.05), transparent 55%);
+  color: theme('colors.ink');
+  min-height: 100vh;
+}
+
+/* Subtle paper grain over everything */
+body::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 50;
+  opacity: 0.05;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='120' height='120' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+/* Nazar boncuğu: gentle idle sway from the cord, bigger swing on interaction */
+.nazar {
+  transform-origin: top center;
+  animation: nazar-sway 5s ease-in-out infinite;
+}
+.nazar-boing {
+  animation: nazar-boing 1.2s ease-in-out;
+}
+@keyframes nazar-sway {
+  0%, 100% { transform: rotate(-3deg); }
+  50% { transform: rotate(3deg); }
+}
+@keyframes nazar-boing {
+  0% { transform: rotate(0deg); }
+  20% { transform: rotate(11deg); }
+  45% { transform: rotate(-9deg); }
+  70% { transform: rotate(5deg); }
+  100% { transform: rotate(-2deg); }
+}
+.nazar-eye {
+  transform-box: fill-box;
+  transform-origin: center;
+}
+.nazar-blink {
+  animation: nazar-blink 0.38s ease-in-out;
+}
+@keyframes nazar-blink {
+  0%, 100% { transform: scaleY(1); }
+  50% { transform: scaleY(0.07); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .nazar, .nazar-boing, .nazar-eye {
+    animation: none !important;
+  }
+}
+
+/* Hide scrollbars on the date-tab strip while keeping it scrollable */
+.tab-strip {
+  scrollbar-width: none;
+}
+.tab-strip::-webkit-scrollbar {
+  display: none;
+}
