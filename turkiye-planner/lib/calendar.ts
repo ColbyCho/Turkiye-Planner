@@ -3,12 +3,13 @@ import { toMinutes } from './time'
 import { CATEGORIES } from './categories'
 
 // Türkiye is UTC+3 year-round (no DST since 2016), so a fixed offset is safe.
-const TURKEY_OFFSET_MS = 3 * 60 * 60 * 1000
+// Days can override this (e.g. the Boston departure day is written in EDT).
+const DEFAULT_OFFSET_HOURS = 3
 
-/** UTC timestamp ('20260821T163000Z') for a local-Türkiye date + minutes-from-midnight. */
-function utcStamp(isoDate: string, minutes: number): string {
+/** UTC timestamp ('20260821T163000Z') for a local date + minutes-from-midnight. */
+function utcStamp(isoDate: string, minutes: number, offsetHours = DEFAULT_OFFSET_HOURS): string {
   const [y, m, d] = isoDate.split('-').map(Number)
-  const utc = new Date(Date.UTC(y, m - 1, d) + minutes * 60_000 - TURKEY_OFFSET_MS)
+  const utc = new Date(Date.UTC(y, m - 1, d) + minutes * 60_000 - offsetHours * 3_600_000)
   const pad = (n: number) => String(n).padStart(2, '0')
   return (
     `${utc.getUTCFullYear()}${pad(utc.getUTCMonth() + 1)}${pad(utc.getUTCDate())}` +
@@ -33,8 +34,8 @@ function escapeICS(text: string): string {
 }
 
 export function buildICS(day: DayPlan, activity: Activity): string {
-  const start = utcStamp(day.date, toMinutes(activity.start))
-  const end = utcStamp(day.date, toMinutes(activity.end))
+  const start = utcStamp(day.date, toMinutes(activity.start), day.utcOffsetHours)
+  const end = utcStamp(day.date, toMinutes(activity.end), day.utcOffsetHours)
   const category = CATEGORIES[activity.category].label
   const lines = [
     'BEGIN:VCALENDAR',
@@ -72,14 +73,14 @@ export function downloadICS(day: DayPlan, activity: Activity): void {
 }
 
 export function googleCalendarUrl(day: DayPlan, activity: Activity): string {
-  const start = utcStamp(day.date, toMinutes(activity.start))
-  const end = utcStamp(day.date, toMinutes(activity.end))
+  const start = utcStamp(day.date, toMinutes(activity.start), day.utcOffsetHours)
+  const end = utcStamp(day.date, toMinutes(activity.end), day.utcOffsetHours)
   const params = new URLSearchParams({
     action: 'TEMPLATE',
     text: activity.title,
     dates: `${start}/${end}`,
     details: describe(activity),
-    ctz: 'Europe/Istanbul',
+    ctz: day.timeZone ?? 'Europe/Istanbul',
   })
   if (activity.location) params.set('location', activity.location)
   return `https://calendar.google.com/calendar/render?${params.toString()}`

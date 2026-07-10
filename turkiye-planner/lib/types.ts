@@ -27,4 +27,12 @@ export interface DayPlan {
   city: string
   activities: Activity[]
   funFact: string
+  /**
+   * UTC offset (hours) that this day's times are written in. Defaults to 3
+   * (Türkiye). The Boston departure day uses -4 (EDT) so calendar exports
+   * land at the right real-world moment.
+   */
+  utcOffsetHours?: number
+  /** IANA timezone for calendar display. Defaults to 'Europe/Istanbul'. */
+  timeZone?: string
 }
