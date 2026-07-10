@@ -78,8 +78,46 @@ export default function ActivityModal({ day, activity, onClose }: ActivityModalP
           ✕
         </button>
 
+        {/* Square photo (or emoji tile) — styled like the desk postcards */}
+        <figure className="mx-auto mt-2 w-56 -rotate-1 bg-white p-1.5 pb-2 shadow-note transition-transform duration-300 hover:rotate-0 sm:w-64">
+          {activity.image ? (
+            // eslint-disable-next-line @next/next/no-img-element
+            <img
+              src={activity.image.src}
+              alt={activity.image.alt}
+              className="aspect-square w-full object-cover"
+            />
+          ) : (
+            <div
+              className="flex aspect-square w-full items-center justify-center"
+              style={{
+                backgroundColor: `${cat.accent}1F`,
+                backgroundImage: cat.pattern,
+              }}
+              role="img"
+              aria-label={cat.label}
+            >
+              <span className="text-7xl sm:text-8xl" aria-hidden>
+                {activity.emoji ?? cat.icon}
+              </span>
+            </div>
+          )}
+        </figure>
+        {activity.image?.creditUrl && (
+          <p className="mt-1.5 text-center text-[10px] text-ink/35">
+            <a
+              href={activity.image.creditUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="underline underline-offset-2 hover:text-ink/60"
+            >
+              {activity.image.creditName ?? 'source'}
+            </a>
+          </p>
+        )}
+
         <span
-          className={`inline-flex items-center gap-1 rounded-full px-2.5 py-0.5 text-[11px] font-medium ${cat.chip}`}
+          className={`mt-4 inline-flex items-center gap-1 rounded-full px-2.5 py-0.5 text-[11px] font-medium ${cat.chip}`}
         >
           <span aria-hidden>{cat.icon}</span>
           {cat.label}

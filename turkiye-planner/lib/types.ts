@@ -1,5 +1,15 @@
 export type Category = 'meal' | 'stay' | 'transport' | 'tour' | 'night' | 'misc'
 
+export interface ActivityImage {
+  /** Path under /public, e.g. '/postcards/hagia-sophia.jpg' */
+  src: string
+  alt: string
+  /** Short name for the photo-credit line. */
+  creditName?: string
+  /** Source page with author + license details (e.g. Wikimedia Commons file page). */
+  creditUrl?: string
+}
+
 export interface Activity {
   id: string
   title: string
@@ -17,6 +27,13 @@ export interface Activity {
   url?: string
   notes?: string
   participants: string[]
+  /** Square photo shown at the top of the activity modal. */
+  image?: ActivityImage
+  /**
+   * Emoji for the modal's tile when there's no photo.
+   * Falls back to the category icon.
+   */
+  emoji?: string
 }
 
 export interface DayPlan {
