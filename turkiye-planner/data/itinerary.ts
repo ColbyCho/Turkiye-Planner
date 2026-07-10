@@ -17,6 +17,10 @@ export const CREW = [
 
 const ALL = [...CREW]
 
+// Hannah joins the trip on Aug 25, meeting the group for the flight to Bodrum —
+// she's not on anything in Istanbul before then.
+const PRE_BODRUM = ALL.filter((name) => name !== 'Hannah')
+
 // ─────────────────────────────────────────────────────────────────────────────
 // THE ITINERARY — synced from the group planning spreadsheet (Aug 21–31, 2026).
 //
@@ -51,7 +55,7 @@ export const ITINERARY: DayPlan[] = [
         location: 'Boston Logan (BOS), Terminal E',
         notes:
           'Placeholder timing — international check-in + bag drop + one last Dunkin’. All times today are Boston time (EDT). E-visas saved offline before boarding.',
-        participants: ALL,
+        participants: PRE_BODRUM,
       },
       {
         id: 'd1-flight',
@@ -63,7 +67,7 @@ export const ITINERARY: DayPlan[] = [
         url: 'https://www.flightaware.com/live/flight/THY82',
         notes:
           'Departs Aug 21 9:50 PM EDT, lands Aug 22 2:10 PM Türkiye time (7:10 AM back in Boston). Time is from the current public schedule — VERIFY against the issued 2026 tickets. Loser of the exit-row lottery buys first round of çay.',
-        participants: ALL,
+        participants: PRE_BODRUM,
       },
     ],
   },
@@ -84,7 +88,7 @@ export const ITINERARY: DayPlan[] = [
         url: 'https://www.flightaware.com/live/flight/THY82',
         notes:
           'Lands ~2:10 PM local. VERIFY exact time once 2026 tickets are issued. Passport control + bags will take a minute — hydrate, stretch, resist the airport prices.',
-        participants: ALL,
+        participants: PRE_BODRUM,
       },
       {
         id: 'd2-transfer',
@@ -94,8 +98,8 @@ export const ITINERARY: DayPlan[] = [
         end: '16:00',
         location: 'IST → Orient Express & Spa by Orka Hotels',
         notes:
-          'Placeholder — book a private van for 9 + luggage, or Havaist bus + tram if we’re feeling brave on no sleep.',
-        participants: ALL,
+          'Placeholder — book a private van for 8 + luggage (Hannah joins in Bodrum), or Havaist bus + tram if we’re feeling brave on no sleep.',
+        participants: PRE_BODRUM,
       },
       {
         id: 'd2-checkin',
@@ -107,7 +111,7 @@ export const ITINERARY: DayPlan[] = [
         url: 'https://www.expedia.com/Istanbul-Hotels-Orient-Express-Spa-By-Orka-Hotels.h479525.Hotel-Information?chkin=2026-08-22&chkout=2026-08-25',
         notes:
           'Three triple rooms, Aug 22–25. Official check-in opens 3:00 PM; we’ll roll in from the airport a bit after.',
-        participants: ALL,
+        participants: PRE_BODRUM,
       },
       {
         id: 'd2-dinner',
@@ -118,7 +122,7 @@ export const ITINERARY: DayPlan[] = [
         location: 'Near the hotel, Sirkeci/Sultanahmet',
         notes:
           'Placeholder — something easy and close. First döner or pide of the trip; ambition resumes tomorrow.',
-        participants: ALL,
+        participants: PRE_BODRUM,
       },
       {
         id: 'd2-stroll',
@@ -129,7 +133,7 @@ export const ITINERARY: DayPlan[] = [
         location: 'Sultanahmet Meydanı',
         notes:
           'Placeholder — walk past the illuminated Hagia Sophia and Blue Mosque so tomorrow feels like a reunion. Then sleep. Real sleep.',
-        participants: ALL,
+        participants: PRE_BODRUM,
       },
     ],
   },
@@ -149,7 +153,7 @@ export const ITINERARY: DayPlan[] = [
         location: 'Near the hotel',
         notes:
           'Placeholder — cheeses, olives, honey + kaymak, menemen, simit, infinite çay. Pace yourselves; this is a marathon.',
-        participants: ALL,
+        participants: PRE_BODRUM,
       },
       {
         id: 'd3-hagia-blue',
@@ -161,7 +165,7 @@ export const ITINERARY: DayPlan[] = [
         url: 'https://hagia-sophia.istanbul/en/tickets',
         notes:
           'TO BOOK — reserve guided entry/tickets where applicable. Hagia Sophia entry requirements can change; the Blue Mosque is an active mosque with prayer-time closures (see bluemosque.tr/visit). Shoulders and knees covered; scarves provided at the door.',
-        participants: ALL,
+        participants: PRE_BODRUM,
       },
       {
         id: 'd3-lunch',
@@ -172,7 +176,7 @@ export const ITINERARY: DayPlan[] = [
         location: 'Tarihi Sultanahmet Köftecisi, Divanyolu',
         notes:
           'Placeholder — serving the same four things since 1920. Order: köfte, piyaz, irmik helvası. Look for “Selim Usta” to avoid the convincing imitators next door.',
-        participants: ALL,
+        participants: PRE_BODRUM,
       },
       {
         id: 'd3-bazaar',
@@ -184,7 +188,7 @@ export const ITINERARY: DayPlan[] = [
         url: 'https://www.grandbazaaristanbul.org/',
         notes:
           'Loose afternoon of wandering/shopping. Opening offer is a suggestion, not a price. Team challenge: best haggle wins dessert. If lost, ask any shopkeeper for “Nuruosmaniye Kapısı.”',
-        participants: ALL,
+        participants: PRE_BODRUM,
       },
       {
         id: 'd3-dinner',
@@ -194,8 +198,8 @@ export const ITINERARY: DayPlan[] = [
         end: '21:15',
         location: 'Karaköy Lokantası, Kemankeş Caddesi',
         notes:
-          'Placeholder — turquoise-tiled institution, meze-heavy, order for the table. Would need a reservation for 9.',
-        participants: ALL,
+          'Placeholder — turquoise-tiled institution, meze-heavy, order for the table. Would need a reservation for 8.',
+        participants: PRE_BODRUM,
       },
       {
         id: 'd3-nargile',
@@ -206,7 +210,7 @@ export const ITINERARY: DayPlan[] = [
         location: 'Erenler Çay Bahçesi, Çorlulu Ali Paşa Medresesi',
         notes:
           'Placeholder — water pipe + endless çay in a 300-year-old courtyard. Bracket-style tavla (backgammon) tournament. Derin is seeded #1 and everyone knows it.',
-        participants: ALL,
+        participants: PRE_BODRUM,
       },
     ],
   },
@@ -225,7 +229,7 @@ export const ITINERARY: DayPlan[] = [
         end: '09:45',
         location: 'Sarıyer Börekçisi, Eminönü',
         notes: 'Placeholder — flaky cheese börek + çay standing at the counter, like locals.',
-        participants: ALL,
+        participants: PRE_BODRUM,
       },
       {
         id: 'd4-topkapi',
@@ -237,7 +241,7 @@ export const ITINERARY: DayPlan[] = [
         url: 'https://muze.gen.tr',
         notes:
           'Placeholder — home of Ottoman sultans for 400 years; the Treasury holds the 86-carat Spoonmaker’s Diamond. Swap for a slow morning if the group prefers — ferry leaves around noon either way.',
-        participants: ALL,
+        participants: PRE_BODRUM,
       },
       {
         id: 'd4-ferry-out',
@@ -249,7 +253,7 @@ export const ITINERARY: DayPlan[] = [
         url: 'https://istanbulkart.istanbul/',
         notes:
           'Around noon, per the plan — return later in the day. Use Istanbulkart for ferries/transit (loaded and distributed, see Colby). Sit outside on the right for skyline views.',
-        participants: ALL,
+        participants: PRE_BODRUM,
       },
       {
         id: 'd4-ciya',
@@ -261,7 +265,7 @@ export const ITINERARY: DayPlan[] = [
         url: 'https://ciya.com.tr',
         notes:
           'Placeholder — legendary Anatolian regional cooking. Point at things in the steam trays; trust nothing less than everything.',
-        participants: ALL,
+        participants: PRE_BODRUM,
       },
       {
         id: 'd4-kadikoy',
@@ -272,7 +276,7 @@ export const ITINERARY: DayPlan[] = [
         location: 'Kadıköy Çarşı → Moda sahili',
         notes:
           'Placeholder — pickle juice shots at Özcan Turşuları, third-wave coffee in Moda, general aimless excellence. This is the “cool” side of town — act accordingly.',
-        participants: ALL,
+        participants: PRE_BODRUM,
       },
       {
         id: 'd4-ferry-back',
@@ -282,7 +286,7 @@ export const ITINERARY: DayPlan[] = [
         end: '18:00',
         location: 'Kadıköy → Eminönü/Karaköy',
         notes: 'Çay on board costs about 30 cents and tastes like victory.',
-        participants: ALL,
+        participants: PRE_BODRUM,
       },
       {
         id: 'd4-meyhane',
@@ -292,8 +296,8 @@ export const ITINERARY: DayPlan[] = [
         end: '22:00',
         location: 'Asmalı Cavit, Asmalımescit',
         notes:
-          'Placeholder — classic tavern dinner: cold meze, hot meze, grilled fish, rakı, repeat. Would need a reservation for 9. The atom meze is non-negotiable.',
-        participants: ALL,
+          'Placeholder — classic tavern dinner: cold meze, hot meze, grilled fish, rakı, repeat. Would need a reservation for 8. The atom meze is non-negotiable.',
+        participants: PRE_BODRUM,
       },
     ],
   },
@@ -313,7 +317,7 @@ export const ITINERARY: DayPlan[] = [
         location: 'Near the hotel',
         notes:
           'Placeholder — bags packed before breakfast. Passports in hand luggage, not checked bags.',
-        participants: ALL,
+        participants: PRE_BODRUM,
       },
       {
         id: 'd5-checkout',
@@ -325,7 +329,7 @@ export const ITINERARY: DayPlan[] = [
         url: 'https://www.expedia.com/Istanbul-Hotels-Orient-Express-Spa-By-Orka-Hotels.h479525.Hotel-Information?chkin=2026-08-22&chkout=2026-08-25',
         notes:
           'Check-out is 11:00 AM but the flight isn’t until 4:20 PM — sort a luggage plan (hotel storage, then grab bags on the way to the airport).',
-        participants: ALL,
+        participants: PRE_BODRUM,
       },
       {
         id: 'd5-transfer-ist',
@@ -335,7 +339,7 @@ export const ITINERARY: DayPlan[] = [
         end: '14:15',
         location: 'Sultanahmet → IST',
         notes: 'Placeholder timing — domestic terminal. Van for 9 + luggage.',
-        participants: ALL,
+        participants: PRE_BODRUM,
       },
       {
         id: 'd5-flight',
@@ -346,7 +350,7 @@ export const ITINERARY: DayPlan[] = [
         location: 'Istanbul Airport → Milas–Bodrum Airport (BJV)',
         url: 'https://www.airportia.com/flights/tk2516/istanbul/bodrum/',
         notes:
-          'Approx. 4:20 PM → 5:40 PM per the current schedule — VERIFY against the actual Aug 25, 2026 ticket. Window seats on the left for Aegean coastline views on descent.',
+          'Approx. 4:20 PM → 5:40 PM per the current schedule — VERIFY against the actual Aug 25, 2026 ticket. HANNAH JOINS HERE — she meets us for this flight and is in for everything after. Window seats on the left for Aegean coastline views on descent.',
         participants: ALL,
       },
       {
