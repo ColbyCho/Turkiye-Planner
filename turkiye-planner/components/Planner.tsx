@@ -9,6 +9,8 @@ import DayNav from './DayNav'
 import DayGrid from './DayGrid'
 import ActivityModal from './ActivityModal'
 import FunFact from './FunFact'
+import HelpfulStuff from './HelpfulStuff'
+import Countdown from './Countdown'
 import Postcards from './Postcards'
 import TurkishFlag from './TurkishFlag'
 import NazarCharm from './NazarCharm'
@@ -132,11 +134,16 @@ export default function Planner() {
         <DayGrid day={day} onSelect={setSelected} activeCategories={activeCategories} />
 
         <FunFact fact={day.funFact} />
+
+        <HelpfulStuff />
       </section>
 
       <footer className="mt-6 text-center text-xs text-ink/40">
         Tap any activity for details, links & add-to-calendar. Use ← → to flip days.
       </footer>
+
+      {/* Bottom of the page on desktop; right before the postcard pile on mobile */}
+      <Countdown />
 
       <Postcards />
 
