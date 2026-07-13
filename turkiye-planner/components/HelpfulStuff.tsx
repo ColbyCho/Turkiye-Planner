@@ -21,14 +21,27 @@ const LINKS: StampLink[] = [
     icon: 'suitcase',
     url: null, // TODO: paste the packing list link here
   },
+  {
+    // Mark Wiens' Istanbul food guide — source of the Beli restaurant list,
+    // with a Google Map of every spot linked inside the article.
+    id: 'food-guide',
+    label: 'Istanbul Food Guide by Mark Wiens (with map)',
+    topText: 'ISTANBUL FOOD GUIDE',
+    bottomText: '✶ MIGRATIONOLOGY ✶',
+    icon: 'cutlery',
+    url: 'https://migrationology.com/travel-guides/istanbul-turkey/',
+  },
 ]
+
+/** Stamp rotation per slot so the row reads hand-placed, not printed. */
+const ROTATIONS = ['-rotate-3', 'rotate-2', '-rotate-2']
 
 interface StampLink {
   id: string
   label: string
   topText: string
   bottomText: string
-  icon: 'camera' | 'suitcase'
+  icon: 'camera' | 'suitcase' | 'cutlery'
   url: string | null
 }
 
@@ -47,6 +60,17 @@ const ICONS: Record<StampLink['icon'], ReactNode> = {
       <rect x="44" y="51" width="32" height="26" rx="4" />
       <path d="M54 51v-4.5a3.5 3.5 0 013.5-3.5h5a3.5 3.5 0 013.5 3.5V51" />
       <path d="M51.5 51v26M68.5 51v26" />
+    </g>
+  ),
+  cutlery: (
+    <g fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+      {/* fork */}
+      <path d="M48.5 45.5v7M53 45.5v7M57.5 45.5v7" />
+      <path d="M48.5 52.5a4.5 4.5 0 004.5 4.5 4.5 4.5 0 004.5-4.5" />
+      <path d="M53 57v20.5" />
+      {/* knife */}
+      <path d="M70.5 45.5c-4.5 5-5.5 11-2.5 16h2.5" />
+      <path d="M70.5 45.5v32" />
     </g>
   ),
 }
@@ -126,11 +150,12 @@ export default function HelpfulStuff() {
     >
       <p className="font-hand text-2xl text-spice">Other Helpful Stuff</p>
       <div className="mt-5 flex flex-wrap items-center justify-center gap-8 sm:gap-12">
-        <StampButton link={LINKS[0]} rotate="-rotate-3" />
-        <StampButton link={LINKS[1]} rotate="rotate-2" />
+        {LINKS.map((link, i) => (
+          <StampButton key={link.id} link={link} rotate={ROTATIONS[i % ROTATIONS.length]} />
+        ))}
       </div>
       <p className="mt-4 text-[11px] text-ink/40">
-        real links coming soon — the stamps are ready when they are
+        album &amp; packing list links coming soon — the food guide stamp is live
       </p>
     </section>
   )
