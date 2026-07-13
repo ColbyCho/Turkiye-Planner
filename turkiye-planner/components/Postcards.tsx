@@ -112,7 +112,7 @@ export default function Postcards() {
       {/* Narrower screens: a postcard pile below the planner, captions visible */}
       <section className="mt-10 xl:hidden" aria-label="Postcards from Türkiye">
         <p className="mb-4 text-center font-hand text-2xl text-spice">
-          postcards from the trip
+          Postcards from the Trip
         </p>
         <div className="grid grid-cols-2 gap-4 sm:grid-cols-3">
           {POSTCARDS.map((card) => (
