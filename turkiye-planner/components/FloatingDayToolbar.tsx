@@ -43,7 +43,7 @@ export default function FloatingDayToolbar({
   const hasNext = currentIndex < ITINERARY.length - 1
 
   const edgeButton =
-    'flex items-center gap-1.5 rounded-full border border-rule bg-paper-card px-3 py-2 text-sm font-semibold text-ink/80 shadow-block transition enabled:hover:border-saffron enabled:hover:bg-saffron-light/40 disabled:opacity-30 sm:px-4'
+    'flex h-11 items-center gap-1.5 rounded-full border border-rule bg-paper-card px-3 text-sm font-semibold text-ink/80 shadow-block transition enabled:hover:border-saffron enabled:hover:bg-saffron-light/40 disabled:opacity-30 sm:px-4'
 
   return (
     <div
