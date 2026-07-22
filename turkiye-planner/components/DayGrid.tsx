@@ -5,7 +5,12 @@ import { CATEGORIES } from '@/lib/categories'
 import { formatRange, hourLabel, toMinutes } from '@/lib/time'
 
 const HOUR_PX = 56
-const GRID_HEIGHT = 24 * HOUR_PX
+// The visible day runs 7 AM – midnight. Blocks outside the window are clamped
+// (the modal and calendar exports keep the true times).
+const DAY_START_MIN = 7 * 60
+const DAY_END_MIN = 24 * 60
+const GRID_HEIGHT = ((DAY_END_MIN - DAY_START_MIN) / 60) * HOUR_PX
+const HOUR_COUNT = (DAY_END_MIN - DAY_START_MIN) / 60
 
 interface LaidActivity {
   activity: Activity
@@ -24,9 +29,9 @@ function layoutDay(activities: Activity[]): LaidActivity[] {
   const events = activities
     .map((a) => ({
       a,
-      s: toMinutes(a.start),
-      e: Math.min(toMinutes(a.end), 24 * 60),
-      spills: toMinutes(a.end) > 24 * 60,
+      s: Math.max(toMinutes(a.start), DAY_START_MIN),
+      e: Math.min(toMinutes(a.end), DAY_END_MIN),
+      spills: toMinutes(a.end) > DAY_END_MIN,
     }))
     .sort((x, y) => x.s - y.s || y.e - x.e)
 
@@ -51,7 +56,7 @@ function layoutDay(activities: Activity[]): LaidActivity[] {
     cluster.forEach((ev, i) => {
       results.push({
         activity: ev.a,
-        top: (ev.s / 60) * HOUR_PX,
+        top: ((ev.s - DAY_START_MIN) / 60) * HOUR_PX,
         height: Math.max(((ev.e - ev.s) / 60) * HOUR_PX, 30),
         leftPct: (lanes[i] / laneCount) * 100,
         widthPct: 100 / laneCount,
@@ -87,11 +92,13 @@ export default function DayGrid({ day, onSelect, activeCategories }: DayGridProp
   return (
     <div className="relative mx-2 sm:mx-4" style={{ height: GRID_HEIGHT }}>
       {/* Hour rules + labels */}
-      {Array.from({ length: 24 }, (_, hour) => (
+      {Array.from({ length: HOUR_COUNT }, (_, i) => {
+        const hour = i + DAY_START_MIN / 60
+        return (
         <div
           key={hour}
           className="absolute inset-x-0 border-t border-rule/70"
-          style={{ top: hour * HOUR_PX }}
+          style={{ top: i * HOUR_PX }}
         >
           <span className="absolute -top-2 left-0 w-12 pr-2 text-right text-[10px] font-medium uppercase text-ink/40">
             {hourLabel(hour)}
@@ -102,7 +109,8 @@ export default function DayGrid({ day, onSelect, activeCategories }: DayGridProp
             style={{ top: HOUR_PX / 2 }}
           />
         </div>
-      ))}
+        )
+      })}
 
       {/* Ledger-style red margin line */}
       <div

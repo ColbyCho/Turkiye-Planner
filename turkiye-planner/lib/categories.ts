@@ -65,6 +65,17 @@ export const CATEGORIES: Record<Category, CategoryStyle> = {
     chip: 'bg-night text-paper border border-night-light',
     accent: '#2C2A4A',
   },
+  adventure: {
+    label: 'Choose Your Adventure',
+    icon: '🧭',
+    // Dotted map-route look: open paper with a spice compass-stripe wash
+    block:
+      'bg-paper border-2 border-dashed border-spice/70 text-ink hover:bg-spice/10',
+    pattern:
+      'repeating-linear-gradient(135deg, rgba(193,68,14,0.05) 0 6px, transparent 6px 18px)',
+    chip: 'bg-spice/10 border border-dashed border-spice text-spice-dark',
+    accent: '#C1440E',
+  },
   misc: {
     label: 'Miscellaneous',
     icon: '📎',
@@ -82,5 +93,6 @@ export const CATEGORY_ORDER: Category[] = [
   'transport',
   'tour',
   'night',
+  'adventure',
   'misc',
 ]

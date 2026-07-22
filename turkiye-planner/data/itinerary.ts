@@ -47,6 +47,17 @@ export const ITINERARY: DayPlan[] = [
       'Those famously “Dutch” tulips? Stolen valor. Tulips are native to Türkiye and were exported from the Ottoman court to Holland in the 1500s — the Dutch just had better PR.',
     activities: [
       {
+        id: 'd1-cyoa',
+        title: 'Choose Your Adventure: Launch Prep',
+        category: 'adventure',
+        start: '12:00',
+        end: '17:00',
+        location: 'Boston',
+        notes:
+          'Pick your pre-flight program: lira or a no-foreign-fee card sorted · e-visa + passport photos saved offline · download the Türkiye playlist and two seasons of something · carb-load at your favorite Boston spot — it won’t see you for 11 days.',
+        participants: PRE_BODRUM,
+      },
+      {
         id: 'd1-logan',
         title: 'Meet at Logan — Terminal E',
         category: 'transport',
@@ -142,6 +153,17 @@ export const ITINERARY: DayPlan[] = [
         participants: PRE_BODRUM,
       },
       {
+        id: 'd2-cyoa',
+        title: 'Choose Your Adventure: First Evening',
+        category: 'adventure',
+        start: '18:15',
+        end: '20:45',
+        location: 'Sultanahmet',
+        notes:
+          'Post-Pandeli, pre-stroll — pick your speed: Arasta Bazaar browsing behind the Blue Mosque · theatrical dondurma (Turkish ice cream) on Divanyolu · test the hotel’s namesake spa · rooftop çay with the seagulls · nap like a champion.',
+        participants: PRE_BODRUM,
+      },
+      {
         id: 'd2-stroll',
         title: 'Jet-lag shakeout stroll & early night',
         category: 'misc',
@@ -221,6 +243,17 @@ export const ITINERARY: DayPlan[] = [
         url: 'https://www.grandbazaaristanbul.org/',
         notes:
           'Loose afternoon of wandering/shopping. Opening offer is a suggestion, not a price. Team challenge: best haggle wins dessert. If lost, ask any shopkeeper for “Nuruosmaniye Kapısı.”',
+        participants: PRE_BODRUM,
+      },
+      {
+        id: 'd3-cyoa',
+        title: 'Choose Your Adventure: Golden Hour',
+        category: 'adventure',
+        start: '17:15',
+        end: '19:15',
+        location: 'Old City & beyond',
+        notes:
+          'The gap between Bazaar and dinner: Süleymaniye Mosque’s terrace for the best free view of the Golden Horn · Basilica Cistern’s spooky underground columns (book ahead) · thick Turkish coffee at Mandabatmaz in Beyoğlu · boza at 150-year-old Vefa Bozacısı (an acquired taste, acquire it).',
         participants: PRE_BODRUM,
       },
       {
@@ -318,6 +351,17 @@ export const ITINERARY: DayPlan[] = [
         participants: PRE_BODRUM,
       },
       {
+        id: 'd4-cyoa',
+        title: 'Choose Your Adventure: Bridge the Gap',
+        category: 'adventure',
+        start: '18:00',
+        end: '19:15',
+        location: 'Karaköy / Galata',
+        notes:
+          'The ferry drops us with time before dinner: climb Galata Tower for 360° views (we haven’t been!) · baklava pilgrimage to Karaköy Güllüoğlu · walk the lower deck of Galata Bridge among the fishermen · catch İstiklal Caddesi’s red tram photo-op.',
+        participants: PRE_BODRUM,
+      },
+      {
         id: 'd4-balikci',
         title: 'Dinner — Balıkçı Sabahattin',
         category: 'meal',
@@ -362,6 +406,17 @@ export const ITINERARY: DayPlan[] = [
         location: 'Near the hotel',
         notes:
           'Placeholder — bags packed before breakfast. Passports in hand luggage, not checked bags.',
+        participants: PRE_BODRUM,
+      },
+      {
+        id: 'd5-cyoa',
+        title: 'Choose Your Adventure: Last Istanbul Morning (for now)',
+        category: 'adventure',
+        start: '09:30',
+        end: '10:45',
+        location: 'Sirkeci & Gülhane',
+        notes:
+          'Bags by 11 — until then: Gülhane Park under the plane trees · peek into Sirkeci Station, the old Orient Express terminus (fitting, given the hotel) · lokum + baklava stock-up at Hafız Mustafa · one last simit by the water.',
         participants: PRE_BODRUM,
       },
       {
@@ -480,6 +535,17 @@ export const ITINERARY: DayPlan[] = [
         participants: ALL,
       },
       {
+        id: 'd6-cyoa',
+        title: 'Choose Your Adventure: Bodrum at Dusk',
+        category: 'adventure',
+        start: '18:30',
+        end: '19:45',
+        location: 'Bodrum old town',
+        notes:
+          'Between boat recovery and dinner: the ancient amphitheater above town for sunset over the castle · Zeki Müren Arts Museum (Türkiye’s Liberace — trust us) · whitewashed-alley wandering and bougainvillea photos · claim a çay table at the harbor and judge the yachts.',
+        participants: ALL,
+      },
+      {
         id: 'd6-dinner',
         title: 'Fish dinner in the old town',
         category: 'meal',
@@ -532,7 +598,7 @@ export const ITINERARY: DayPlan[] = [
         location: 'Tepecik, Bodrum',
         url: 'https://muze.gov.tr/muze-detay?DistId=MRK&SectionId=MAU01',
         notes:
-          'RESEARCH — check the official museum page for hours/ticket options. Standing where a Wonder of the Ancient World stood is worth the modest ruins. Full sightseeing day per the spreadsheet (10 AM–4 PM-ish).',
+          'RESEARCH — check the official museum page for hours/ticket options. Time-checked: the site is compact — the Wonder survives mostly as foundations (its stones were quarried into Bodrum Castle, this afternoon’s stop), and most visitors are done within an hour. 2.5 hours covers a lazy pace plus the short drive from anywhere on the peninsula.',
         participants: ALL,
       },
       {
@@ -557,6 +623,17 @@ export const ITINERARY: DayPlan[] = [
         url: 'https://muze.gen.tr',
         notes:
           'Placeholder — rounds out the sightseeing day. 15th-century Crusader castle stuffed with shipwreck treasure, including a Bronze Age wreck older than the Trojan War. Best harbor views in town.',
+        participants: ALL,
+      },
+      {
+        id: 'd7-cyoa',
+        title: 'Choose Your Adventure: Free Afternoon',
+        category: 'adventure',
+        start: '16:15',
+        end: '19:45',
+        location: 'Bodrum peninsula',
+        notes:
+          'Post-castle options: Myndos Gate, where Alexander the Great fought his way in · swim at Kumbahçe or Bardakçı bay · a proper Turkish hamam scrub (we never got one in Istanbul) · tavla and çay in the shade until dinner.',
         participants: ALL,
       },
       {
@@ -602,6 +679,17 @@ export const ITINERARY: DayPlan[] = [
         location: 'Derin’s house kitchen',
         notes:
           'Placeholder — Team Colby vs. Team Maddie, judged blind by Bob, whose palate we inexplicably trust. Quiet voices until at least 10:00, by law.',
+        participants: ALL,
+      },
+      {
+        id: 'd8-cyoa',
+        title: 'Choose Your Adventure: Pre-Beach',
+        category: 'adventure',
+        start: '11:30',
+        end: '12:45',
+        location: 'Bodrum peninsula',
+        notes:
+          'Before the official flop: paddleboards on calm, shallow Bitez Bay · scooter loop of the peninsula coast road · Yalıkavak marina window-shopping among the superyachts · or go straight to the beach early, also correct.',
         participants: ALL,
       },
       {
@@ -693,6 +781,17 @@ export const ITINERARY: DayPlan[] = [
         location: 'Bodrum',
         notes:
           'Flexible free time, straight from the spreadsheet. Second verse, same as the first — the tan lines don’t maintain themselves.',
+        participants: ALL,
+      },
+      {
+        id: 'd9-cyoa',
+        title: 'Choose Your Adventure: Sunset Edition',
+        category: 'adventure',
+        start: '17:15',
+        end: '19:45',
+        location: 'Bodrum',
+        notes:
+          'Last full Bodrum day: that hamam, if Thursday’s options passed you by · Aspat Bay viewpoint for the postcard cove shot · souvenir sweep of the old town (evil eyes for everyone at home) · strategic pre-club nap.',
         participants: ALL,
       },
       {
@@ -794,6 +893,17 @@ export const ITINERARY: DayPlan[] = [
         participants: ALL,
       },
       {
+        id: 'd10-cyoa',
+        title: 'Choose Your Adventure: Pre-Match Window',
+        category: 'adventure',
+        start: '15:30',
+        end: '16:45',
+        location: 'Karaköy / Beşiktaş',
+        notes:
+          'Between check-in and döner: Galata Tower redemption arc if Monday’s gap didn’t get you up it · Dolmabahçe Palace’s gates and clock tower on the way to Beşiktaş · third-wave coffee in Karaköy · or drop the bags and nap — big final night ahead.',
+        participants: ALL,
+      },
+      {
         id: 'd10-doner',
         title: 'Pre-match döner — Karadeniz Döner Asım Usta',
         category: 'meal',
@@ -846,6 +956,17 @@ export const ITINERARY: DayPlan[] = [
         end: '09:30',
         location: 'Near the hotel',
         notes: 'Placeholder — one final tulip glass of çay. Pour one out (carefully, it’s hot).',
+        participants: ALL,
+      },
+      {
+        id: 'd11-cyoa',
+        title: 'Choose Your Adventure: Görüşürüz Edition',
+        category: 'adventure',
+        start: '09:30',
+        end: '10:45',
+        location: 'Sirkeci / Eminönü',
+        notes:
+          'One last lap: New Mosque and the pigeon chaos by Galata Bridge · a farewell künefe watching the ferries · Gülhane Park goodbye bench · buy the rug you’ve been circling all week (you know who you are).',
         participants: ALL,
       },
       {
