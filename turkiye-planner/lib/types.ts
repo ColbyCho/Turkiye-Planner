@@ -1,4 +1,11 @@
-export type Category = 'meal' | 'stay' | 'transport' | 'tour' | 'night' | 'misc'
+export type Category =
+  | 'meal'
+  | 'stay'
+  | 'transport'
+  | 'tour'
+  | 'night'
+  | 'adventure'
+  | 'misc'
 
 export interface ActivityImage {
   /** Path under /public, e.g. '/postcards/hagia-sophia.jpg' */
