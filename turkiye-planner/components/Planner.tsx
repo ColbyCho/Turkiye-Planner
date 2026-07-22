@@ -40,6 +40,9 @@ export default function Planner() {
     setDayIndex(clamped)
     setSelected(null)
     window.history.replaceState(null, '', `#${ITINERARY[clamped].date}`)
+    // Switching days is a context change — bring the new day into view from
+    // the top rather than stranding the reader mid-grid.
+    window.scrollTo({ top: 0 })
   }, [])
 
   // ← / → flip between days when the modal is closed
