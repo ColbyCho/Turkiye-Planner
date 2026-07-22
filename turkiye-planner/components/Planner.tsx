@@ -1,6 +1,6 @@
 'use client'
 
-import { useCallback, useEffect, useState } from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
 import { ITINERARY } from '@/data/itinerary'
 import type { Activity, Category } from '@/lib/types'
 import { formatDate } from '@/lib/time'
@@ -12,6 +12,7 @@ import FunFact from './FunFact'
 import HelpfulStuff from './HelpfulStuff'
 import Countdown from './Countdown'
 import Postcards from './Postcards'
+import FloatingDayToolbar from './FloatingDayToolbar'
 import TurkishFlag from './TurkishFlag'
 import NazarCharm from './NazarCharm'
 
@@ -19,6 +20,7 @@ export default function Planner() {
   const [dayIndex, setDayIndex] = useState(0)
   const [selected, setSelected] = useState<Activity | null>(null)
   const [activeCategories, setActiveCategories] = useState<Category[]>([])
+  const navRef = useRef<HTMLDivElement>(null)
 
   const toggleCategory = (c: Category) => {
     setActiveCategories((prev) =>
@@ -38,6 +40,9 @@ export default function Planner() {
     setDayIndex(clamped)
     setSelected(null)
     window.history.replaceState(null, '', `#${ITINERARY[clamped].date}`)
+    // Switching days is a context change — bring the new day into view from
+    // the top rather than stranding the reader mid-grid.
+    window.scrollTo({ top: 0 })
   }, [])
 
   // ← / → flip between days when the modal is closed
@@ -54,7 +59,7 @@ export default function Planner() {
   const day = ITINERARY[dayIndex]
 
   return (
-    <main className="relative mx-auto max-w-5xl px-3 py-8 sm:px-6 sm:py-12">
+    <main className="relative mx-auto max-w-5xl px-3 py-8 pb-28 sm:px-6 sm:py-12 sm:pb-28">
       <NazarCharm />
 
       {/* Trip masthead */}
@@ -69,7 +74,9 @@ export default function Planner() {
         </p>
       </header>
 
-      <DayNav currentIndex={dayIndex} onSelect={goTo} />
+      <div ref={navRef}>
+        <DayNav currentIndex={dayIndex} onSelect={goTo} />
+      </div>
 
       {/* The planner page */}
       <section className="rounded-md border border-rule bg-paper-card shadow-page">
@@ -154,6 +161,8 @@ export default function Planner() {
           onClose={() => setSelected(null)}
         />
       )}
+
+      <FloatingDayToolbar currentIndex={dayIndex} onSelect={goTo} watch={navRef} />
     </main>
   )
 }

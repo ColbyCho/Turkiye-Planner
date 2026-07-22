@@ -37,7 +37,10 @@ export default function Countdown() {
   const parts = now === null ? undefined : partsUntil(now)
 
   return (
-    <section aria-label="Countdown to Türkiye" className="mt-10 text-center">
+    <section
+      aria-label="Countdown to Türkiye"
+      className="mx-auto mt-10 max-w-sm rounded-md border border-rule bg-paper-card px-6 py-5 text-center shadow-page"
+    >
       <p className="font-hand text-2xl text-spice">Countdown to Türkiye</p>
       {parts === null ? (
         <p className="mt-1 font-display text-xl font-semibold text-ink/80">
