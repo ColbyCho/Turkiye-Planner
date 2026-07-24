@@ -2,11 +2,13 @@
 
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { ITINERARY } from '@/data/itinerary'
+import { CREW } from '@/data/crew'
 import type { Activity, Category } from '@/lib/types'
 import type { CrewName } from '@/lib/crew'
 import { formatDate } from '@/lib/time'
 import { CATEGORIES, CATEGORY_ORDER } from '@/lib/categories'
 import { downloadTripICS } from '@/lib/calendar'
+import { dayRouteUrl } from '@/lib/maps'
 import DayNav from './DayNav'
 import DayGrid from './DayGrid'
 import ActivityModal from './ActivityModal'
@@ -21,6 +23,13 @@ import IdentityProvider, { useIdentity } from './IdentityProvider'
 import IdentityBadge from './IdentityBadge'
 import CrewSection from './CrewSection'
 import CrewProfileModal from './CrewProfileModal'
+import UpNext from './UpNext'
+import WeatherStrip from './WeatherStrip'
+import DayIdeas from './DayIdeas'
+import DayAlbum from './DayAlbum'
+import PackingList from './PackingList'
+import Phrasebook from './Phrasebook'
+import PrintSheet from './PrintSheet'
 
 export default function Planner() {
   return (
@@ -50,11 +59,26 @@ function PlannerBody() {
     if (!me && mineOnly) setMineOnly(false)
   }, [me, mineOnly])
 
-  // Deep-link support: turkiye-planner.example#2026-08-25 opens that day
+  // Deep links: '#2026-08-25' opens that day, '#crew/matt' opens that profile.
+  // Handled on load and on every hash change, so a link shared into the group
+  // chat works whether or not the recipient already has the planner open.
   useEffect(() => {
-    const hash = window.location.hash.slice(1)
-    const i = ITINERARY.findIndex((d) => d.date === hash)
-    if (i >= 0) setDayIndex(i)
+    const applyHash = () => {
+      const hash = decodeURIComponent(window.location.hash.slice(1))
+      const i = ITINERARY.findIndex((d) => d.date === hash)
+      if (i >= 0) {
+        setDayIndex(i)
+        return
+      }
+      if (hash.startsWith('crew/')) {
+        const wanted = hash.slice('crew/'.length).toLowerCase()
+        const match = CREW.find((name) => name.toLowerCase() === wanted)
+        if (match) setProfile(match)
+      }
+    }
+    applyHash()
+    window.addEventListener('hashchange', applyHash)
+    return () => window.removeEventListener('hashchange', applyHash)
   }, [])
 
   const goTo = useCallback((i: number) => {
@@ -77,6 +101,14 @@ function PlannerBody() {
     [goTo]
   )
 
+  const openById = useCallback(
+    (i: number, activityId: string) => {
+      const activity = ITINERARY[i]?.activities.find((a) => a.id === activityId)
+      if (activity) openActivity(i, activity)
+    },
+    [openActivity]
+  )
+
   // ← / → flip between days when nothing is open
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
@@ -90,6 +122,7 @@ function PlannerBody() {
 
   const day = ITINERARY[dayIndex]
   const filtering = activeCategories.length > 0
+  const routeUrl = dayRouteUrl(day)
 
   return (
     <main className="relative mx-auto max-w-5xl px-3 py-8 pb-28 sm:px-6 sm:py-12 sm:pb-28">
@@ -103,10 +136,12 @@ function PlannerBody() {
           <span>Türkiye Planner</span>
         </h1>
         <p className="mt-2 text-sm uppercase tracking-[0.25em] text-ink/60">
-          Istanbul ✶ Bodrum · August 21 – 31, 2026 · party of nine
+          Istanbul ✶ Bodrum · August 21 – 31, 2026 · party of {CREW.length}
         </p>
         <IdentityBadge onOpenProfile={setProfile} />
       </header>
+
+      <UpNext onOpen={openById} />
 
       <div ref={navRef}>
         <DayNav currentIndex={dayIndex} onSelect={goTo} />
@@ -124,6 +159,17 @@ function PlannerBody() {
               {formatDate(day.date)}
             </h2>
             <p className="mt-1 font-hand text-2xl text-cobalt">{day.title}</p>
+            <WeatherStrip day={day} />
+            {routeUrl && (
+              <a
+                href={routeUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="mt-1 inline-block text-[11px] font-medium text-cobalt underline underline-offset-2 hover:text-cobalt-dark"
+              >
+                🗺️ Today&rsquo;s stops on a map ↗
+              </a>
+            )}
           </div>
           {/* Passport-style city stamp */}
           <div className="rotate-[4deg] rounded border-2 border-spice/70 px-3 py-1.5 text-center text-spice/80">
@@ -209,12 +255,20 @@ function PlannerBody() {
 
         <FunFact fact={day.funFact} />
 
+        <DayIdeas day={day} />
+
+        <DayAlbum day={day} />
+
         <CrewSection onOpenProfile={setProfile} />
+
+        <PackingList />
+
+        <Phrasebook />
 
         <HelpfulStuff />
       </section>
 
-      <div className="mt-5 text-center">
+      <div className="mt-5 flex flex-wrap justify-center gap-2">
         <button
           type="button"
           onClick={() =>
@@ -226,6 +280,18 @@ function PlannerBody() {
           className="rounded border border-spice px-3 py-1.5 text-sm font-medium text-spice transition hover:bg-spice hover:text-paper"
         >
           📥 {me ? `Add ${me}'s whole trip` : 'Add my whole trip'} to calendar
+        </button>
+        <button
+          type="button"
+          onClick={() =>
+            requireMe('So the sheet has your plans on it.', () => {
+              // Give React a beat to render the sheet for a first-time picker.
+              setTimeout(() => window.print(), 50)
+            })
+          }
+          className="rounded border border-cobalt px-3 py-1.5 text-sm font-medium text-cobalt transition hover:bg-cobalt hover:text-paper"
+        >
+          🖨️ Print {me ? `${me}'s` : 'my'} one-pager
         </button>
       </div>
 
@@ -257,6 +323,8 @@ function PlannerBody() {
       )}
 
       <FloatingDayToolbar currentIndex={dayIndex} onSelect={goTo} watch={navRef} />
+
+      {me && <PrintSheet name={me} />}
     </main>
   )
 }

@@ -59,6 +59,29 @@ body::after {
   }
 }
 
+/* Printing means one thing here: somebody's personal one-pager. Everything
+   else on the page is hidden so the sheet gets the paper to itself. */
+@media print {
+  body * {
+    visibility: hidden;
+  }
+  body::after {
+    display: none;
+  }
+  .print-sheet,
+  .print-sheet * {
+    visibility: visible;
+  }
+  .print-sheet {
+    position: absolute;
+    inset: 0 0 auto 0;
+    padding: 0;
+  }
+  @page {
+    margin: 16mm;
+  }
+}
+
 /* Hide scrollbars on the date-tab strip while keeping it scrollable */
 .tab-strip {
   scrollbar-width: none;

@@ -1,12 +1,17 @@
 'use client'
 
-import { useMemo } from 'react'
+import { useMemo, useState } from 'react'
 import type { Activity } from '@/lib/types'
-import { useModalChrome } from '@/lib/useModalChrome'
+import { FUN_QUESTIONS } from '@/data/crew'
 import { CATEGORIES } from '@/lib/categories'
-import { avatarColor, eventsFor, profileFor, statsFor, type CrewName } from '@/lib/crew'
+import { avatarColor, eventsFor, statsFor, type CrewName } from '@/lib/crew'
+import { useBadges } from '@/lib/badges'
+import { useCrewProfiles } from '@/lib/db/profiles'
 import { formatRange, formatShortDate } from '@/lib/time'
+import { useModalChrome } from '@/lib/useModalChrome'
+import { asset } from '@/lib/asset'
 import { useIdentity } from './IdentityProvider'
+import ProfileEditor from './ProfileEditor'
 
 interface CrewProfileModalProps {
   name: CrewName
@@ -44,19 +49,26 @@ export default function CrewProfileModal({
   onClose,
   onOpenActivity,
 }: CrewProfileModalProps) {
-  const { me, setMe } = useIdentity()
+  const { me, setMe, requireMe } = useIdentity()
+  const { profile: profileFor, save, mode } = useCrewProfiles()
+  const [editing, setEditing] = useState(false)
+  const [copied, setCopied] = useState(false)
+
   const profile = profileFor(name)
   const stats = useMemo(() => statsFor(name), [name])
   const events = useMemo(() => eventsFor(name), [name])
+  const badges = useBadges(name)
   const color = avatarColor(name)
   const isMe = me === name
 
-  useModalChrome(onClose)
+  useModalChrome(onClose, { escape: !editing })
 
   const onTrip =
     stats.firstDate && stats.lastDate
       ? `${formatShortDate(stats.firstDate)} → ${formatShortDate(stats.lastDate)}`
       : null
+
+  const answered = FUN_QUESTIONS.filter((q) => profile.fun?.[q.id]?.trim())
 
   // Group the event list by day so it reads like their copy of the itinerary.
   const byDay = events.reduce<{ dayIndex: number; date: string; items: typeof events }[]>(
@@ -69,10 +81,23 @@ export default function CrewProfileModal({
     []
   )
 
+  async function copyLink() {
+    const url = `${window.location.origin}${window.location.pathname}#crew/${name.toLowerCase()}`
+    try {
+      await navigator.clipboard.writeText(url)
+      setCopied(true)
+      setTimeout(() => setCopied(false), 2000)
+    } catch {
+      // Clipboard blocked (insecure context, denied permission) — put the link
+      // in the address bar instead so it can still be copied by hand.
+      window.location.hash = `crew/${name.toLowerCase()}`
+    }
+  }
+
   return (
     <div
       className="fixed inset-0 z-[65] flex items-center justify-center bg-ink/60 p-4 backdrop-blur-sm"
-      onClick={onClose}
+      onClick={editing ? undefined : onClose}
       role="dialog"
       aria-modal="true"
       aria-label={`${name}'s profile`}
@@ -102,7 +127,7 @@ export default function CrewProfileModal({
           {profile.photo ? (
             // eslint-disable-next-line @next/next/no-img-element
             <img
-              src={profile.photo}
+              src={asset(profile.photo)}
               alt={name}
               className="aspect-square w-full object-cover"
             />
@@ -128,80 +153,165 @@ export default function CrewProfileModal({
               {profile.title}
             </p>
           )}
-          {isMe ? (
-            <span className="mt-2 inline-block rounded-full border border-spice bg-spice/10 px-2.5 py-0.5 text-[11px] font-medium text-spice">
-              this is you
-            </span>
-          ) : (
+
+          <div className="mt-2 flex flex-wrap items-center justify-center gap-1.5">
+            {isMe ? (
+              <span className="rounded-full border border-spice bg-spice/10 px-2.5 py-0.5 text-[11px] font-medium text-spice">
+                this is you
+              </span>
+            ) : (
+              <button
+                type="button"
+                onClick={() => setMe(name)}
+                className="rounded-full border border-rule bg-paper px-2.5 py-0.5 text-[11px] font-medium text-ink/60 transition hover:border-ink/40 hover:text-ink"
+              >
+                this is me
+              </button>
+            )}
             <button
               type="button"
-              onClick={() => setMe(name)}
-              className="mt-2 rounded-full border border-rule bg-paper px-2.5 py-0.5 text-[11px] font-medium text-ink/60 transition hover:border-ink/40 hover:text-ink"
+              onClick={() =>
+                requireMe('So we know who’s filling this in.', () => setEditing(true))
+              }
+              className="rounded-full border border-cobalt/60 bg-cobalt/5 px-2.5 py-0.5 text-[11px] font-medium text-cobalt transition hover:bg-cobalt hover:text-paper"
             >
-              this is me
+              ✎ {isMe ? 'edit yours' : 'edit'}
             </button>
-          )}
+            <button
+              type="button"
+              onClick={copyLink}
+              className="rounded-full border border-rule bg-paper px-2.5 py-0.5 text-[11px] font-medium text-ink/60 transition hover:border-ink/40 hover:text-ink"
+            >
+              {copied ? '✓ link copied' : '🔗 link'}
+            </button>
+          </div>
         </div>
 
-        {/* Auto-computed from the itinerary — no data entry needed */}
-        <div className="mt-5 flex items-start gap-2 rounded border border-rule bg-paper px-3 py-3">
-          <Stat value={stats.activityCount} label="plans" />
-          <div className="w-px self-stretch bg-rule" aria-hidden />
-          <Stat value={stats.dayCount} label="days" />
-          <div className="w-px self-stretch bg-rule" aria-hidden />
-          <Stat value={`${stats.hours}h`} label="booked" />
-        </div>
-
-        <dl className="mt-4">
-          <Field label="On trip" value={onTrip} />
-          <Field label="Home" value={profile.homeCity} />
-          <Field label="Known for" value={profile.knownFor} />
-          <Field label="Eats" value={profile.dietary} />
-          <Field
-            label="Mostly doing"
-            value={stats.topCategory ? CATEGORIES[stats.topCategory].label : null}
+        {editing ? (
+          <ProfileEditor
+            name={name}
+            profile={profile}
+            onCancel={() => setEditing(false)}
+            onSave={async (next) => {
+              await save(name, next)
+              setEditing(false)
+            }}
           />
-          <Field label="Fun fact" value={profile.funFact} />
-        </dl>
+        ) : (
+          <>
+            {/* Yearbook awards, computed from the itinerary */}
+            {badges.length > 0 && (
+              <div className="mt-4 flex flex-wrap justify-center gap-1.5">
+                {badges.map((badge) => (
+                  <span
+                    key={badge.id}
+                    className="inline-flex items-center gap-1 rounded-full border border-saffron bg-saffron-light/40 px-2.5 py-0.5 text-[11px] font-medium text-saffron-dark"
+                    title="Awarded by the itinerary, not by us"
+                  >
+                    <span aria-hidden>{badge.emoji}</span>
+                    {badge.label}
+                  </span>
+                ))}
+              </div>
+            )}
 
-        {/* Their copy of the itinerary */}
-        <div className="mt-5">
-          <p className="text-[11px] font-bold uppercase tracking-[0.2em] text-ink/50">
-            {isMe ? 'Your plans' : `${name}'s plans`}
-          </p>
-          {byDay.length === 0 ? (
-            <p className="mt-2 text-sm text-ink/50">Not on anything yet.</p>
-          ) : (
-            <div className="mt-2 max-h-64 space-y-3 overflow-y-auto pr-1">
-              {byDay.map((group) => (
-                <div key={group.date}>
-                  <p className="sticky top-0 bg-paper-card py-0.5 font-hand text-lg text-cobalt">
-                    {formatShortDate(group.date)}
-                  </p>
-                  <ul className="space-y-1">
-                    {group.items.map(({ activity }) => (
-                      <li key={activity.id}>
-                        <button
-                          type="button"
-                          onClick={() => onOpenActivity(group.dayIndex, activity)}
-                          className="flex w-full items-baseline gap-2 rounded px-1.5 py-1 text-left transition hover:bg-ink/5"
-                        >
-                          <span aria-hidden>{CATEGORIES[activity.category].icon}</span>
-                          <span className="flex-1 truncate text-sm text-ink/85">
-                            {activity.title}
-                          </span>
-                          <span className="shrink-0 text-[11px] tabular-nums text-ink/45">
-                            {formatRange(activity.start, activity.end)}
-                          </span>
-                        </button>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              ))}
+            <div className="mt-5 flex items-start gap-2 rounded border border-rule bg-paper px-3 py-3">
+              <Stat value={stats.activityCount} label="plans" />
+              <div className="w-px self-stretch bg-rule" aria-hidden />
+              <Stat value={stats.dayCount} label="days" />
+              <div className="w-px self-stretch bg-rule" aria-hidden />
+              <Stat value={`${stats.hours}h`} label="booked" />
             </div>
-          )}
-        </div>
+
+            <dl className="mt-4">
+              <Field label="On trip" value={onTrip} />
+              <Field label="Home" value={profile.homeCity} />
+              <Field label="Known for" value={profile.knownFor} />
+              <Field label="Eats" value={profile.dietary} />
+              <Field label="Room" value={profile.room} />
+              <Field
+                label="Seats"
+                value={[profile.seatOut, profile.seatHome].filter(Boolean).join('  ·  ')}
+              />
+              <Field
+                label="Mostly doing"
+                value={stats.topCategory ? CATEGORIES[stats.topCategory].label : null}
+              />
+              <Field label="Fun fact" value={profile.funFact} />
+            </dl>
+
+            {/* The questionnaire */}
+            {answered.length > 0 && (
+              <div className="mt-5 grid gap-2 sm:grid-cols-2">
+                {answered.map((q) => (
+                  <div
+                    key={q.id}
+                    className="rounded border border-rule bg-paper px-3 py-2"
+                  >
+                    <p className="text-[10px] font-bold uppercase tracking-[0.15em] text-ink/45">
+                      <span aria-hidden>{q.emoji}</span> {q.label}
+                    </p>
+                    <p className="mt-0.5 font-hand text-xl leading-tight text-ink/85">
+                      {profile.fun?.[q.id]}
+                    </p>
+                  </div>
+                ))}
+              </div>
+            )}
+
+            {answered.length === 0 && (
+              <p className="mt-5 rounded border border-dashed border-rule bg-paper px-3 py-3 text-center text-xs text-ink/50">
+                {isMe
+                  ? 'Your questionnaire is blank. Hit edit — it takes two minutes.'
+                  : `${name} hasn’t filled anything in yet.`}
+                {mode === 'local' && (
+                  <span className="mt-1 block text-[10px] text-ink/35">
+                    Answers save to this device until the database is connected.
+                  </span>
+                )}
+              </p>
+            )}
+
+            {/* Their copy of the itinerary */}
+            <div className="mt-5">
+              <p className="text-[11px] font-bold uppercase tracking-[0.2em] text-ink/50">
+                {isMe ? 'Your plans' : `${name}'s plans`}
+              </p>
+              {byDay.length === 0 ? (
+                <p className="mt-2 text-sm text-ink/50">Not on anything yet.</p>
+              ) : (
+                <div className="mt-2 max-h-64 space-y-3 overflow-y-auto pr-1">
+                  {byDay.map((group) => (
+                    <div key={group.date}>
+                      <p className="sticky top-0 bg-paper-card py-0.5 font-hand text-lg text-cobalt">
+                        {formatShortDate(group.date)}
+                      </p>
+                      <ul className="space-y-1">
+                        {group.items.map(({ activity }) => (
+                          <li key={activity.id}>
+                            <button
+                              type="button"
+                              onClick={() => onOpenActivity(group.dayIndex, activity)}
+                              className="flex w-full items-baseline gap-2 rounded px-1.5 py-1 text-left transition hover:bg-ink/5"
+                            >
+                              <span aria-hidden>{CATEGORIES[activity.category].icon}</span>
+                              <span className="flex-1 truncate text-sm text-ink/85">
+                                {activity.title}
+                              </span>
+                              <span className="shrink-0 text-[11px] tabular-nums text-ink/45">
+                                {formatRange(activity.start, activity.end)}
+                              </span>
+                            </button>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
+          </>
+        )}
       </div>
     </div>
   )

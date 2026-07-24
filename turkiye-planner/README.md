@@ -20,13 +20,20 @@ activity. No other file needs touching as plans firm up.
 - For activities running past midnight, keep counting: `'26:00'` = 2:00 AM next day.
 - Categories: `meal` · `stay` · `transport` · `tour` · `night` · `misc` — each
   gets its own visual treatment (defined in `lib/categories.ts`).
-- Crew names live in the `CREW` array at the top of the data file.
+- Crew names live in the `CREW` array in `data/crew.ts`.
 
 ## Crew profiles
 
-Names live in `CREW` (`data/itinerary.ts`); the person behind each name lives in
-**`data/crew.ts`** — title, home city, dietary notes, fun fact, quote. Every
-field is optional and the profile card hides whatever's missing.
+**`data/crew.ts`** is the single source of truth for who's on this trip: the
+`CREW` names, each person's profile, and their `joins`/`leaves` dates — which
+is what builds the itinerary's participant lists, so a changed flight is a
+one-line edit there.
+
+A profile holds title, home city, dietary notes, room, seats, fun fact, quote.
+Every field is optional and the card hides whatever's missing. Everyone can
+fill in their own from the card's edit form, including the questionnaire in
+`FUN_QUESTIONS` — add a question there and it appears in the form and on every
+card.
 
 Photos go in `public/crew/` (square crops), wired up with
 `photo: '/crew/matt.jpg'`. Without one, the card falls back to their initial on
@@ -34,7 +41,12 @@ their avatar color. Photos are committed and served publicly — see
 `public/crew/README.md`.
 
 Plan counts, days on trip, hours booked, and the date range are computed from
-the itinerary, so they stay right as plans change.
+the itinerary, so they stay right as plans change. So are the badges — and a
+badge is only awarded when leading it means something, so with everyone on an
+identical schedule most stay unclaimed until people start voting, pitching, and
+posting.
+
+Each card is linkable: `#crew/matt` opens that person's profile.
 
 ## Which one are you?
 
@@ -58,8 +70,36 @@ added to the home screen.)
   tap any of their plans to jump straight to it
 - "Only my plans" filter and a whole-trip `.ics` of just your events, both of
   which ask which one you are the first time
+- **Up next for you** — your current or next plan, in Türkiye time
+- **Votes, reactions, and notes** on every activity; a **suggestion box** and
+  **polls** per day; a **shared album** per day
+- **Packing list** that stays on your device, and a printable **one-pager** of
+  just your plans
+- Weather normals and a "today's stops" map link per day; a pocket
+  **Turkish phrasebook**
+
+## Shared data
+
+Votes, comments, reactions, ideas, polls, photos, and self-edited profiles all
+work with no backend — they just live in your own browser until Supabase
+credentials exist, at which point the same features become shared with no code
+changes. Setup is about ten minutes: **[docs/BACKEND.md](docs/BACKEND.md)**.
 
 ## Deploy
 
 `npm run build` produces a fully static site in `out/` (Next.js static export) —
 host it on Vercel, Netlify, GitHub Pages, or any static file host.
+
+**GitHub Pages** is wired up already: `.github/workflows/deploy.yml` builds and
+publishes on every push to `main`. Enable it once in **Settings → Pages →
+Source → GitHub Actions**, and the site lands at
+`https://<owner>.github.io/<repo>/`.
+
+A project site is served from `/<repo>`, not the domain root, so the build
+takes `NEXT_PUBLIC_BASE_PATH` (the workflow defaults it to `/<repo-name>`) and
+`lib/asset.ts` applies it to everything in `public/`. On a custom domain or
+Vercel, set the repo variable `NEXT_PUBLIC_BASE_PATH` to an empty string.
+
+To ship with the database connected, add `NEXT_PUBLIC_SUPABASE_URL` and
+`NEXT_PUBLIC_SUPABASE_ANON_KEY` as repository secrets — they're baked in at
+build time, so changing them needs a redeploy.

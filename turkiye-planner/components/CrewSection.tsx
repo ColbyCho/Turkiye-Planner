@@ -1,7 +1,9 @@
 'use client'
 
-import { CREW } from '@/data/itinerary'
-import { avatarColor, profileFor, type CrewName } from '@/lib/crew'
+import { CREW } from '@/data/crew'
+import { avatarColor, type CrewName } from '@/lib/crew'
+import { useCrewProfiles } from '@/lib/db/profiles'
+import { asset } from '@/lib/asset'
 import { useIdentity } from './IdentityProvider'
 
 /** Rotations so the row reads like photos laid on a desk, not a contact sheet. */
@@ -13,6 +15,7 @@ interface CrewSectionProps {
 
 export default function CrewSection({ onOpenProfile }: CrewSectionProps) {
   const { me, promptMe } = useIdentity()
+  const { profile: profileFor } = useCrewProfiles()
 
   return (
     <section
@@ -41,7 +44,7 @@ export default function CrewSection({ onOpenProfile }: CrewSectionProps) {
               {profile.photo ? (
                 // eslint-disable-next-line @next/next/no-img-element
                 <img
-                  src={profile.photo}
+                  src={asset(profile.photo)}
                   alt=""
                   className="aspect-square w-full object-cover"
                 />

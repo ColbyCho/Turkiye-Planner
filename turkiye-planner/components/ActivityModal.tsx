@@ -6,8 +6,11 @@ import { CATEGORIES } from '@/lib/categories'
 import { formatDate, formatDuration, formatRange, toMinutes } from '@/lib/time'
 import { downloadICS, googleCalendarUrl } from '@/lib/calendar'
 import { isCrewName, isOn, type CrewName } from '@/lib/crew'
-import { CREW } from '@/data/itinerary'
+import { activityMapUrl } from '@/lib/maps'
+import { asset } from '@/lib/asset'
+import { CREW } from '@/data/crew'
 import { useIdentity } from './IdentityProvider'
+import ActivitySocial from './ActivitySocial'
 import Avatar from './Avatar'
 
 interface ActivityModalProps {
@@ -31,6 +34,7 @@ export default function ActivityModal({
   const cat = CATEGORIES[activity.category]
   const everyone = activity.participants.length === CREW.length
   const mine = isOn(activity, me)
+  const mapUrl = activityMapUrl(activity, day)
 
   useModalChrome(onClose, { escape: escapeEnabled })
 
@@ -67,7 +71,7 @@ export default function ActivityModal({
           {activity.image ? (
             // eslint-disable-next-line @next/next/no-img-element
             <img
-              src={activity.image.src}
+              src={asset(activity.image.src)}
               alt={activity.image.alt}
               className="aspect-square w-full object-cover"
             />
@@ -118,7 +122,21 @@ export default function ActivityModal({
         </p>
 
         {activity.location && (
-          <p className="mt-1 text-sm text-ink/70">📍 {activity.location}</p>
+          <p className="mt-1 text-sm text-ink/70">
+            📍{' '}
+            {mapUrl ? (
+              <a
+                href={mapUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="underline decoration-dotted underline-offset-2 hover:text-cobalt"
+              >
+                {activity.location} ↗
+              </a>
+            ) : (
+              activity.location
+            )}
+          </p>
         )}
 
         {activity.notes && (
@@ -181,6 +199,8 @@ export default function ActivityModal({
             })}
           </div>
         </div>
+
+        <ActivitySocial activityId={activity.id} />
 
         {/* Add to calendar */}
         <div className="mt-6 flex flex-wrap gap-2 border-t border-rule pt-4">

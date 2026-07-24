@@ -1,4 +1,8 @@
-import { avatarColor, isCrewName, profileFor } from '@/lib/crew'
+'use client'
+
+import { avatarColor, isCrewName } from '@/lib/crew'
+import { useCrewProfiles } from '@/lib/db/profiles'
+import { asset } from '@/lib/asset'
 
 interface AvatarProps {
   name: string
@@ -12,13 +16,14 @@ interface AvatarProps {
  * initial on their fixed avatar color.
  */
 export default function Avatar({ name, size = 16, className = '' }: AvatarProps) {
-  const photo = isCrewName(name) ? profileFor(name).photo : undefined
+  const { profile } = useCrewProfiles()
+  const photo = isCrewName(name) ? profile(name).photo : undefined
 
   if (photo) {
     return (
       // eslint-disable-next-line @next/next/no-img-element
       <img
-        src={photo}
+        src={asset(photo)}
         alt=""
         className={`shrink-0 rounded-full object-cover ${className}`}
         style={{ width: size, height: size }}

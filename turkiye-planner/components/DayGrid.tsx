@@ -144,6 +144,7 @@ export default function DayGrid({
             <button
               key={activity.id}
               type="button"
+              data-activity-id={activity.id}
               onClick={() => onSelect(activity)}
               className={`absolute flex flex-col items-stretch justify-start overflow-hidden rounded-sm px-2 py-1 text-left shadow-block transition-[transform,opacity,filter] hover:z-10 hover:-translate-y-px hover:scale-[1.01] ${cat.block} ${
                 dimmed ? 'opacity-20 saturate-50 hover:opacity-60' : ''

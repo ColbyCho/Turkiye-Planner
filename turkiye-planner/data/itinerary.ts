@@ -1,25 +1,13 @@
 import type { DayPlan } from '@/lib/types'
+import { CREW, crewOn } from './crew'
 
-// ─────────────────────────────────────────────────────────────────────────────
-// THE CREW — edit names here and they update everywhere.
-// ─────────────────────────────────────────────────────────────────────────────
-export const CREW = [
-  'Colby',
-  'Olivia',
-  'Maddie',
-  'Andrew',
-  'Derin',
-  'Matt',
-  'Hannah',
-  'Bob',
-  'Reese',
-] as const
-
+// Names and who-is-here-when live in ./crew.ts. These two lists come from each
+// person's joins/leaves dates, so a changed flight is a one-line edit there:
+// ALL is everyone on the trip, PRE_BODRUM is everyone before Hannah lands.
 const ALL = [...CREW]
+const PRE_BODRUM = crewOn('2026-08-21')
 
-// Hannah joins the trip on Aug 25, meeting the group for the flight to Bodrum —
-// she's not on anything in Istanbul before then.
-const PRE_BODRUM = ALL.filter((name) => name !== 'Hannah')
+export { CREW }
 
 // ─────────────────────────────────────────────────────────────────────────────
 // THE ITINERARY — synced from the group planning spreadsheet (Aug 21–31, 2026).

@@ -43,8 +43,17 @@ export interface Activity {
   emoji?: string
 }
 
+/** One question on the profile questionnaire (see FUN_QUESTIONS). */
+export interface FunQuestion {
+  /** Stable key the answer is stored under — safe to relabel around it. */
+  id: string
+  emoji: string
+  label: string
+  placeholder?: string
+}
+
 /**
- * The human side of a crew member. Names live in `CREW` (data/itinerary.ts);
+ * The human side of a crew member. Names live in `CREW` (data/crew.ts);
  * everything here is optional flavor — the profile card hides what's missing.
  */
 export interface CrewProfile {
@@ -53,7 +62,7 @@ export interface CrewProfile {
   /** Passport-style "occupation" — the joke title. */
   title?: string
   homeCity?: string
-  /** ISO date they join the trip, if not day one. */
+  /** ISO date they join the trip, if not day one. Drives participant lists. */
   joins?: string
   /** ISO date they head home, if not the last day. */
   leaves?: string
@@ -63,6 +72,17 @@ export interface CrewProfile {
   funFact?: string
   /** Handwritten line under the polaroid. */
   quote?: string
+
+  // Logistics — the boring rows that save a group chat search
+  /** Where they're sleeping, e.g. 'Bodrum villa · upstairs twin (with Bob)'. */
+  room?: string
+  /** Flight + seat out, e.g. 'TK82 · 34K'. */
+  seatOut?: string
+  /** Flight + seat home. */
+  seatHome?: string
+
+  /** Answers to FUN_QUESTIONS, keyed by question id. */
+  fun?: Record<string, string>
 }
 
 export interface DayPlan {

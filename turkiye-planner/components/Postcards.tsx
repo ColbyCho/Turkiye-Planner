@@ -1,5 +1,7 @@
 'use client'
 
+import { asset } from '@/lib/asset'
+
 interface Postcard {
   src: string
   alt: string
@@ -77,7 +79,7 @@ function Frame({ card, fixed }: { card: Postcard; fixed: boolean }) {
       <div className="relative overflow-hidden">
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
-          src={card.src}
+          src={asset(card.src)}
           alt={card.alt}
           loading="lazy"
           className="aspect-[4/3] w-full object-cover"

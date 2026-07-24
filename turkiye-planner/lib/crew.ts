@@ -1,10 +1,9 @@
-import { CREW, ITINERARY } from '@/data/itinerary'
-import { CREW_PROFILES } from '@/data/crew'
+import { ITINERARY } from '@/data/itinerary'
+import { CREW, CREW_PROFILES, type CrewName } from '@/data/crew'
 import type { Activity, Category, CrewProfile, DayPlan } from './types'
 import { toMinutes } from './time'
 
-/** One of the nine names in the CREW array. */
-export type CrewName = (typeof CREW)[number]
+export type { CrewName }
 
 // One fixed color per crew member so avatars stay consistent across the trip
 const AVATAR_COLORS = [
@@ -54,6 +53,94 @@ export function eventsFor(name: string, days: DayPlan[] = ITINERARY): CrewEvent[
       .sort((a, b) => toMinutes(a.start) - toMinutes(b.start))
       .map((activity) => ({ dayIndex, day, activity }))
   )
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Superlatives — the yearbook awards, recomputed from the itinerary. A badge is
+// only handed out to whoever leads a metric, and ties share it.
+// ─────────────────────────────────────────────────────────────────────────────
+interface Superlative {
+  id: string
+  emoji: string
+  label: string
+  score: (events: CrewEvent[]) => number
+}
+
+const SUPERLATIVES: Superlative[] = [
+  {
+    id: 'busiest',
+    emoji: '📅',
+    label: 'Most booked',
+    score: (events) => events.length,
+  },
+  {
+    id: 'nightowl',
+    emoji: '🌙',
+    label: 'Night owl',
+    score: (events) =>
+      events.filter(
+        (e) => e.activity.category === 'night' || toMinutes(e.activity.end) > 23 * 60
+      ).length,
+  },
+  {
+    id: 'earlybird',
+    emoji: '🐓',
+    label: 'Early bird',
+    score: (events) =>
+      events.filter(
+        (e) =>
+          e.activity.category !== 'stay' && toMinutes(e.activity.start) < 9 * 60
+      ).length,
+  },
+  {
+    id: 'eater',
+    emoji: '🍴',
+    label: 'Most meals',
+    score: (events) => events.filter((e) => e.activity.category === 'meal').length,
+  },
+  {
+    id: 'sightseer',
+    emoji: '🕌',
+    label: 'Most sights',
+    score: (events) => events.filter((e) => e.activity.category === 'tour').length,
+  },
+  {
+    id: 'longhaul',
+    emoji: '🧳',
+    label: 'Longest trip',
+    score: (events) =>
+      events.filter((e, i, all) => all.findIndex((x) => x.day.date === e.day.date) === i)
+        .length,
+  },
+]
+
+export interface Badge {
+  id: string
+  emoji: string
+  label: string
+}
+
+/**
+ * Awards a badge to whoever leads a metric — but only when leading means
+ * something. Everyone is on nearly every activity, so most metrics are a
+ * seven-way tie, and a superlative shared by half the group is just noise.
+ */
+export function awardBadge(scores: number[], mine: number, minimum = 1): boolean {
+  if (mine < minimum) return false
+  const best = Math.max(...scores)
+  if (mine < best) return false
+  const leaders = scores.filter((s) => s === best).length
+  return leaders * 2 < scores.length
+}
+
+/** Every itinerary-based badge this person leads outright. */
+export function badgesFor(name: string, days: DayPlan[] = ITINERARY): Badge[] {
+  const eventsByName = CREW.map((member) => eventsFor(member, days))
+  const mine = eventsFor(name, days)
+
+  return SUPERLATIVES.filter((s) =>
+    awardBadge(eventsByName.map(s.score), s.score(mine))
+  ).map(({ id, emoji, label }) => ({ id, emoji, label }))
 }
 
 export interface CrewStats {
