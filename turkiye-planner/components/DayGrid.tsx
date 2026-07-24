@@ -2,6 +2,7 @@
 
 import type { Activity, Category, DayPlan } from '@/lib/types'
 import { CATEGORIES } from '@/lib/categories'
+import { isOn } from '@/lib/crew'
 import { formatRange, hourLabel, toMinutes } from '@/lib/time'
 
 const HOUR_PX = 56
@@ -84,9 +85,19 @@ interface DayGridProps {
   onSelect: (activity: Activity) => void
   /** Categories selected in the legend filter; empty = show everything. */
   activeCategories: Category[]
+  /** Who's looking, if they've said. */
+  me: string | null
+  /** Dim everything `me` isn't on. */
+  mineOnly: boolean
 }
 
-export default function DayGrid({ day, onSelect, activeCategories }: DayGridProps) {
+export default function DayGrid({
+  day,
+  onSelect,
+  activeCategories,
+  me,
+  mineOnly,
+}: DayGridProps) {
   const laid = layoutDay(day.activities)
 
   return (
@@ -124,9 +135,11 @@ export default function DayGrid({ day, onSelect, activeCategories }: DayGridProp
         {laid.map(({ activity, top, height, leftPct, widthPct, spillsPastMidnight }) => {
           const cat = CATEGORIES[activity.category]
           const compact = height < 48
+          const mine = isOn(activity, me)
           const dimmed =
-            activeCategories.length > 0 &&
-            !activeCategories.includes(activity.category)
+            (activeCategories.length > 0 &&
+              !activeCategories.includes(activity.category)) ||
+            (mineOnly && !mine)
           return (
             <button
               key={activity.id}

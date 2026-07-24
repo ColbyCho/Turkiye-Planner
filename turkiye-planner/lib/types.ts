@@ -43,6 +43,28 @@ export interface Activity {
   emoji?: string
 }
 
+/**
+ * The human side of a crew member. Names live in `CREW` (data/itinerary.ts);
+ * everything here is optional flavor — the profile card hides what's missing.
+ */
+export interface CrewProfile {
+  /** Square photo under /public/crew, e.g. '/crew/matt.jpg'. */
+  photo?: string
+  /** Passport-style "occupation" — the joke title. */
+  title?: string
+  homeCity?: string
+  /** ISO date they join the trip, if not day one. */
+  joins?: string
+  /** ISO date they head home, if not the last day. */
+  leaves?: string
+  knownFor?: string
+  /** Allergies / vegetarian / "will not eat fish" — the useful kind. */
+  dietary?: string
+  funFact?: string
+  /** Handwritten line under the polaroid. */
+  quote?: string
+}
+
 export interface DayPlan {
   /** ISO date, e.g. '2026-08-21' */
   date: string

@@ -1,54 +1,38 @@
 'use client'
 
-import { useEffect } from 'react'
 import type { Activity, DayPlan } from '@/lib/types'
+import { useModalChrome } from '@/lib/useModalChrome'
 import { CATEGORIES } from '@/lib/categories'
 import { formatDate, formatDuration, formatRange, toMinutes } from '@/lib/time'
 import { downloadICS, googleCalendarUrl } from '@/lib/calendar'
+import { isCrewName, isOn, type CrewName } from '@/lib/crew'
 import { CREW } from '@/data/itinerary'
-
-// One fixed color per crew member so avatars stay consistent across the trip
-const AVATAR_COLORS = [
-  '#1E4B8E', // cobalt
-  '#C1440E', // spice
-  '#178A99', // turquoise
-  '#A66E15', // saffron dark
-  '#2C2A4A', // night
-  '#8F7C5F', // kraft dark
-  '#96340B', // spice dark
-  '#0F6773', // turquoise dark
-  '#565285', // night light
-]
-
-function avatarColor(name: string): string {
-  const i = CREW.indexOf(name as (typeof CREW)[number])
-  if (i >= 0) return AVATAR_COLORS[i % AVATAR_COLORS.length]
-  // Fallback for guest names added later
-  const hash = name.split('').reduce((h, ch) => h + ch.charCodeAt(0), 0)
-  return AVATAR_COLORS[hash % AVATAR_COLORS.length]
-}
+import { useIdentity } from './IdentityProvider'
+import Avatar from './Avatar'
 
 interface ActivityModalProps {
   day: DayPlan
   activity: Activity
   onClose: () => void
+  /** Tapping a face opens that person's profile. */
+  onOpenProfile: (name: CrewName) => void
+  /** False while a profile card is stacked on top of this one. */
+  escapeEnabled?: boolean
 }
 
-export default function ActivityModal({ day, activity, onClose }: ActivityModalProps) {
+export default function ActivityModal({
+  day,
+  activity,
+  onClose,
+  onOpenProfile,
+  escapeEnabled = true,
+}: ActivityModalProps) {
+  const { me } = useIdentity()
   const cat = CATEGORIES[activity.category]
   const everyone = activity.participants.length === CREW.length
+  const mine = isOn(activity, me)
 
-  useEffect(() => {
-    const onKey = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') onClose()
-    }
-    window.addEventListener('keydown', onKey)
-    document.body.style.overflow = 'hidden'
-    return () => {
-      window.removeEventListener('keydown', onKey)
-      document.body.style.overflow = ''
-    }
-  }, [onClose])
+  useModalChrome(onClose, { escape: escapeEnabled })
 
   return (
     <div
@@ -159,23 +143,42 @@ export default function ActivityModal({ day, activity, onClose }: ActivityModalP
         <div className="mt-5">
           <p className="text-[11px] font-bold uppercase tracking-[0.2em] text-ink/50">
             Who&rsquo;s in {everyone && '— everyone!'}
+            {me && !mine && (
+              <span className="ml-1 normal-case tracking-normal text-ink/40">
+                · not you on this one
+              </span>
+            )}
           </p>
           <div className="mt-2 flex flex-wrap gap-1.5">
-            {activity.participants.map((name) => (
-              <span
-                key={name}
-                className="inline-flex items-center gap-1.5 rounded-full border border-rule bg-paper px-2 py-0.5 text-xs font-medium text-ink/80"
-              >
-                <span
-                  className="flex h-4 w-4 items-center justify-center rounded-full text-[9px] font-bold text-paper"
-                  style={{ backgroundColor: avatarColor(name) }}
-                  aria-hidden
+            {activity.participants.map((name) => {
+              const isMe = name === me
+              const chip = (
+                <>
+                  <Avatar name={name} size={16} />
+                  {isMe ? `${name} (you)` : name}
+                </>
+              )
+              return isCrewName(name) ? (
+                <button
+                  key={name}
+                  type="button"
+                  onClick={() => onOpenProfile(name)}
+                  aria-label={`${name}'s profile`}
+                  className={`inline-flex items-center gap-1.5 rounded-full border bg-paper px-2 py-0.5 text-xs font-medium text-ink/80 transition hover:border-ink/40 hover:text-ink ${
+                    isMe ? 'border-spice ring-1 ring-spice/50' : 'border-rule'
+                  }`}
                 >
-                  {name[0]}
+                  {chip}
+                </button>
+              ) : (
+                <span
+                  key={name}
+                  className="inline-flex items-center gap-1.5 rounded-full border border-rule bg-paper px-2 py-0.5 text-xs font-medium text-ink/80"
+                >
+                  {chip}
                 </span>
-                {name}
-              </span>
-            ))}
+              )
+            })}
           </div>
         </div>
 

@@ -3,8 +3,10 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { ITINERARY } from '@/data/itinerary'
 import type { Activity, Category } from '@/lib/types'
+import type { CrewName } from '@/lib/crew'
 import { formatDate } from '@/lib/time'
 import { CATEGORIES, CATEGORY_ORDER } from '@/lib/categories'
+import { downloadTripICS } from '@/lib/calendar'
 import DayNav from './DayNav'
 import DayGrid from './DayGrid'
 import ActivityModal from './ActivityModal'
@@ -15,11 +17,26 @@ import Postcards from './Postcards'
 import FloatingDayToolbar from './FloatingDayToolbar'
 import TurkishFlag from './TurkishFlag'
 import NazarCharm from './NazarCharm'
+import IdentityProvider, { useIdentity } from './IdentityProvider'
+import IdentityBadge from './IdentityBadge'
+import CrewSection from './CrewSection'
+import CrewProfileModal from './CrewProfileModal'
 
 export default function Planner() {
+  return (
+    <IdentityProvider>
+      <PlannerBody />
+    </IdentityProvider>
+  )
+}
+
+function PlannerBody() {
+  const { me, requireMe } = useIdentity()
   const [dayIndex, setDayIndex] = useState(0)
   const [selected, setSelected] = useState<Activity | null>(null)
+  const [profile, setProfile] = useState<CrewName | null>(null)
   const [activeCategories, setActiveCategories] = useState<Category[]>([])
+  const [mineOnly, setMineOnly] = useState(false)
   const navRef = useRef<HTMLDivElement>(null)
 
   const toggleCategory = (c: Category) => {
@@ -27,6 +44,11 @@ export default function Planner() {
       prev.includes(c) ? prev.filter((x) => x !== c) : [...prev, c]
     )
   }
+
+  // "Only mine" is meaningless once we've forgotten who you are.
+  useEffect(() => {
+    if (!me && mineOnly) setMineOnly(false)
+  }, [me, mineOnly])
 
   // Deep-link support: turkiye-planner.example#2026-08-25 opens that day
   useEffect(() => {
@@ -45,18 +67,29 @@ export default function Planner() {
     window.scrollTo({ top: 0 })
   }, [])
 
-  // ← / → flip between days when the modal is closed
+  /** Jump from a profile's plan list straight to that activity. */
+  const openActivity = useCallback(
+    (i: number, activity: Activity) => {
+      setProfile(null)
+      goTo(i)
+      setSelected(activity)
+    },
+    [goTo]
+  )
+
+  // ← / → flip between days when nothing is open
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
-      if (selected) return
+      if (selected || profile) return
       if (e.key === 'ArrowLeft') goTo(dayIndex - 1)
       if (e.key === 'ArrowRight') goTo(dayIndex + 1)
     }
     window.addEventListener('keydown', onKey)
     return () => window.removeEventListener('keydown', onKey)
-  }, [dayIndex, selected, goTo])
+  }, [dayIndex, selected, profile, goTo])
 
   const day = ITINERARY[dayIndex]
+  const filtering = activeCategories.length > 0
 
   return (
     <main className="relative mx-auto max-w-5xl px-3 py-8 pb-28 sm:px-6 sm:py-12 sm:pb-28">
@@ -72,6 +105,7 @@ export default function Planner() {
         <p className="mt-2 text-sm uppercase tracking-[0.25em] text-ink/60">
           Istanbul ✶ Bodrum · August 21 – 31, 2026 · party of nine
         </p>
+        <IdentityBadge onOpenProfile={setProfile} />
       </header>
 
       <div ref={navRef}>
@@ -106,7 +140,6 @@ export default function Planner() {
         <div className="flex flex-wrap items-center gap-2 px-5 py-3 sm:px-8">
           {CATEGORY_ORDER.map((c) => {
             const on = activeCategories.includes(c)
-            const filtering = activeCategories.length > 0
             return (
               <button
                 key={c}
@@ -127,10 +160,38 @@ export default function Planner() {
               </button>
             )
           })}
-          {activeCategories.length > 0 && (
+
+          <span className="mx-0.5 h-4 w-px bg-rule" aria-hidden />
+
+          {/* Person filter — asks who you are first if it doesn't know */}
+          <button
+            type="button"
+            onClick={() =>
+              mineOnly
+                ? setMineOnly(false)
+                : requireMe(
+                    'So the planner knows whose plans to pull up.',
+                    () => setMineOnly(true)
+                  )
+            }
+            aria-pressed={mineOnly}
+            className={`inline-flex items-center gap-1 rounded-full border px-2.5 py-0.5 text-[11px] font-medium transition ${
+              mineOnly
+                ? 'border-spice bg-spice text-paper ring-2 ring-spice ring-offset-1 ring-offset-paper-card'
+                : 'border-dashed border-ink/40 bg-paper text-ink/70 hover:border-ink/60 hover:text-ink'
+            }`}
+          >
+            <span aria-hidden>🙋</span>
+            {me ? `Only ${me}'s` : 'Only my plans'}
+          </button>
+
+          {(filtering || mineOnly) && (
             <button
               type="button"
-              onClick={() => setActiveCategories([])}
+              onClick={() => {
+                setActiveCategories([])
+                setMineOnly(false)
+              }}
               className="text-[11px] font-medium text-spice underline underline-offset-2 hover:text-spice-dark"
             >
               clear filter
@@ -138,15 +199,38 @@ export default function Planner() {
           )}
         </div>
 
-        <DayGrid day={day} onSelect={setSelected} activeCategories={activeCategories} />
+        <DayGrid
+          day={day}
+          onSelect={setSelected}
+          activeCategories={activeCategories}
+          me={me}
+          mineOnly={mineOnly}
+        />
 
         <FunFact fact={day.funFact} />
+
+        <CrewSection onOpenProfile={setProfile} />
 
         <HelpfulStuff />
       </section>
 
+      <div className="mt-5 text-center">
+        <button
+          type="button"
+          onClick={() =>
+            requireMe(
+              'So the calendar file only has your plans in it.',
+              (name) => downloadTripICS(ITINERARY, name)
+            )
+          }
+          className="rounded border border-spice px-3 py-1.5 text-sm font-medium text-spice transition hover:bg-spice hover:text-paper"
+        >
+          📥 {me ? `Add ${me}'s whole trip` : 'Add my whole trip'} to calendar
+        </button>
+      </div>
+
       <footer className="mt-6 text-center text-xs text-ink/40">
-        Tap any activity for details, links & add-to-calendar. Use ← → to flip days.
+        Tap any activity for details, links &amp; add-to-calendar. Use ← → to flip days.
       </footer>
 
       {/* Bottom of the page on desktop; right before the postcard pile on mobile */}
@@ -159,6 +243,16 @@ export default function Planner() {
           day={day}
           activity={selected}
           onClose={() => setSelected(null)}
+          onOpenProfile={setProfile}
+          escapeEnabled={!profile}
+        />
+      )}
+
+      {profile && (
+        <CrewProfileModal
+          name={profile}
+          onClose={() => setProfile(null)}
+          onOpenActivity={openActivity}
         />
       )}
 

@@ -33,43 +33,69 @@ function escapeICS(text: string): string {
     .replace(/\r?\n/g, '\\n')
 }
 
-export function buildICS(day: DayPlan, activity: Activity): string {
-  const start = utcStamp(day.date, toMinutes(activity.start), day.utcOffsetHours)
-  const end = utcStamp(day.date, toMinutes(activity.end), day.utcOffsetHours)
+const CALENDAR_HEADER = [
+  'BEGIN:VCALENDAR',
+  'VERSION:2.0',
+  'PRODID:-//Turkiye Planner//EN',
+  'CALSCALE:GREGORIAN',
+  'METHOD:PUBLISH',
+]
+
+function vevent(day: DayPlan, activity: Activity): string[] {
   const category = CATEGORIES[activity.category].label
-  const lines = [
-    'BEGIN:VCALENDAR',
-    'VERSION:2.0',
-    'PRODID:-//Turkiye Planner//EN',
-    'CALSCALE:GREGORIAN',
-    'METHOD:PUBLISH',
+  return [
     'BEGIN:VEVENT',
     `UID:${activity.id}-${day.date}@turkiye-planner`,
     `DTSTAMP:${utcStamp(day.date, 0)}`,
-    `DTSTART:${start}`,
-    `DTEND:${end}`,
+    `DTSTART:${utcStamp(day.date, toMinutes(activity.start), day.utcOffsetHours)}`,
+    `DTEND:${utcStamp(day.date, toMinutes(activity.end), day.utcOffsetHours)}`,
     `SUMMARY:${escapeICS(activity.title)}`,
     `DESCRIPTION:${escapeICS(`[${category}] ` + describe(activity))}`,
     ...(activity.location ? [`LOCATION:${escapeICS(activity.location)}`] : []),
     ...(activity.url ? [`URL:${activity.url}`] : []),
     'END:VEVENT',
-    'END:VCALENDAR',
   ]
-  return lines.join('\r\n')
 }
 
-export function downloadICS(day: DayPlan, activity: Activity): void {
-  const blob = new Blob([buildICS(day, activity)], {
-    type: 'text/calendar;charset=utf-8',
-  })
+export function buildICS(day: DayPlan, activity: Activity): string {
+  return [...CALENDAR_HEADER, ...vevent(day, activity), 'END:VCALENDAR'].join('\r\n')
+}
+
+/**
+ * One calendar file for the whole trip. With `who`, only the activities that
+ * person is on — the payoff for telling the planner which one you are.
+ */
+export function buildTripICS(days: DayPlan[], who?: string): string {
+  const events = days.flatMap((day) =>
+    day.activities
+      .filter((a) => !who || a.participants.includes(who))
+      .flatMap((a) => vevent(day, a))
+  )
+  return [...CALENDAR_HEADER, ...events, 'END:VCALENDAR'].join('\r\n')
+}
+
+function download(filename: string, ics: string): void {
+  const blob = new Blob([ics], { type: 'text/calendar;charset=utf-8' })
   const url = URL.createObjectURL(blob)
   const a = document.createElement('a')
   a.href = url
-  a.download = `${activity.title.replace(/[^\w]+/g, '-').toLowerCase()}.ics`
+  a.download = filename
   document.body.appendChild(a)
   a.click()
   a.remove()
   URL.revokeObjectURL(url)
+}
+
+export function downloadICS(day: DayPlan, activity: Activity): void {
+  download(
+    `${activity.title.replace(/[^\w]+/g, '-').toLowerCase()}.ics`,
+    buildICS(day, activity)
+  )
+}
+
+export function downloadTripICS(days: DayPlan[], who?: string): void {
+  const slug = who ? `-${who.toLowerCase()}` : ''
+  download(`turkiye-2026${slug}.ics`, buildTripICS(days, who))
 }
 
 export function googleCalendarUrl(day: DayPlan, activity: Activity): string {
