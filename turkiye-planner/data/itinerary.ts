@@ -5,14 +5,12 @@ import type { DayPlan } from '@/lib/types'
 // ─────────────────────────────────────────────────────────────────────────────
 export const CREW = [
   'Colby',
-  'Olivia',
   'Maddie',
   'Andrew',
   'Derin',
   'Matt',
   'Hannah',
   'Bob',
-  'Reese',
 ] as const
 
 const ALL = [...CREW]
@@ -123,7 +121,7 @@ export const ITINERARY: DayPlan[] = [
         end: '15:45',
         location: 'IST → Orient Express & Spa by Orka Hotels',
         notes:
-          'Placeholder — book a private van for 8 + luggage (Hannah joins in Bodrum), or Havaist bus + tram if we’re feeling brave on no sleep.',
+          'Placeholder — book a private van for 6 + luggage (Hannah joins in Bodrum), or Havaist bus + tram if we’re feeling brave on no sleep.',
         participants: PRE_BODRUM,
       },
       {
@@ -136,7 +134,7 @@ export const ITINERARY: DayPlan[] = [
         location: 'Orient Express & Spa by Orka Hotels, Istanbul',
         url: 'https://www.expedia.com/Istanbul-Hotels-Orient-Express-Spa-By-Orka-Hotels.h479525.Hotel-Information?chkin=2026-08-22&chkout=2026-08-25',
         notes:
-          'Three triple rooms, Aug 22–25. Official check-in opens 3:00 PM. Quick turnaround: drop bags and walk to Pandeli — full unpacking can wait until after dinner.',
+          'Two triple rooms, Aug 22–25. Official check-in opens 3:00 PM. Quick turnaround: drop bags and walk to Pandeli — full unpacking can wait until after dinner.',
         participants: PRE_BODRUM,
       },
       {
@@ -383,7 +381,7 @@ export const ITINERARY: DayPlan[] = [
         location: 'Balıkçı Sabahattin, Cankurtaran, Sultanahmet',
         url: 'http://www.balikcisabahattin.com/',
         notes:
-          'From the Beli hit list (Mark Wiens–approved) — a Sultanahmet seafood institution in an old Ottoman house. Would need a reservation for 8. It’s a short tram or taxi hop from here to Beyoğlu for the kokoreç nightcap.',
+          'From the Beli hit list (Mark Wiens–approved) — a Sultanahmet seafood institution in an old Ottoman house. Would need a reservation for 6. It’s a short tram or taxi hop from here to Beyoğlu for the kokoreç nightcap.',
         participants: PRE_BODRUM,
       },
       {
@@ -452,7 +450,7 @@ export const ITINERARY: DayPlan[] = [
         start: '13:00',
         end: '14:15',
         location: 'Sultanahmet → IST',
-        notes: 'Placeholder timing — domestic terminal. Van for 9 + luggage.',
+        notes: 'Placeholder timing — domestic terminal. Van for 6 + luggage.',
         participants: PRE_BODRUM,
       },
       {
@@ -558,7 +556,7 @@ export const ITINERARY: DayPlan[] = [
         end: '22:00',
         location: 'Bodrum old town, near the castle',
         notes:
-          'Placeholder — whole grilled sea bream, meze, cold Efes. Would need a table by the water for 9.',
+          'Placeholder — whole grilled sea bream, meze, cold Efes. Would need a table by the water for 7.',
         participants: ALL,
       },
       {
@@ -747,7 +745,7 @@ export const ITINERARY: DayPlan[] = [
         location: 'Beynel, Bitez',
         url: 'https://guide.michelin.com/us/en/mugla/bodrum_2806351/restaurant/beynel',
         notes:
-          'Considering this one — a Michelin-guide spot in Bitez, conveniently on the way into Bodrum from Derin’s house, and built for groups. NO reservation yet: book ahead for 9, especially on a weekend. Windmills are a 10-min hop away, so golden hour then straight to the table.',
+          'Considering this one — a Michelin-guide spot in Bitez, conveniently on the way into Bodrum from Derin’s house, and built for groups. NO reservation yet: book ahead for 7, especially on a weekend. Windmills are a 10-min hop away, so golden hour then straight to the table.',
         participants: ALL,
       },
       {
@@ -928,7 +926,8 @@ export const ITINERARY: DayPlan[] = [
         end: '15:30',
         location: 'Orient Express & Spa by Orka Hotels, Istanbul',
         url: 'https://www.expedia.com/Istanbul-Hotels-Orient-Express-Spa-By-Orka-Hotels.h479525.Hotel-Information?chkin=2026-08-30&chkout=2026-08-31',
-        notes: 'One-night post-Bodrum Istanbul stay. Check-in opens 3:00 PM.',
+        notes:
+          'TO BOOK — nothing reserved yet for this last night (Aug 30–31, party of 7). Easiest is to rebook the Orka hotel from the first leg (link); anywhere central works since the flight home isn’t until 4:40 PM. Check-in opens 3:00 PM.',
         participants: ALL,
       },
       {

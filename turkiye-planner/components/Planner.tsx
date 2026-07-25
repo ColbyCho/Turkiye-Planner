@@ -70,7 +70,7 @@ export default function Planner() {
           <span>Türkiye Planner</span>
         </h1>
         <p className="mt-2 text-sm uppercase tracking-[0.25em] text-ink/60">
-          Istanbul ✶ Bodrum · August 21 – 31, 2026 · party of nine
+          Istanbul ✶ Bodrum · August 21 – 31, 2026 · party of seven
         </p>
         <Countdown variant="inline" />
       </header>
