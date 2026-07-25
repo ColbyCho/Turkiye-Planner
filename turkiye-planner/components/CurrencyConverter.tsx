@@ -118,34 +118,10 @@ export default function CurrencyConverter() {
     'w-full rounded border border-rule bg-paper px-2.5 py-2 pl-7 text-right font-mono text-lg text-ink tabular-nums focus:border-spice focus:outline-none focus:ring-1 focus:ring-spice'
 
   return (
-    <div className="mx-auto mt-6 max-w-sm rounded-md border border-rule bg-paper-card px-5 py-4 text-center shadow-page">
+    <div className="mx-auto mt-6 max-w-sm rounded-md border border-rule bg-paper-card px-5 py-4 text-center">
       <p className="font-hand text-xl text-spice">Lira ⇄ Dollar</p>
 
       <div className="mt-3 flex items-center gap-2">
-        <label className="flex-1">
-          <span className="sr-only">US dollars</span>
-          <span className="relative block">
-            <span className="pointer-events-none absolute left-2.5 top-1/2 -translate-y-1/2 font-mono text-ink/45">
-              $
-            </span>
-            <input
-              type="text"
-              inputMode="decimal"
-              value={usd}
-              onChange={(e) => onUsd(e.target.value)}
-              aria-label="US dollars"
-              className={field}
-            />
-          </span>
-          <span className="mt-0.5 block text-[10px] font-bold uppercase tracking-[0.2em] text-ink/45">
-            USD
-          </span>
-        </label>
-
-        <span aria-hidden className="pb-4 text-lg text-spice">
-          ⇄
-        </span>
-
         <label className="flex-1">
           <span className="sr-only">Turkish lira</span>
           <span className="relative block">
@@ -163,6 +139,30 @@ export default function CurrencyConverter() {
           </span>
           <span className="mt-0.5 block text-[10px] font-bold uppercase tracking-[0.2em] text-ink/45">
             TRY
+          </span>
+        </label>
+
+        <span aria-hidden className="pb-4 text-lg text-spice">
+          ⇄
+        </span>
+
+        <label className="flex-1">
+          <span className="sr-only">US dollars</span>
+          <span className="relative block">
+            <span className="pointer-events-none absolute left-2.5 top-1/2 -translate-y-1/2 font-mono text-ink/45">
+              $
+            </span>
+            <input
+              type="text"
+              inputMode="decimal"
+              value={usd}
+              onChange={(e) => onUsd(e.target.value)}
+              aria-label="US dollars"
+              className={field}
+            />
+          </span>
+          <span className="mt-0.5 block text-[10px] font-bold uppercase tracking-[0.2em] text-ink/45">
+            USD
           </span>
         </label>
       </div>

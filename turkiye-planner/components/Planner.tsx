@@ -72,6 +72,7 @@ export default function Planner() {
         <p className="mt-2 text-sm uppercase tracking-[0.25em] text-ink/60">
           Istanbul ✶ Bodrum · August 21 – 31, 2026 · party of nine
         </p>
+        <Countdown variant="inline" />
       </header>
 
       <div ref={navRef}>
@@ -148,9 +149,6 @@ export default function Planner() {
       <footer className="mt-6 text-center text-xs text-ink/40">
         Tap any activity for details, links & add-to-calendar. Use ← → to flip days.
       </footer>
-
-      {/* Bottom of the page on desktop; right before the postcard pile on mobile */}
-      <Countdown />
 
       <Postcards />
 
