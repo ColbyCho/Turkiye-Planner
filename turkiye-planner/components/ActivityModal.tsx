@@ -20,11 +20,43 @@ const AVATAR_COLORS = [
   '#565285', // night light
 ]
 
-/** Map/directions links get a "Open in Maps" label instead of "Tickets / reservation". */
-function isMapLink(url: string): boolean {
-  return /maps\.apple|maps\.google|google\.[a-z.]+\/maps|goo\.gl\/maps|maps\.app\.goo\.gl|openstreetmap\.org/.test(
-    url
+/**
+ * Context-aware label for an activity's primary link. Recognizable platforms
+ * win (maps, Michelin, flight trackers, booking sites, ticketing…); otherwise
+ * the label falls back to something sensible for the activity's category.
+ */
+function linkCta(url: string, category: Activity['category']): string {
+  const u = url.toLowerCase()
+  if (
+    /maps\.apple|maps\.google|google\.[a-z.]+\/maps|goo\.gl\/maps|maps\.app\.goo\.gl|openstreetmap\.org/.test(u)
   )
+    return 'Open in Maps'
+  if (u.includes('guide.michelin.com')) return 'View on the MICHELIN Guide'
+  if (u.includes('instagram.com')) return 'View on Instagram'
+  if (/flightaware\.com|airportia\.com|flightradar24\.com|flightstats\.com/.test(u))
+    return 'Track the flight'
+  if (/expedia\.|booking\.com|airbnb\.|hotels\.com|agoda\./.test(u)) return 'View the booking'
+  if (/passo\.com\.tr|passolig|biletix\.com/.test(u)) return 'Get tickets'
+  if (/muze\.gen\.tr|muze\.gov\.tr|millisaraylar|hagia-sophia\.istanbul|yerebatan\.com/.test(u))
+    return 'Book tickets'
+  if (u.includes('istanbulkart')) return 'About Istanbulkart'
+  if (u.includes('grandbazaaristanbul')) return 'Bazaar guide'
+  switch (category) {
+    case 'meal':
+      return 'Restaurant site'
+    case 'stay':
+      return 'View the booking'
+    case 'tour':
+      return 'Tickets & info'
+    case 'night':
+      return 'Venue info'
+    case 'transport':
+      return 'Details'
+    case 'adventure':
+      return 'Ideas & info'
+    default:
+      return 'More info'
+  }
 }
 
 function avatarColor(name: string): string {
@@ -158,7 +190,7 @@ export default function ActivityModal({ day, activity, onClose }: ActivityModalP
             rel="noopener noreferrer"
             className="mt-4 inline-flex items-center gap-1.5 rounded border border-cobalt bg-cobalt/10 px-3 py-1.5 text-sm font-medium text-cobalt transition hover:bg-cobalt hover:text-paper"
           >
-            {isMapLink(activity.url) ? 'Open in Maps ↗' : 'Tickets / reservation ↗'}
+            {linkCta(activity.url, activity.category)} ↗
           </a>
         )}
 
