@@ -212,7 +212,7 @@ export const ITINERARY: DayPlan[] = [
           creditUrl: 'https://commons.wikimedia.org/wiki/File:Hagia_Sophia_Mars_2013.jpg',
         },
         start: '09:00',
-        end: '11:00',
+        end: '12:00',
         location: 'Sultanahmet, Istanbul',
         url: 'https://hagia-sophia.istanbul/en/tickets',
         notes:
@@ -224,8 +224,8 @@ export const ITINERARY: DayPlan[] = [
         title: 'Köfte lunch — Köfteci Kadırgalı',
         category: 'meal',
         emoji: '🍖',
-        start: '11:15',
-        end: '12:30',
+        start: '12:30',
+        end: '13:45',
         location: 'Köfteci Kadırgalı, Kadırga',
         url: 'https://www.kadirgali.com.tr/',
         notes:
@@ -237,8 +237,8 @@ export const ITINERARY: DayPlan[] = [
         title: 'Grand Bazaar treasure hunt',
         category: 'tour',
         emoji: '🧿',
-        start: '12:45',
-        end: '15:00',
+        start: '14:00',
+        end: '17:00',
         location: 'Kapalıçarşı — meet at Nuruosmaniye Gate (Gate 1)',
         url: 'https://www.grandbazaaristanbul.org/',
         notes:
@@ -246,16 +246,14 @@ export const ITINERARY: DayPlan[] = [
         participants: PRE_BODRUM,
       },
       {
-        id: 'd3-topkapi',
-        title: 'Topkapı Palace + Harem',
-        category: 'tour',
-        emoji: '👑',
-        start: '15:15',
-        end: '18:00',
-        location: 'Topkapı Sarayı, Gülhane',
-        url: 'https://muze.gen.tr',
+        id: 'd3-cyoa',
+        title: 'Choose Your Adventure: Golden Hour',
+        category: 'adventure',
+        start: '17:15',
+        end: '19:15',
+        location: 'Old City & beyond',
         notes:
-          'Added by request, straight after the Bazaar. Heads-up that drove the day’s reshuffle: Topkapı closes at 6 PM (last tickets ~5 PM, Harem desk ~4:30), so we pulled the morning sights and Bazaar earlier to arrive by ~3:15 with real time inside. Book the Harem add-on; don’t miss the Treasury (86-carat Spoonmaker’s Diamond) or the terrace over the Bosphorus. ~15 min walk from the Bazaar.',
+          'The gap between Bazaar and dinner: Süleymaniye Mosque’s terrace for the best free view of the Golden Horn · Basilica Cistern’s spooky underground columns (book ahead) · thick Turkish coffee at Mandabatmaz in Beyoğlu · boza at 150-year-old Vefa Bozacısı (an acquired taste, acquire it).',
         participants: PRE_BODRUM,
       },
       {
@@ -293,15 +291,27 @@ export const ITINERARY: DayPlan[] = [
     activities: [
       {
         id: 'd4-breakfast',
-        title: 'Kahvaltı feast — Çakmak Kahvaltı Salonu',
+        title: 'Quick breakfast near the hotel',
         category: 'meal',
-        emoji: '🍯',
-        start: '09:30',
-        end: '11:00',
-        location: 'Çakmak Kahvaltı Salonu, Beşiktaş',
-        url: 'http://cakmak-kahvalt-salonu.business.site/',
+        emoji: '🥐',
+        start: '08:00',
+        end: '08:45',
+        location: 'Sultanahmet / Eminönü',
         notes:
-          'From the Beli hit list — a Beşiktaş kahvaltı institution: menemen, bal-kaymak, olives in every direction. Conveniently puts us at the Beşiktaş ferry dock for the Asian-side crossing.',
+          'Light börek + çay to open the day — Topkapı opens at 9 and we want to be first through the gate.',
+        participants: PRE_BODRUM,
+      },
+      {
+        id: 'd4-topkapi',
+        title: 'Topkapı Palace + Harem',
+        category: 'tour',
+        emoji: '👑',
+        start: '09:00',
+        end: '11:45',
+        location: 'Topkapı Sarayı, Gülhane',
+        url: 'https://muze.gen.tr',
+        notes:
+          'Right at the 9 AM opening so it all fits before the noon ferry — a focused ~2h45m visit. Beat the crowds and prioritize the Harem (book the add-on), the Treasury (86-carat Spoonmaker’s Diamond), and the terrace over the Bosphorus. It’s a ~10 min downhill walk to the Eminönü ferry after.',
         participants: PRE_BODRUM,
       },
       {
@@ -311,10 +321,10 @@ export const ITINERARY: DayPlan[] = [
         emoji: '⛴️',
         start: '12:00',
         end: '12:30',
-        location: 'Beşiktaş → Kadıköy',
+        location: 'Eminönü → Kadıköy',
         url: 'https://istanbulkart.istanbul/',
         notes:
-          'Around noon, per the plan — return later in the day. Ferries run straight from Beşiktaş to Kadıköy; Istanbulkart for everyone (loaded and distributed, see Colby). Sit outside for skyline views.',
+          'Noon crossing, straight from the Eminönü piers just below Topkapı over to Kadıköy — we return later in the day. Istanbulkart for everyone (loaded and distributed, see Colby). Sit outside on the right for skyline views.',
         participants: PRE_BODRUM,
       },
       {
