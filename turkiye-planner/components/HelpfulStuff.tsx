@@ -1,4 +1,5 @@
 import type { ReactNode } from 'react'
+import CurrencyConverter from './CurrencyConverter'
 
 // ─────────────────────────────────────────────────────────────────────────────
 // Other Helpful Stuff — passport-stamp link buttons.
@@ -157,6 +158,8 @@ export default function HelpfulStuff() {
       <p className="mt-4 text-[11px] text-ink/40">
         album &amp; packing list links coming soon — the food guide stamp is live
       </p>
+
+      <CurrencyConverter />
     </section>
   )
 }
