@@ -24,7 +24,11 @@ function partsUntil(now: number): Parts | null {
   }
 }
 
-export default function Countdown() {
+export default function Countdown({
+  variant = 'card',
+}: {
+  variant?: 'card' | 'inline'
+}) {
   // null until mounted so the static export and first client render agree
   const [now, setNow] = useState<number | null>(null)
 
@@ -35,6 +39,36 @@ export default function Countdown() {
   }, [])
 
   const parts = now === null ? undefined : partsUntil(now)
+
+  // Compact, footer-style line for the top of the page.
+  if (variant === 'inline') {
+    const timer =
+      parts == null
+        ? '––'
+        : `${parts.days}d ${String(parts.hours).padStart(2, '0')}h ${String(
+            parts.minutes
+          ).padStart(2, '0')}m ${String(parts.seconds).padStart(2, '0')}s`
+    return (
+      <p
+        aria-label="Countdown to Türkiye"
+        className="mt-5 text-xs uppercase tracking-[0.2em] text-ink/50"
+      >
+        {parts === null ? (
+          <span className="text-spice">Şerefe — it&rsquo;s trip time! 🇹🇷</span>
+        ) : (
+          <>
+            <span aria-hidden>⏳ </span>
+            Countdown to Türkiye
+            {/* separator only on ≥sm; on mobile the timer drops to its own line */}
+            <span className="hidden sm:inline"> · </span>
+            <span className="block font-semibold tabular-nums text-spice sm:inline">
+              {timer}
+            </span>
+          </>
+        )}
+      </p>
+    )
+  }
 
   return (
     <section
