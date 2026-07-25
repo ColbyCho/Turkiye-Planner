@@ -134,7 +134,7 @@ export const ITINERARY: DayPlan[] = [
         location: 'Orient Express & Spa by Orka Hotels, Istanbul',
         url: 'https://www.expedia.com/Istanbul-Hotels-Orient-Express-Spa-By-Orka-Hotels.h479525.Hotel-Information?chkin=2026-08-22&chkout=2026-08-25',
         notes:
-          'Three triple rooms, Aug 22–25. Official check-in opens 3:00 PM. Quick turnaround: drop bags and walk to Pandeli — full unpacking can wait until after dinner.',
+          'Two triple rooms, Aug 22–25. Official check-in opens 3:00 PM. Quick turnaround: drop bags and walk to Pandeli — full unpacking can wait until after dinner.',
         participants: PRE_BODRUM,
       },
       {
@@ -926,7 +926,8 @@ export const ITINERARY: DayPlan[] = [
         end: '15:30',
         location: 'Orient Express & Spa by Orka Hotels, Istanbul',
         url: 'https://www.expedia.com/Istanbul-Hotels-Orient-Express-Spa-By-Orka-Hotels.h479525.Hotel-Information?chkin=2026-08-30&chkout=2026-08-31',
-        notes: 'One-night post-Bodrum Istanbul stay. Check-in opens 3:00 PM.',
+        notes:
+          'TO BOOK — nothing reserved yet for this last night (Aug 30–31, party of 7). Easiest is to rebook the Orka hotel from the first leg (link); anywhere central works since the flight home isn’t until 4:40 PM. Check-in opens 3:00 PM.',
         participants: ALL,
       },
       {
