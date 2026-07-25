@@ -118,7 +118,7 @@ export default function CurrencyConverter() {
     'w-full rounded border border-rule bg-paper px-2.5 py-2 pl-7 text-right font-mono text-lg text-ink tabular-nums focus:border-spice focus:outline-none focus:ring-1 focus:ring-spice'
 
   return (
-    <div className="mx-auto mt-6 max-w-sm rounded-md border border-rule bg-paper-card px-5 py-4 text-center shadow-page">
+    <div className="mx-auto mt-6 max-w-sm rounded-md border border-rule bg-paper-card px-5 py-4 text-center">
       <p className="font-hand text-xl text-spice">Lira ⇄ Dollar</p>
 
       <div className="mt-3 flex items-center gap-2">
