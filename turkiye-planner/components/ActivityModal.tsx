@@ -20,6 +20,13 @@ const AVATAR_COLORS = [
   '#565285', // night light
 ]
 
+/** Map/directions links get a "Open in Maps" label instead of "Tickets / reservation". */
+function isMapLink(url: string): boolean {
+  return /maps\.apple|maps\.google|google\.[a-z.]+\/maps|goo\.gl\/maps|maps\.app\.goo\.gl|openstreetmap\.org/.test(
+    url
+  )
+}
+
 function avatarColor(name: string): string {
   const i = CREW.indexOf(name as (typeof CREW)[number])
   if (i >= 0) return AVATAR_COLORS[i % AVATAR_COLORS.length]
@@ -151,7 +158,7 @@ export default function ActivityModal({ day, activity, onClose }: ActivityModalP
             rel="noopener noreferrer"
             className="mt-4 inline-flex items-center gap-1.5 rounded border border-cobalt bg-cobalt/10 px-3 py-1.5 text-sm font-medium text-cobalt transition hover:bg-cobalt hover:text-paper"
           >
-            Tickets / reservation ↗
+            {isMapLink(activity.url) ? 'Open in Maps ↗' : 'Tickets / reservation ↗'}
           </a>
         )}
 
