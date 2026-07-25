@@ -982,24 +982,26 @@ export const ITINERARY: DayPlan[] = [
     activities: [
       {
         id: 'd11-breakfast',
-        title: 'Last simit & çay',
+        title: 'Farewell kahvaltı — Çakmak Kahvaltı Salonu',
         category: 'meal',
-        emoji: '🫖',
-        start: '08:30',
+        emoji: '🍯',
+        start: '08:00',
         end: '09:30',
-        location: 'Near the hotel',
-        notes: 'Placeholder — one final tulip glass of çay. Pour one out (carefully, it’s hot).',
+        location: 'Çakmak Kahvaltı Salonu, Beşiktaş',
+        url: 'http://cakmak-kahvalt-salonu.business.site/',
+        notes:
+          'From the Beli hit list — the Beşiktaş kahvaltı feast we skipped when Topkapı took Monday morning. It finally happens: menemen, bal-kaymak, olives in every direction. It’s ~25 min from the old-city hotel, so start early — the 4:40 PM flight leaves plenty of room. A proper last Turkish breakfast before Boston.',
         participants: ALL,
       },
       {
         id: 'd11-cyoa',
         title: 'Choose Your Adventure: Görüşürüz Edition',
         category: 'adventure',
-        start: '09:30',
+        start: '09:45',
         end: '10:45',
-        location: 'Sirkeci / Eminönü',
+        location: 'Beşiktaş → back to the hotel',
         notes:
-          'One last lap: New Mosque and the pigeon chaos by Galata Bridge · a farewell künefe watching the ferries · Gülhane Park goodbye bench · buy the rug you’ve been circling all week (you know who you are).',
+          'On the way back from Çakmak, a last Istanbul moment: Dolmabahçe Palace’s gates on the Beşiktaş waterfront · a final çay by the Bosphorus · or straight back to the old city for künefe and the Galata Bridge pigeons before checkout. Buy the rug you’ve been circling all week (you know who you are).',
         participants: ALL,
       },
       {
