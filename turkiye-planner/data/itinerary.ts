@@ -771,14 +771,14 @@ export const ITINERARY: DayPlan[] = [
     activities: [
       {
         id: 'd9-drive-out',
-        title: 'Dawn van to Ephesus (reserved driver)',
+        title: 'Morning van to Ephesus (reserved driver)',
         category: 'transport',
         emoji: '🚐',
-        start: '07:00',
+        start: '07:45',
         end: '10:00',
         location: 'Bodrum → Ephesus / Selçuk',
         notes:
-          'RESERVE — private van + driver for the round trip. It’s a haul: ~200 km, roughly 3 hours each way. Grab-and-go breakfast from the house, load the cooler, claim a window, sleep on the road. Give the driver Derin’s address (the pin is on any house activity).',
+          'RESERVE — private van + driver for the round trip. Derin clocks the drive from the house at about 2 hours 15 minutes each way. Grab-and-go breakfast, load the cooler, claim a window, sleep on the road. Give the driver Derin’s address (the pin is on any house activity).',
         participants: ALL,
       },
       {
@@ -823,10 +823,10 @@ export const ITINERARY: DayPlan[] = [
         category: 'transport',
         emoji: '🚐',
         start: '16:30',
-        end: '19:30',
+        end: '18:45',
         location: 'Ephesus / Selçuk → Bodrum',
         notes:
-          'Same driver, same van, ~3 hours south. Golden-hour light on the drive down. Nap now — there’s one last Bodrum night waiting.',
+          'Same driver, same van, about 2 hours 15 minutes south. Nap or watch the hills roll by — a chill last Bodrum night is waiting (you earned it).',
         participants: ALL,
       },
       {
