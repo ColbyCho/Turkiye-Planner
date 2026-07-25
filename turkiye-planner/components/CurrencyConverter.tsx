@@ -122,19 +122,21 @@ export default function CurrencyConverter() {
       <p className="font-hand text-xl text-spice">Lira ⇄ Dollar</p>
 
       <div className="mt-3 flex items-center gap-2">
-        <label className="relative flex-1">
+        <label className="flex-1">
           <span className="sr-only">US dollars</span>
-          <span className="pointer-events-none absolute left-2.5 top-1/2 -translate-y-1/2 font-mono text-ink/45">
-            $
+          <span className="relative block">
+            <span className="pointer-events-none absolute left-2.5 top-1/2 -translate-y-1/2 font-mono text-ink/45">
+              $
+            </span>
+            <input
+              type="text"
+              inputMode="decimal"
+              value={usd}
+              onChange={(e) => onUsd(e.target.value)}
+              aria-label="US dollars"
+              className={field}
+            />
           </span>
-          <input
-            type="text"
-            inputMode="decimal"
-            value={usd}
-            onChange={(e) => onUsd(e.target.value)}
-            aria-label="US dollars"
-            className={field}
-          />
           <span className="mt-0.5 block text-[10px] font-bold uppercase tracking-[0.2em] text-ink/45">
             USD
           </span>
@@ -144,19 +146,21 @@ export default function CurrencyConverter() {
           ⇄
         </span>
 
-        <label className="relative flex-1">
+        <label className="flex-1">
           <span className="sr-only">Turkish lira</span>
-          <span className="pointer-events-none absolute left-2.5 top-1/2 -translate-y-1/2 font-mono text-ink/45">
-            ₺
+          <span className="relative block">
+            <span className="pointer-events-none absolute left-2.5 top-1/2 -translate-y-1/2 font-mono text-ink/45">
+              ₺
+            </span>
+            <input
+              type="text"
+              inputMode="decimal"
+              value={lira}
+              onChange={(e) => onLira(e.target.value)}
+              aria-label="Turkish lira"
+              className={field}
+            />
           </span>
-          <input
-            type="text"
-            inputMode="decimal"
-            value={lira}
-            onChange={(e) => onLira(e.target.value)}
-            aria-label="Turkish lira"
-            className={field}
-          />
           <span className="mt-0.5 block text-[10px] font-bold uppercase tracking-[0.2em] text-ink/45">
             TRY
           </span>
