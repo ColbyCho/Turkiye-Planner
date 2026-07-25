@@ -739,13 +739,15 @@ export const ITINERARY: DayPlan[] = [
       },
       {
         id: 'd8-dinner',
-        title: 'Dinner at the marina',
+        title: 'Dinner — Beynel, Bitez',
         category: 'meal',
-        emoji: '⚓',
+        emoji: '🍽️',
         start: '20:00',
         end: '22:00',
-        location: 'Bodrum Marina',
-        notes: 'Placeholder — superyacht-gawking with dinner attached. Dress code: “beach formal,” interpret freely.',
+        location: 'Beynel, Bitez',
+        url: 'https://guide.michelin.com/us/en/mugla/bodrum_2806351/restaurant/beynel',
+        notes:
+          'Considering this one — a Michelin-guide spot in Bitez, conveniently on the way into Bodrum from Derin’s house, and built for groups. NO reservation yet: book ahead for 9, especially on a weekend. Windmills are a 10-min hop away, so golden hour then straight to the table.',
         participants: ALL,
       },
       {
