@@ -98,7 +98,7 @@ export default function Reactions({ activityId }: { activityId: string }) {
             type="button"
             onClick={() => react(r.emoji)}
             title={r.profileIds.map(nameOf).join(', ')}
-            className={`flex items-center gap-0.5 rounded-full border bg-white px-1.5 py-0.5 text-xs leading-none shadow-block transition ${
+            className={`flex h-6 items-center gap-0.5 rounded-full border bg-white px-2 text-xs leading-none shadow-block transition ${
               mine
                 ? 'border-spice text-spice-dark'
                 : 'border-spice/40 text-ink/80 hover:border-spice/70'
