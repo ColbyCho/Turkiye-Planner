@@ -3,6 +3,30 @@
 import { useEffect, useRef, useState } from 'react'
 import { useProfile } from '@/lib/useProfile'
 import { firstEmoji, useReactions } from '@/lib/useReactions'
+import Avatar from './Avatar'
+
+// Custom "emoji" for Derin — stored as this token, rendered as his avatar.
+export const DERIN_REACTION = ':derin:'
+const QUICK: string[] = ['👍', '🔥', '😂', '👀', DERIN_REACTION]
+
+/** Render a reaction as its emoji, or Derin's avatar for the custom token. */
+function ReactionGlyph({
+  emoji,
+  size = 14,
+  className = 'text-sm leading-none',
+}: {
+  emoji: string
+  size?: number
+  className?: string
+}) {
+  const { profiles } = useProfile()
+  if (emoji === DERIN_REACTION) {
+    const derin = profiles.find((p) => p.id === 'derin')
+    if (derin) return <Avatar profile={derin} size={size} />
+    return <span className={className}>🧿</span>
+  }
+  return <span className={className}>{emoji}</span>
+}
 
 /** Hand-drawn smiley with a “+”, à la the sketch — the add-reaction button. */
 function SmileyPlus() {
@@ -29,7 +53,8 @@ function EmojiPopover({
   const [value, setValue] = useState('')
 
   useEffect(() => {
-    inputRef.current?.focus()
+    // Don't auto-focus: the quick picks are the primary action, and the OS
+    // keyboard only pops up if you tap into the free-type field.
     const onKey = (e: KeyboardEvent) => e.key === 'Escape' && onClose()
     window.addEventListener('keydown', onKey)
     return () => window.removeEventListener('keydown', onKey)
@@ -44,24 +69,38 @@ function EmojiPopover({
     <>
       {/* click-away */}
       <div className="fixed inset-0 z-[70]" onClick={onClose} aria-hidden />
-      <div className="absolute bottom-full left-0 z-[71] mb-1 w-40 rounded-md border border-rule bg-paper-card p-2 shadow-page">
-        <input
-          ref={inputRef}
-          value={value}
-          onChange={(e) => {
-            setValue(e.target.value)
-            submit(e.target.value) // auto-add as soon as an emoji lands
-          }}
-          onKeyDown={(e) => {
-            if (e.key === 'Enter') submit(value)
-          }}
-          placeholder="type an emoji 🎉"
-          aria-label="Type an emoji to react"
-          className="w-full rounded border border-rule bg-paper px-2 py-1.5 text-base focus:border-spice focus:outline-none"
-        />
-        <p className="mt-1 px-0.5 text-[10px] leading-tight text-ink/40">
-          Use your keyboard’s emoji key
-        </p>
+      <div className="absolute bottom-full left-0 z-[71] mb-1 w-max rounded-md border border-rule bg-paper-card p-2 shadow-page">
+        {/* quick picks */}
+        <div className="flex items-center gap-1">
+          {QUICK.map((e) => (
+            <button
+              key={e}
+              type="button"
+              onClick={() => onPick(e)}
+              aria-label={e === DERIN_REACTION ? 'React with Derin' : `React with ${e}`}
+              className="flex h-9 w-9 items-center justify-center rounded-full text-2xl leading-none transition hover:bg-spice/10"
+            >
+              <ReactionGlyph emoji={e} size={26} className="text-2xl leading-none" />
+            </button>
+          ))}
+        </div>
+        {/* free type */}
+        <div className="mt-1.5 border-t border-rule pt-1.5">
+          <input
+            ref={inputRef}
+            value={value}
+            onChange={(e) => {
+              setValue(e.target.value)
+              submit(e.target.value) // auto-add as soon as an emoji lands
+            }}
+            onKeyDown={(e) => {
+              if (e.key === 'Enter') submit(value)
+            }}
+            placeholder="or type any emoji 🎉"
+            aria-label="Type an emoji to react"
+            className="w-full rounded border border-rule bg-paper px-2 py-1.5 text-base focus:border-spice focus:outline-none"
+          />
+        </div>
       </div>
     </>
   )
@@ -104,7 +143,7 @@ export default function Reactions({ activityId }: { activityId: string }) {
                 : 'border-spice/40 text-ink/80 hover:border-spice/70'
             }`}
           >
-            <span className="text-sm leading-none">{r.emoji}</span>
+            <ReactionGlyph emoji={r.emoji} size={16} />
             <span className="font-semibold tabular-nums">{r.count}</span>
           </button>
         )
