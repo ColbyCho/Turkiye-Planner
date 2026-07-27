@@ -1,6 +1,7 @@
 'use client'
 
 import { useEffect, useRef, useState } from 'react'
+import { createPortal } from 'react-dom'
 import { useProfile } from '@/lib/useProfile'
 import { firstEmoji, useReactions, type EmojiAgg } from '@/lib/useReactions'
 import Avatar from './Avatar'
@@ -123,17 +124,25 @@ function ReactionSheet({
     }
   }, [onClose])
 
-  return (
+  if (typeof document === 'undefined') return null
+
+  // Portal to <body> so the sheet escapes the reaction layer's stacking
+  // context/transforms: the backdrop then covers the true viewport and the
+  // sheet sits above everything (toolbar, add buttons, etc.).
+  return createPortal(
     <div
-      className="fixed inset-0 z-[80] flex items-end justify-center bg-ink/50 backdrop-blur-sm"
+      className="fixed inset-0 z-[100] flex items-end justify-center bg-ink/50 backdrop-blur-sm"
       onClick={onClose}
       role="dialog"
       aria-modal="true"
       aria-label="Who reacted"
     >
       <div
-        className="max-h-[55vh] w-full max-w-md overflow-y-auto rounded-t-2xl border border-rule bg-paper-card px-5 pb-8 pt-3 shadow-page"
-        style={{ animation: 'sheetUp 0.22s ease-out' }}
+        className="max-h-[60vh] w-full max-w-md overflow-y-auto rounded-t-2xl border border-rule bg-paper-card px-5 pt-3 shadow-page"
+        style={{
+          animation: 'sheetUp 0.22s ease-out',
+          paddingBottom: 'calc(2rem + env(safe-area-inset-bottom, 0px))',
+        }}
         onClick={(e) => e.stopPropagation()}
       >
         <div className="mx-auto mb-3 h-1.5 w-10 rounded-full bg-ink/15" aria-hidden />
@@ -156,7 +165,8 @@ function ReactionSheet({
           })}
         </ul>
       </div>
-    </div>
+    </div>,
+    document.body
   )
 }
 
