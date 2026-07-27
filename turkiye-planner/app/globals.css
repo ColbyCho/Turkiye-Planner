@@ -66,3 +66,13 @@ body::after {
 .tab-strip::-webkit-scrollbar {
   display: none;
 }
+
+/* Reaction "who reacted" bottom half-sheet slide-up */
+@keyframes sheetUp {
+  from {
+    transform: translateY(100%);
+  }
+  to {
+    transform: translateY(0);
+  }
+}

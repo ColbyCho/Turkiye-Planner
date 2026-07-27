@@ -1,25 +1,14 @@
 'use client'
 
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import type { Activity, DayPlan } from '@/lib/types'
 import { CATEGORIES } from '@/lib/categories'
 import { formatDate, formatDuration, formatRange, toMinutes } from '@/lib/time'
 import { downloadICS, googleCalendarUrl } from '@/lib/calendar'
 import { CREW } from '@/data/itinerary'
+import { useProfile } from '@/lib/useProfile'
 import ActivityPoll from './ActivityPoll'
-
-// One fixed color per crew member so avatars stay consistent across the trip
-const AVATAR_COLORS = [
-  '#1E4B8E', // cobalt
-  '#C1440E', // spice
-  '#178A99', // turquoise
-  '#A66E15', // saffron dark
-  '#2C2A4A', // night
-  '#8F7C5F', // kraft dark
-  '#96340B', // spice dark
-  '#0F6773', // turquoise dark
-  '#565285', // night light
-]
+import Avatar from './Avatar'
 
 /**
  * Context-aware label for an activity's primary link. Recognizable platforms
@@ -60,12 +49,25 @@ function linkCta(url: string, category: Activity['category']): string {
   }
 }
 
-function avatarColor(name: string): string {
-  const i = CREW.indexOf(name as (typeof CREW)[number])
-  if (i >= 0) return AVATAR_COLORS[i % AVATAR_COLORS.length]
-  // Fallback for guest names added later
-  const hash = name.split('').reduce((h, ch) => h + ch.charCodeAt(0), 0)
-  return AVATAR_COLORS[hash % AVATAR_COLORS.length]
+/** iOS-style “share” glyph: an arrow lifting up out of a tray. */
+function ShareIcon() {
+  return (
+    <svg
+      viewBox="0 0 24 24"
+      width="14"
+      height="14"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="1.8"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      aria-hidden
+    >
+      <path d="M12 3v12" />
+      <path d="M8 7l4-4 4 4" />
+      <path d="M5 12v6a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-6" />
+    </svg>
+  )
 }
 
 interface ActivityModalProps {
@@ -77,6 +79,29 @@ interface ActivityModalProps {
 export default function ActivityModal({ day, activity, onClose }: ActivityModalProps) {
   const cat = CATEGORIES[activity.category]
   const everyone = activity.participants.length === CREW.length
+  const { profiles } = useProfile()
+  const [copied, setCopied] = useState(false)
+
+  const share = async () => {
+    const { origin, pathname } = window.location
+    const url = `${origin}${pathname}#activity=${activity.id}`
+    // Native share sheet on mobile; clipboard fallback everywhere else.
+    if (navigator.share) {
+      try {
+        await navigator.share({ title: `${activity.title} · Türkiye Planner`, url })
+        return
+      } catch {
+        return // user dismissed the sheet — don't also copy
+      }
+    }
+    try {
+      await navigator.clipboard.writeText(url)
+      setCopied(true)
+      window.setTimeout(() => setCopied(false), 1800)
+    } catch {
+      window.prompt('Copy this link to share the activity:', url)
+    }
+  }
 
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
@@ -156,12 +181,35 @@ export default function ActivityModal({ day, activity, onClose }: ActivityModalP
           </p>
         )}
 
-        <span
-          className={`mt-4 inline-flex items-center gap-1 rounded-full px-2.5 py-0.5 text-[11px] font-medium ${cat.chip}`}
-        >
-          <span aria-hidden>{cat.icon}</span>
-          {cat.label}
-        </span>
+        <div className="mt-4 flex items-center justify-between gap-2">
+          <span
+            className={`inline-flex items-center gap-1 rounded-full px-2.5 py-0.5 text-[11px] font-medium ${cat.chip}`}
+          >
+            <span aria-hidden>{cat.icon}</span>
+            {cat.label}
+          </span>
+          <button
+            type="button"
+            onClick={share}
+            aria-label="Share this activity"
+            title="Share this activity"
+            className={`inline-flex shrink-0 items-center gap-1.5 rounded-full border px-3 py-1 text-xs font-medium transition ${
+              copied
+                ? 'border-spice bg-spice/10 text-spice'
+                : 'border-rule bg-paper text-ink/70 hover:border-spice hover:text-spice'
+            }`}
+          >
+            {copied ? (
+              <>
+                <span aria-hidden>✓</span> Link copied
+              </>
+            ) : (
+              <>
+                <ShareIcon /> Share
+              </>
+            )}
+          </button>
+        </div>
 
         <h3 className="mt-3 font-display text-3xl font-semibold leading-tight">
           {activity.title}
@@ -204,21 +252,22 @@ export default function ActivityModal({ day, activity, onClose }: ActivityModalP
             Who&rsquo;s in {everyone && '— everyone!'}
           </p>
           <div className="mt-2 flex flex-wrap gap-1.5">
-            {activity.participants.map((name) => (
-              <span
-                key={name}
-                className="inline-flex items-center gap-1.5 rounded-full border border-rule bg-paper px-2 py-0.5 text-xs font-medium text-ink/80"
-              >
+            {activity.participants.map((name) => {
+              // Participants are stored as the original crew names, which match
+              // each profile's slug id (e.g. "Colby" -> "colby").
+              const profile =
+                profiles.find((p) => p.id === name.toLowerCase()) ??
+                ({ id: name, name, avatar_url: null } as const)
+              return (
                 <span
-                  className="flex h-4 w-4 items-center justify-center rounded-full text-[9px] font-bold text-paper"
-                  style={{ backgroundColor: avatarColor(name) }}
-                  aria-hidden
+                  key={name}
+                  className="inline-flex items-center gap-1.5 rounded-full border border-rule bg-paper py-0.5 pl-0.5 pr-2 text-xs font-medium text-ink/80"
                 >
-                  {name[0]}
+                  <Avatar profile={profile} size={18} />
+                  {name}
                 </span>
-                {name}
-              </span>
-            ))}
+              )
+            })}
           </div>
         </div>
 
