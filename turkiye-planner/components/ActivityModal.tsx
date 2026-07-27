@@ -6,20 +6,9 @@ import { CATEGORIES } from '@/lib/categories'
 import { formatDate, formatDuration, formatRange, toMinutes } from '@/lib/time'
 import { downloadICS, googleCalendarUrl } from '@/lib/calendar'
 import { CREW } from '@/data/itinerary'
+import { useProfile } from '@/lib/useProfile'
 import ActivityPoll from './ActivityPoll'
-
-// One fixed color per crew member so avatars stay consistent across the trip
-const AVATAR_COLORS = [
-  '#1E4B8E', // cobalt
-  '#C1440E', // spice
-  '#178A99', // turquoise
-  '#A66E15', // saffron dark
-  '#2C2A4A', // night
-  '#8F7C5F', // kraft dark
-  '#96340B', // spice dark
-  '#0F6773', // turquoise dark
-  '#565285', // night light
-]
+import Avatar from './Avatar'
 
 /**
  * Context-aware label for an activity's primary link. Recognizable platforms
@@ -60,14 +49,6 @@ function linkCta(url: string, category: Activity['category']): string {
   }
 }
 
-function avatarColor(name: string): string {
-  const i = CREW.indexOf(name as (typeof CREW)[number])
-  if (i >= 0) return AVATAR_COLORS[i % AVATAR_COLORS.length]
-  // Fallback for guest names added later
-  const hash = name.split('').reduce((h, ch) => h + ch.charCodeAt(0), 0)
-  return AVATAR_COLORS[hash % AVATAR_COLORS.length]
-}
-
 interface ActivityModalProps {
   day: DayPlan
   activity: Activity
@@ -77,6 +58,7 @@ interface ActivityModalProps {
 export default function ActivityModal({ day, activity, onClose }: ActivityModalProps) {
   const cat = CATEGORIES[activity.category]
   const everyone = activity.participants.length === CREW.length
+  const { profiles } = useProfile()
 
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
@@ -204,21 +186,22 @@ export default function ActivityModal({ day, activity, onClose }: ActivityModalP
             Who&rsquo;s in {everyone && '— everyone!'}
           </p>
           <div className="mt-2 flex flex-wrap gap-1.5">
-            {activity.participants.map((name) => (
-              <span
-                key={name}
-                className="inline-flex items-center gap-1.5 rounded-full border border-rule bg-paper px-2 py-0.5 text-xs font-medium text-ink/80"
-              >
+            {activity.participants.map((name) => {
+              // Participants are stored as the original crew names, which match
+              // each profile's slug id (e.g. "Colby" -> "colby").
+              const profile =
+                profiles.find((p) => p.id === name.toLowerCase()) ??
+                ({ id: name, name, avatar_url: null } as const)
+              return (
                 <span
-                  className="flex h-4 w-4 items-center justify-center rounded-full text-[9px] font-bold text-paper"
-                  style={{ backgroundColor: avatarColor(name) }}
-                  aria-hidden
+                  key={name}
+                  className="inline-flex items-center gap-1.5 rounded-full border border-rule bg-paper py-0.5 pl-0.5 pr-2 text-xs font-medium text-ink/80"
                 >
-                  {name[0]}
+                  <Avatar profile={profile} size={18} />
+                  {name}
                 </span>
-                {name}
-              </span>
-            ))}
+              )
+            })}
           </div>
         </div>
 
