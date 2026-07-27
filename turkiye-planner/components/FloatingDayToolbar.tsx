@@ -47,7 +47,7 @@ export default function FloatingDayToolbar({
 
   return (
     <div
-      className={`fixed inset-x-0 bottom-0 z-40 flex justify-center px-3 pb-[calc(env(safe-area-inset-bottom,0px)+0.75rem)] transition-all duration-300 ${
+      className={`fixed inset-x-0 bottom-0 z-40 flex justify-center px-3 pb-[calc(env(safe-area-inset-bottom,0px)+1.25rem)] transition-all duration-300 ${
         visible
           ? 'translate-y-0 opacity-100'
           : 'pointer-events-none translate-y-6 opacity-0'
@@ -55,7 +55,7 @@ export default function FloatingDayToolbar({
       aria-hidden={!visible}
     >
       <nav
-        className="flex items-center gap-2 rounded-full border border-rule bg-paper-card/95 p-1.5 shadow-page backdrop-blur-sm"
+        className="flex items-center gap-2 rounded-full border border-rule bg-paper-card/95 p-1.5 shadow-[0_4px_16px_-4px_rgba(45,42,36,0.30),0_1px_4px_rgba(45,42,36,0.12)] backdrop-blur-sm"
         aria-label="Jump between days"
       >
         <button

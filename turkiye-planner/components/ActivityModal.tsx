@@ -123,8 +123,10 @@ export default function ActivityModal({ day, activity, onClose }: ActivityModalP
       aria-modal="true"
       aria-label={activity.title}
     >
+      {/* Floating card; a flex column so the close button can pin outside the
+          scroll area and the body scrolls beneath it. */}
       <div
-        className="relative max-h-[85vh] w-full max-w-lg overflow-y-auto rounded-md border border-rule bg-paper-card p-6 shadow-page sm:p-8"
+        className="relative flex max-h-[85vh] w-full max-w-lg flex-col rounded-md border border-rule bg-paper-card shadow-page"
         onClick={(e) => e.stopPropagation()}
       >
         {/* tape strip */}
@@ -134,15 +136,17 @@ export default function ActivityModal({ day, activity, onClose }: ActivityModalP
           aria-hidden
         />
 
+        {/* Pinned outside the scroll area, so it stays reachable while scrolling */}
         <button
           type="button"
           onClick={onClose}
-          className="absolute right-3 top-3 flex h-8 w-8 items-center justify-center rounded-full text-lg text-ink/50 transition hover:bg-ink/10 hover:text-ink"
+          className="absolute right-3 top-3 z-10 flex h-8 w-8 items-center justify-center rounded-full bg-paper-card/80 text-lg text-ink/50 backdrop-blur-sm transition hover:bg-ink/10 hover:text-ink"
           aria-label="Close"
         >
           ✕
         </button>
 
+        <div className="flex-1 overflow-y-auto overscroll-contain p-6 sm:p-8">
         {/* Square photo (or emoji tile) — styled like the desk postcards */}
         <figure className="mx-auto mt-2 w-56 -rotate-1 bg-white p-1.5 pb-2 shadow-note transition-transform duration-300 hover:rotate-0 sm:w-64">
           {activity.image ? (
@@ -205,7 +209,7 @@ export default function ActivityModal({ day, activity, onClose }: ActivityModalP
               </>
             ) : (
               <>
-                <ShareIcon /> Share
+                Share <ShareIcon />
               </>
             )}
           </button>
@@ -288,6 +292,7 @@ export default function ActivityModal({ day, activity, onClose }: ActivityModalP
           >
             Google Calendar ↗
           </a>
+        </div>
         </div>
       </div>
     </div>
