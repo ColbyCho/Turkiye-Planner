@@ -33,12 +33,36 @@ export default function Planner() {
     )
   }
 
-  // Deep-link support: turkiye-planner.example#2026-08-25 opens that day
+  // Deep-link support:
+  //   #2026-08-25          → opens that day
+  //   #activity=d3-bazaar  → jumps to the day and opens that activity
   useEffect(() => {
     const hash = window.location.hash.slice(1)
+    if (!hash) return
+    if (hash.startsWith('activity=')) {
+      const id = decodeURIComponent(hash.slice('activity='.length))
+      for (let i = 0; i < ITINERARY.length; i++) {
+        const a = ITINERARY[i].activities.find((x) => x.id === id)
+        if (a) {
+          setDayIndex(i)
+          setSelected(a)
+          return
+        }
+      }
+      return
+    }
     const i = ITINERARY.findIndex((d) => d.date === hash)
     if (i >= 0) setDayIndex(i)
   }, [])
+
+  // Keep the URL in sync so the address bar always reflects what's on screen:
+  // an open activity gets a shareable #activity=… hash, otherwise the day.
+  useEffect(() => {
+    const target = selected ? `#activity=${selected.id}` : `#${ITINERARY[dayIndex].date}`
+    if (window.location.hash !== target) {
+      window.history.replaceState(null, '', target)
+    }
+  }, [selected, dayIndex])
 
   const goTo = useCallback((i: number) => {
     const clamped = Math.max(0, Math.min(ITINERARY.length - 1, i))

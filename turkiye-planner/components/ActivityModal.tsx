@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import type { Activity, DayPlan } from '@/lib/types'
 import { CATEGORIES } from '@/lib/categories'
 import { formatDate, formatDuration, formatRange, toMinutes } from '@/lib/time'
@@ -49,6 +49,27 @@ function linkCta(url: string, category: Activity['category']): string {
   }
 }
 
+/** iOS-style “share” glyph: an arrow lifting up out of a tray. */
+function ShareIcon() {
+  return (
+    <svg
+      viewBox="0 0 24 24"
+      width="14"
+      height="14"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="1.8"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      aria-hidden
+    >
+      <path d="M12 3v12" />
+      <path d="M8 7l4-4 4 4" />
+      <path d="M5 12v6a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-6" />
+    </svg>
+  )
+}
+
 interface ActivityModalProps {
   day: DayPlan
   activity: Activity
@@ -59,6 +80,28 @@ export default function ActivityModal({ day, activity, onClose }: ActivityModalP
   const cat = CATEGORIES[activity.category]
   const everyone = activity.participants.length === CREW.length
   const { profiles } = useProfile()
+  const [copied, setCopied] = useState(false)
+
+  const share = async () => {
+    const { origin, pathname } = window.location
+    const url = `${origin}${pathname}#activity=${activity.id}`
+    // Native share sheet on mobile; clipboard fallback everywhere else.
+    if (navigator.share) {
+      try {
+        await navigator.share({ title: `${activity.title} · Türkiye Planner`, url })
+        return
+      } catch {
+        return // user dismissed the sheet — don't also copy
+      }
+    }
+    try {
+      await navigator.clipboard.writeText(url)
+      setCopied(true)
+      window.setTimeout(() => setCopied(false), 1800)
+    } catch {
+      window.prompt('Copy this link to share the activity:', url)
+    }
+  }
 
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
@@ -138,12 +181,35 @@ export default function ActivityModal({ day, activity, onClose }: ActivityModalP
           </p>
         )}
 
-        <span
-          className={`mt-4 inline-flex items-center gap-1 rounded-full px-2.5 py-0.5 text-[11px] font-medium ${cat.chip}`}
-        >
-          <span aria-hidden>{cat.icon}</span>
-          {cat.label}
-        </span>
+        <div className="mt-4 flex items-center justify-between gap-2">
+          <span
+            className={`inline-flex items-center gap-1 rounded-full px-2.5 py-0.5 text-[11px] font-medium ${cat.chip}`}
+          >
+            <span aria-hidden>{cat.icon}</span>
+            {cat.label}
+          </span>
+          <button
+            type="button"
+            onClick={share}
+            aria-label="Share this activity"
+            title="Share this activity"
+            className={`inline-flex shrink-0 items-center gap-1.5 rounded-full border px-3 py-1 text-xs font-medium transition ${
+              copied
+                ? 'border-spice bg-spice/10 text-spice'
+                : 'border-rule bg-paper text-ink/70 hover:border-spice hover:text-spice'
+            }`}
+          >
+            {copied ? (
+              <>
+                <span aria-hidden>✓</span> Link copied
+              </>
+            ) : (
+              <>
+                <ShareIcon /> Share
+              </>
+            )}
+          </button>
+        </div>
 
         <h3 className="mt-3 font-display text-3xl font-semibold leading-tight">
           {activity.title}
