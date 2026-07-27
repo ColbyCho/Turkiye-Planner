@@ -3,13 +3,12 @@
 import { useEffect, useRef, useState } from 'react'
 import { useProfile } from '@/lib/useProfile'
 import { firstEmoji, useReactions } from '@/lib/useReactions'
-import Avatar from './Avatar'
 
-// Custom "emoji" for Derin — stored as this token, rendered as his avatar.
+// Custom "emoji" for Derin — stored as this token, rendered as a dedicated image.
 export const DERIN_REACTION = ':derin:'
 const QUICK: string[] = ['👍', '🔥', '😂', '👀', DERIN_REACTION]
 
-/** Render a reaction as its emoji, or Derin's avatar for the custom token. */
+/** Render a reaction as its emoji, or Derin's dedicated image for the token. */
 function ReactionGlyph({
   emoji,
   size = 14,
@@ -19,11 +18,16 @@ function ReactionGlyph({
   size?: number
   className?: string
 }) {
-  const { profiles } = useProfile()
   if (emoji === DERIN_REACTION) {
-    const derin = profiles.find((p) => p.id === 'derin')
-    if (derin) return <Avatar profile={derin} size={size} />
-    return <span className={className}>🧿</span>
+    return (
+      // eslint-disable-next-line @next/next/no-img-element
+      <img
+        src="/reactions/derin.jpg"
+        alt="Derin"
+        style={{ width: size, height: size }}
+        className="shrink-0 rounded-full object-cover"
+      />
+    )
   }
   return <span className={className}>{emoji}</span>
 }
