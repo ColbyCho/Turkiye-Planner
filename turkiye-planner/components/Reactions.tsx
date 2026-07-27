@@ -98,10 +98,10 @@ export default function Reactions({ activityId }: { activityId: string }) {
             type="button"
             onClick={() => react(r.emoji)}
             title={r.profileIds.map(nameOf).join(', ')}
-            className={`flex items-center gap-0.5 rounded-full border px-1.5 py-0.5 text-xs leading-none shadow-block transition ${
+            className={`flex items-center gap-0.5 rounded-full border bg-white px-1.5 py-0.5 text-xs leading-none shadow-block transition ${
               mine
-                ? 'border-spice bg-spice/30 text-spice-dark'
-                : 'border-spice/40 bg-saffron-light/60 text-ink/80 hover:bg-saffron-light/80'
+                ? 'border-spice text-spice-dark'
+                : 'border-spice/40 text-ink/80 hover:border-spice/70'
             }`}
           >
             <span className="text-sm leading-none">{r.emoji}</span>
@@ -115,7 +115,7 @@ export default function Reactions({ activityId }: { activityId: string }) {
           type="button"
           onClick={() => (me ? setAdding((v) => !v) : openGate())}
           aria-label="Add a reaction"
-          className="flex h-6 w-6 items-center justify-center rounded-full border border-spice/40 bg-saffron-light/60 p-1 text-spice shadow-block transition hover:border-spice hover:bg-saffron-light/80"
+          className="flex h-6 w-6 items-center justify-center rounded-full border border-spice/40 bg-white p-1 text-spice shadow-block transition hover:border-spice"
         >
           <SmileyPlus />
         </button>
