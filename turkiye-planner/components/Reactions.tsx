@@ -100,8 +100,8 @@ export default function Reactions({ activityId }: { activityId: string }) {
             title={r.profileIds.map(nameOf).join(', ')}
             className={`flex items-center gap-0.5 rounded-full border px-1.5 py-0.5 text-xs leading-none shadow-block transition ${
               mine
-                ? 'border-spice bg-spice/15 text-spice-dark'
-                : 'border-rule bg-paper-card text-ink/70 hover:border-spice/60'
+                ? 'border-spice bg-spice/30 text-spice-dark'
+                : 'border-spice/40 bg-saffron-light/60 text-ink/80 hover:bg-saffron-light/80'
             }`}
           >
             <span className="text-sm leading-none">{r.emoji}</span>
@@ -115,7 +115,7 @@ export default function Reactions({ activityId }: { activityId: string }) {
           type="button"
           onClick={() => (me ? setAdding((v) => !v) : openGate())}
           aria-label="Add a reaction"
-          className="flex h-6 w-6 items-center justify-center rounded-full border border-rule bg-paper-card p-1 text-spice shadow-block transition hover:border-spice hover:bg-spice/10"
+          className="flex h-6 w-6 items-center justify-center rounded-full border border-spice/40 bg-saffron-light/60 p-1 text-spice shadow-block transition hover:border-spice hover:bg-saffron-light/80"
         >
           <SmileyPlus />
         </button>

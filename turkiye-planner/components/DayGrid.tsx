@@ -175,7 +175,9 @@ export default function DayGrid({ day, onSelect, activeCategories }: DayGridProp
         {laid.map(({ activity, top, height, leftPct }) => {
           const dimmed =
             activeCategories.length > 0 && !activeCategories.includes(activity.category)
-          if (dimmed) return null
+          // Housing and transport are logistics — no reactions there.
+          if (dimmed || activity.category === 'stay' || activity.category === 'transport')
+            return null
           return (
             <div
               key={activity.id}
