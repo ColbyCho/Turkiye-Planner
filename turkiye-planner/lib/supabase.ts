@@ -26,4 +26,19 @@ export interface ReactionRow {
   created_at: string
 }
 
+export interface PollOption {
+  id: string
+  activity_id: string
+  label: string
+  created_by: string | null
+  created_at: string
+}
+
+export interface PollVote {
+  id: string
+  option_id: string
+  profile_id: string
+  created_at: string
+}
+
 export const AVATARS_BUCKET = 'avatars'

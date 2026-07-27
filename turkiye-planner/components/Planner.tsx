@@ -17,6 +17,7 @@ import TurkishFlag from './TurkishFlag'
 import NazarCharm from './NazarCharm'
 import { ProfileProvider } from '@/lib/useProfile'
 import { ReactionsProvider } from '@/lib/useReactions'
+import { PollsProvider } from '@/lib/usePolls'
 import ProfileGate from './ProfileGate'
 import ProfileBadge from './ProfileBadge'
 
@@ -65,7 +66,8 @@ export default function Planner() {
   return (
     <ProfileProvider>
       <ReactionsProvider>
-        <PlannerInner
+        <PollsProvider>
+          <PlannerInner
           dayIndex={dayIndex}
           setSelected={setSelected}
           selected={selected}
@@ -73,9 +75,10 @@ export default function Planner() {
           setActiveCategories={setActiveCategories}
           toggleCategory={toggleCategory}
           goTo={goTo}
-          navRef={navRef}
-          day={day}
-        />
+            navRef={navRef}
+            day={day}
+          />
+        </PollsProvider>
       </ReactionsProvider>
     </ProfileProvider>
   )

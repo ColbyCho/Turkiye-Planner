@@ -6,6 +6,7 @@ import { CATEGORIES } from '@/lib/categories'
 import { formatDate, formatDuration, formatRange, toMinutes } from '@/lib/time'
 import { downloadICS, googleCalendarUrl } from '@/lib/calendar'
 import { CREW } from '@/data/itinerary'
+import ActivityPoll from './ActivityPoll'
 
 // One fixed color per crew member so avatars stay consistent across the trip
 const AVATAR_COLORS = [
@@ -193,6 +194,9 @@ export default function ActivityModal({ day, activity, onClose }: ActivityModalP
             {linkCta(activity.url, activity.category)} ↗
           </a>
         )}
+
+        {/* Poll (Choose Your Adventure / Meals / Nighttime) */}
+        <ActivityPoll activity={activity} />
 
         {/* Who's in */}
         <div className="mt-5">
