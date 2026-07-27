@@ -2,7 +2,7 @@
 
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { ITINERARY } from '@/data/itinerary'
-import type { Activity, Category } from '@/lib/types'
+import type { Activity, Category, DayPlan } from '@/lib/types'
 import { formatDate } from '@/lib/time'
 import { CATEGORIES, CATEGORY_ORDER } from '@/lib/categories'
 import DayNav from './DayNav'
@@ -15,6 +15,10 @@ import Postcards from './Postcards'
 import FloatingDayToolbar from './FloatingDayToolbar'
 import TurkishFlag from './TurkishFlag'
 import NazarCharm from './NazarCharm'
+import { ProfileProvider } from '@/lib/useProfile'
+import { ReactionsProvider } from '@/lib/useReactions'
+import ProfileGate from './ProfileGate'
+import ProfileBadge from './ProfileBadge'
 
 export default function Planner() {
   const [dayIndex, setDayIndex] = useState(0)
@@ -59,7 +63,48 @@ export default function Planner() {
   const day = ITINERARY[dayIndex]
 
   return (
+    <ProfileProvider>
+      <ReactionsProvider>
+        <PlannerInner
+          dayIndex={dayIndex}
+          setSelected={setSelected}
+          selected={selected}
+          activeCategories={activeCategories}
+          setActiveCategories={setActiveCategories}
+          toggleCategory={toggleCategory}
+          goTo={goTo}
+          navRef={navRef}
+          day={day}
+        />
+      </ReactionsProvider>
+    </ProfileProvider>
+  )
+}
+
+function PlannerInner({
+  dayIndex,
+  selected,
+  setSelected,
+  activeCategories,
+  setActiveCategories,
+  toggleCategory,
+  goTo,
+  navRef,
+  day,
+}: {
+  dayIndex: number
+  selected: Activity | null
+  setSelected: (a: Activity | null) => void
+  activeCategories: Category[]
+  setActiveCategories: (c: Category[]) => void
+  toggleCategory: (c: Category) => void
+  goTo: (i: number) => void
+  navRef: React.RefObject<HTMLDivElement>
+  day: DayPlan
+}) {
+  return (
     <main className="relative mx-auto max-w-5xl px-3 py-8 pb-28 sm:px-6 sm:py-12 sm:pb-28">
+      <ProfileGate />
       <NazarCharm />
 
       {/* Trip masthead */}
@@ -73,6 +118,9 @@ export default function Planner() {
           Istanbul ✶ Bodrum · August 21 – 31, 2026 · party of seven
         </p>
         <Countdown variant="inline" />
+        <div>
+          <ProfileBadge />
+        </div>
       </header>
 
       <div ref={navRef}>

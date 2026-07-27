@@ -3,6 +3,7 @@
 import type { Activity, Category, DayPlan } from '@/lib/types'
 import { CATEGORIES } from '@/lib/categories'
 import { formatRange, hourLabel, toMinutes } from '@/lib/time'
+import Reactions from './Reactions'
 
 const HOUR_PX = 56
 // The visible day runs 7 AM – midnight. Blocks outside the window are clamped
@@ -164,6 +165,25 @@ export default function DayGrid({ day, onSelect, activeCategories }: DayGridProp
                 </span>
               )}
             </button>
+          )
+        })}
+      </div>
+
+      {/* Reaction pills — a layer above the blocks so they stay visible and
+          clickable, while empty space stays click-through to open the modal. */}
+      <div className="pointer-events-none absolute bottom-0 top-0" style={{ left: 64, right: 4 }}>
+        {laid.map(({ activity, top, height, leftPct }) => {
+          const dimmed =
+            activeCategories.length > 0 && !activeCategories.includes(activity.category)
+          if (dimmed) return null
+          return (
+            <div
+              key={activity.id}
+              className="pointer-events-auto absolute z-30"
+              style={{ top: top + height - 12, left: `calc(${leftPct}% + 8px)` }}
+            >
+              <Reactions activityId={activity.id} />
+            </div>
           )
         })}
       </div>
