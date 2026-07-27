@@ -2,7 +2,8 @@
 
 import { useEffect, useRef, useState } from 'react'
 import { useProfile } from '@/lib/useProfile'
-import { firstEmoji, useReactions } from '@/lib/useReactions'
+import { firstEmoji, useReactions, type EmojiAgg } from '@/lib/useReactions'
+import Avatar from './Avatar'
 
 // Custom "emoji" for Derin — stored as this token, rendered as a dedicated image.
 export const DERIN_REACTION = ':derin:'
@@ -24,12 +25,139 @@ function ReactionGlyph({
       <img
         src="/reactions/derin.jpg"
         alt="Derin"
+        draggable={false}
         style={{ width: size, height: size }}
-        className="shrink-0 rounded-full object-cover"
+        className="pointer-events-none shrink-0 rounded-full object-cover"
       />
     )
   }
   return <span className={className}>{emoji}</span>
+}
+
+/** A reaction pill: tap toggles your reaction, press-and-hold shows who reacted. */
+function ReactionPill({
+  r,
+  mine,
+  title,
+  onReact,
+  onShowWho,
+}: {
+  r: EmojiAgg
+  mine: boolean
+  title: string
+  onReact: () => void
+  onShowWho: () => void
+}) {
+  const timer = useRef<number | null>(null)
+  const fired = useRef(false)
+
+  const start = () => {
+    fired.current = false
+    timer.current = window.setTimeout(() => {
+      fired.current = true
+      onShowWho()
+      // Swallow the click that fires when the press is released, so it
+      // doesn't land on the freshly-opened sheet backdrop and dismiss it.
+      const swallow = (e: Event) => {
+        e.stopPropagation()
+        e.preventDefault()
+      }
+      document.addEventListener('click', swallow, { capture: true, once: true })
+      window.setTimeout(() => document.removeEventListener('click', swallow, true), 700)
+    }, 450)
+  }
+  const cancel = () => {
+    if (timer.current) {
+      window.clearTimeout(timer.current)
+      timer.current = null
+    }
+  }
+
+  return (
+    <button
+      type="button"
+      onPointerDown={start}
+      onPointerUp={cancel}
+      onPointerLeave={cancel}
+      onPointerCancel={cancel}
+      onClick={() => {
+        // suppress the click that follows a long-press
+        if (fired.current) {
+          fired.current = false
+          return
+        }
+        onReact()
+      }}
+      onContextMenu={(e) => e.preventDefault()}
+      title={title}
+      className={`flex h-6 select-none items-center gap-0.5 rounded-full border bg-white px-2 text-xs leading-none shadow-block transition [-webkit-touch-callout:none] ${
+        mine ? 'border-spice text-spice-dark' : 'border-spice/40 text-ink/80 hover:border-spice/70'
+      }`}
+    >
+      <ReactionGlyph emoji={r.emoji} size={16} />
+      <span className="font-semibold tabular-nums">{r.count}</span>
+    </button>
+  )
+}
+
+/** GroupMe-style bottom half-sheet listing who reacted with one emoji. */
+function ReactionSheet({
+  emoji,
+  reactorIds,
+  onClose,
+}: {
+  emoji: string
+  reactorIds: string[]
+  onClose: () => void
+}) {
+  const { profiles } = useProfile()
+
+  useEffect(() => {
+    const onKey = (e: KeyboardEvent) => e.key === 'Escape' && onClose()
+    window.addEventListener('keydown', onKey)
+    const prev = document.body.style.overflow
+    document.body.style.overflow = 'hidden'
+    return () => {
+      window.removeEventListener('keydown', onKey)
+      document.body.style.overflow = prev
+    }
+  }, [onClose])
+
+  return (
+    <div
+      className="fixed inset-0 z-[80] flex items-end justify-center bg-ink/50 backdrop-blur-sm"
+      onClick={onClose}
+      role="dialog"
+      aria-modal="true"
+      aria-label="Who reacted"
+    >
+      <div
+        className="max-h-[55vh] w-full max-w-md overflow-y-auto rounded-t-2xl border border-rule bg-paper-card px-5 pb-8 pt-3 shadow-page"
+        style={{ animation: 'sheetUp 0.22s ease-out' }}
+        onClick={(e) => e.stopPropagation()}
+      >
+        <div className="mx-auto mb-3 h-1.5 w-10 rounded-full bg-ink/15" aria-hidden />
+        <div className="flex items-center gap-2 border-b border-rule pb-3">
+          <ReactionGlyph emoji={emoji} size={26} className="text-2xl leading-none" />
+          <span className="text-sm font-semibold text-ink/70">
+            {reactorIds.length} {reactorIds.length === 1 ? 'reaction' : 'reactions'}
+          </span>
+        </div>
+        <ul className="mt-3 space-y-1">
+          {reactorIds.map((id) => {
+            const p = profiles.find((x) => x.id === id)
+            if (!p) return null
+            return (
+              <li key={id} className="flex items-center gap-3 rounded-md px-1 py-1.5">
+                <Avatar profile={p} size={36} />
+                <span className="text-base text-ink/90">{p.name}</span>
+              </li>
+            )
+          })}
+        </ul>
+      </div>
+    </div>
+  )
 }
 
 /** Hand-drawn smiley with a “+”, à la the sketch — the add-reaction button. */
@@ -114,6 +242,7 @@ export default function Reactions({ activityId }: { activityId: string }) {
   const { me, profiles, openGate } = useProfile()
   const { getFor, hasMine, toggle } = useReactions()
   const [adding, setAdding] = useState(false)
+  const [sheetEmoji, setSheetEmoji] = useState<string | null>(null)
 
   const reactions = getFor(activityId)
   const nameOf = (id: string) => profiles.find((p) => p.id === id)?.name ?? id
@@ -126,6 +255,11 @@ export default function Reactions({ activityId }: { activityId: string }) {
     toggle(activityId, emoji, me.id)
   }
 
+  // Re-derived each render so the open sheet stays live as votes change.
+  const sheetReactors = sheetEmoji
+    ? reactions.find((r) => r.emoji === sheetEmoji)?.profileIds ?? []
+    : []
+
   return (
     <div
       className="flex items-center gap-1"
@@ -133,25 +267,24 @@ export default function Reactions({ activityId }: { activityId: string }) {
       role="group"
       aria-label="Reactions"
     >
-      {reactions.map((r) => {
-        const mine = me ? hasMine(activityId, r.emoji, me.id) : false
-        return (
-          <button
-            key={r.emoji}
-            type="button"
-            onClick={() => react(r.emoji)}
-            title={r.profileIds.map(nameOf).join(', ')}
-            className={`flex h-6 items-center gap-0.5 rounded-full border bg-white px-2 text-xs leading-none shadow-block transition ${
-              mine
-                ? 'border-spice text-spice-dark'
-                : 'border-spice/40 text-ink/80 hover:border-spice/70'
-            }`}
-          >
-            <ReactionGlyph emoji={r.emoji} size={16} />
-            <span className="font-semibold tabular-nums">{r.count}</span>
-          </button>
-        )
-      })}
+      {reactions.map((r) => (
+        <ReactionPill
+          key={r.emoji}
+          r={r}
+          mine={me ? hasMine(activityId, r.emoji, me.id) : false}
+          title={`${r.profileIds.map(nameOf).join(', ')} — hold to see who`}
+          onReact={() => react(r.emoji)}
+          onShowWho={() => setSheetEmoji(r.emoji)}
+        />
+      ))}
+
+      {sheetEmoji && sheetReactors.length > 0 && (
+        <ReactionSheet
+          emoji={sheetEmoji}
+          reactorIds={sheetReactors}
+          onClose={() => setSheetEmoji(null)}
+        />
+      )}
 
       <div className="relative">
         <button
