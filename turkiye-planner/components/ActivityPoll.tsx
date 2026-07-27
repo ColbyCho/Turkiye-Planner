@@ -60,12 +60,12 @@ export default function ActivityPoll({ activity }: { activity: Activity }) {
               <span className="min-w-0 truncate text-sm font-medium text-ink/90">{o.label}</span>
               <span className="flex shrink-0 items-center gap-1.5">
                 <AvatarStack ids={o.voterIds} max={4} />
-                {o.createdBy && me?.id === o.createdBy && (
+                {me && (
                   <span
                     role="button"
                     tabIndex={0}
-                    aria-label="Remove your choice"
-                    title="Remove your choice"
+                    aria-label="Remove this choice"
+                    title="Remove this choice (for everyone)"
                     onClick={(e) => {
                       e.stopPropagation()
                       removeOption(o.id)
@@ -76,7 +76,7 @@ export default function ActivityPoll({ activity }: { activity: Activity }) {
                         removeOption(o.id)
                       }
                     }}
-                    className="flex h-5 w-5 items-center justify-center rounded-full text-ink/40 transition hover:bg-ink/10 hover:text-ink"
+                    className="flex h-5 w-5 items-center justify-center rounded-full text-red-500 transition hover:bg-red-500/15 hover:text-red-600"
                   >
                     ✕
                   </span>
