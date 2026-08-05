@@ -519,7 +519,7 @@ export const ITINERARY: DayPlan[] = [
       },
       {
         id: 'd6-boat',
-        title: 'Reserved boat day along the Bodrum coast',
+        title: 'Private VIP gulet day along the Bodrum coast',
         category: 'tour',
         image: {
           src: '/postcards/bodrum.jpg',
@@ -531,7 +531,7 @@ export const ITINERARY: DayPlan[] = [
         end: '18:00',
         location: 'Bodrum coast',
         notes:
-          'BOOKED — basically a full day on the water; the reservation runs until 6 PM. Coves, swimming, and lunch aboard. Snorkels welcome; dignity not guaranteed on the rope swing. Add the confirmation/link here when it lands.',
+          'BOOKED (Viator) — a private VIP gulet charter with Yusufum Yachting, reserved for all 7 of us. About 6 hours on the water: coves, swimming, snorkeling, paddleboard, and a fishing rod if you’re feeling optimistic. Lunch is served aboard — pick your menu: fish, chicken, meatballs, or vegetarian. Bottled water, coffee/tea, soda, and fresh fruit are included; alcohol is NOT, but you’re welcome to BYO, so raid the shop before you board. Private transportation isn’t included — sort your own ride to the marina. Dignity not guaranteed on the rope swing.',
         participants: ALL,
       },
       {
