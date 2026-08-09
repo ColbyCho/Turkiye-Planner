@@ -6,7 +6,7 @@ import Avatar from './Avatar'
 import ProfileEditor from './ProfileEditor'
 
 /**
- * First-run overlay: pick which of the seven you are, then confirm your
+ * First-run overlay: pick which of the crew you are, then confirm your
  * name + photo. Selection is remembered, so it only appears once per device
  * (until you switch users). Shows nothing once you're signed in or have
  * chosen to browse without signing in.

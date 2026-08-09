@@ -14,7 +14,7 @@ import { AVATARS_BUCKET, supabase, type Profile } from './supabase'
 const STORAGE_KEY = 'tp-profile-id'
 
 interface ProfileContextValue {
-  /** All 7 crew profiles (empty until loaded). */
+  /** All crew profiles (empty until loaded). */
   profiles: Profile[]
   /** The profile this browser is acting as, or null if not chosen yet. */
   me: Profile | null
