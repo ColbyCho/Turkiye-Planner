@@ -142,7 +142,7 @@ function PlannerInner({
           <span>Türkiye Planner</span>
         </h1>
         <p className="mt-2 text-sm uppercase tracking-[0.25em] text-ink/60">
-          Istanbul ✶ Bodrum · August 21 – 31, 2026 · party of seven
+          Istanbul ✶ Bodrum · August 21 – 31, 2026 · party of eight
         </p>
         <Countdown variant="inline" />
         <div>

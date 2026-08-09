@@ -7,6 +7,7 @@ export const CREW = [
   'Colby',
   'Maddie',
   'Andrew',
+  'Alyssa',
   'Derin',
   'Matt',
   'Hannah',
@@ -121,7 +122,7 @@ export const ITINERARY: DayPlan[] = [
         end: '15:45',
         location: 'IST → Orient Express & Spa by Orka Hotels',
         notes:
-          'Placeholder — book a private van for 6 + luggage (Hannah joins in Bodrum), or Havaist bus + tram if we’re feeling brave on no sleep.',
+          'Placeholder — book a private van for 7 + luggage (Hannah joins in Bodrum), or Havaist bus + tram if we’re feeling brave on no sleep.',
         participants: PRE_BODRUM,
       },
       {
@@ -134,7 +135,7 @@ export const ITINERARY: DayPlan[] = [
         location: 'Orient Express & Spa by Orka Hotels, Istanbul',
         url: 'https://www.expedia.com/Istanbul-Hotels-Orient-Express-Spa-By-Orka-Hotels.h479525.Hotel-Information?chkin=2026-08-22&chkout=2026-08-25',
         notes:
-          'Two triple rooms, Aug 22–25. Official check-in opens 3:00 PM. Quick turnaround: drop bags and walk to Pandeli — full unpacking can wait until after dinner.',
+          'Rooming for Aug 22–25, now that Alyssa’s aboard: Andrew booked a third room (confirmed) for Maddie & Alyssa to share, so one of the original triples drops to a double — one triple + two doubles for the seven of us in Istanbul. Official check-in opens 3:00 PM. Quick turnaround: drop bags and walk to Pandeli — full unpacking can wait until after dinner.',
         participants: PRE_BODRUM,
       },
       {
@@ -147,7 +148,7 @@ export const ITINERARY: DayPlan[] = [
         location: 'Pandeli, above the Spice Bazaar, Eminönü',
         url: 'https://www.pandeli.com.tr/',
         notes:
-          'BOOKED for 4:30 PM — reservation courtesy of Andrew, who apparently books Ottoman institutions from another continent. Take a bow, Andrew. 👏 Pandeli has been serving palace classics under turquoise tiles above the Spice Bazaar since 1901. Straight off the plane and into a legend.',
+          'TO CONFIRM for 4:30 PM — Andrew hasn’t actually called Pandeli yet, and the party just grew by one (welcome, Alyssa!), so the booking needs to be for the full group. Andrew, this is your moment — ring the Ottoman institution from another continent and lock it in. 👏 Pandeli has been serving palace classics under turquoise tiles above the Spice Bazaar since 1901. Straight off the plane and into a legend.',
         participants: PRE_BODRUM,
       },
       {
@@ -450,7 +451,7 @@ export const ITINERARY: DayPlan[] = [
         start: '13:00',
         end: '14:15',
         location: 'Sultanahmet → IST',
-        notes: 'Placeholder timing — domestic terminal. Van for 6 + luggage.',
+        notes: 'Placeholder timing — domestic terminal. Van for 7 + luggage.',
         participants: PRE_BODRUM,
       },
       {
@@ -531,7 +532,7 @@ export const ITINERARY: DayPlan[] = [
         end: '18:00',
         location: 'Bodrum coast',
         notes:
-          'BOOKED (Viator) — a private VIP gulet charter with Yusufum Yachting, reserved for all 7 of us. About 6 hours on the water: coves, swimming, snorkeling, paddleboard, and a fishing rod if you’re feeling optimistic. Lunch is served aboard — pick your menu: fish, chicken, meatballs, or vegetarian. Bottled water, coffee/tea, soda, and fresh fruit are included; alcohol is NOT, but you’re welcome to BYO, so raid the shop before you board. Private transportation isn’t included — sort your own ride to the marina. Dignity not guaranteed on the rope swing.',
+          'BOOKED (Viator) — a private VIP gulet charter with Yusufum Yachting, reserved for all 8 of us. About 6 hours on the water: coves, swimming, snorkeling, paddleboard, and a fishing rod if you’re feeling optimistic. Lunch is served aboard — pick your menu: fish, chicken, meatballs, or vegetarian. Bottled water, coffee/tea, soda, and fresh fruit are included; alcohol is NOT, but you’re welcome to BYO, so raid the shop before you board. Private transportation isn’t included — sort your own ride to the marina. Dignity not guaranteed on the rope swing.',
         participants: ALL,
       },
       {
@@ -927,7 +928,7 @@ export const ITINERARY: DayPlan[] = [
         location: 'Orient Express & Spa by Orka Hotels, Istanbul',
         url: 'https://www.expedia.com/Istanbul-Hotels-Orient-Express-Spa-By-Orka-Hotels.h479525.Hotel-Information?chkin=2026-08-30&chkout=2026-08-31',
         notes:
-          'TO BOOK — nothing reserved yet for this last night (Aug 30–31, party of 7). Easiest is to rebook the Orka hotel from the first leg (link); anywhere central works since the flight home isn’t until 4:40 PM. Check-in opens 3:00 PM.',
+          'TO BOOK — nothing reserved yet for this last night (Aug 30–31, party of 8). Easiest is to rebook the Orka hotel from the first leg (link) — one triple + two doubles again, with Maddie & Alyssa sharing a room; anywhere central works since the flight home isn’t until 4:40 PM. Check-in opens 3:00 PM.',
         participants: ALL,
       },
       {
