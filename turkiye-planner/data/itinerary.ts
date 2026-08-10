@@ -148,7 +148,7 @@ export const ITINERARY: DayPlan[] = [
         location: 'Pandeli, above the Spice Bazaar, Eminönü',
         url: 'https://www.pandeli.com.tr/',
         notes:
-          'TO CONFIRM for 4:30 PM — Andrew hasn’t actually called Pandeli yet, and the party just grew by one (welcome, Alyssa!), so the booking needs to be for the full group. Andrew, this is your moment — ring the Ottoman institution from another continent and lock it in. 👏 Pandeli has been serving palace classics under turquoise tiles above the Spice Bazaar since 1901. Straight off the plane and into a legend.',
+          'BOOKED for 4:30 PM — Andrew rang the Ottoman institution from another continent and locked it in for the full crew, Alyssa included. Take a bow, Andrew. 👏 Pandeli has been serving palace classics under turquoise tiles above the Spice Bazaar since 1901. Straight off the plane and into a legend.',
         participants: PRE_BODRUM,
       },
       {
