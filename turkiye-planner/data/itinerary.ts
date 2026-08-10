@@ -746,7 +746,7 @@ export const ITINERARY: DayPlan[] = [
         location: 'Beynel, Bitez',
         url: 'https://guide.michelin.com/us/en/mugla/bodrum_2806351/restaurant/beynel',
         notes:
-          'Considering this one — a Michelin-guide spot in Bitez, conveniently on the way into Bodrum from Derin’s house, and built for groups. NO reservation yet: book ahead for 7, especially on a weekend. Windmills are a 10-min hop away, so golden hour then straight to the table.',
+          'BOOKED — Bob locked in a table for 8 at 8:00 PM (take a bow, Bob). A Michelin-guide spot in Bitez, conveniently on the way into Bodrum from Derin’s house and built for groups. Windmills are a 10-min hop away, so golden hour then straight to the table.',
         participants: ALL,
       },
       {
