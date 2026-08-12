@@ -8,6 +8,7 @@ import { downloadICS, googleCalendarUrl } from '@/lib/calendar'
 import { CREW } from '@/data/itinerary'
 import { useProfile } from '@/lib/useProfile'
 import { useSignups } from '@/lib/useSignups'
+import CommentThread from './CommentThread'
 import ActivityPoll from './ActivityPoll'
 import Avatar from './Avatar'
 import { ReactionsDetail, isReactable } from './Reactions'
@@ -313,6 +314,9 @@ export default function ActivityModal({ day, activity, onClose }: ActivityModalP
             </button>
           )}
         </div>
+
+        {/* Chat about this one specifically */}
+        <CommentThread target={activity.id} title="Group chat" className="mt-5" />
 
         {/* Add to calendar */}
         <div className="mt-6 flex flex-wrap gap-2 border-t border-rule pt-4">

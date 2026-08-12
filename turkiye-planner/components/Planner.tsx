@@ -21,6 +21,8 @@ import { ProfileProvider } from '@/lib/useProfile'
 import { ReactionsProvider } from '@/lib/useReactions'
 import { PollsProvider } from '@/lib/usePolls'
 import { SignupsProvider } from '@/lib/useSignups'
+import { CommentsProvider } from '@/lib/useComments'
+import { DayChat } from './CommentThread'
 import ProfileGate from './ProfileGate'
 import ProfileBadge from './ProfileBadge'
 
@@ -103,7 +105,8 @@ export default function Planner() {
       <ReactionsProvider>
         <PollsProvider>
           <SignupsProvider>
-            <PlannerInner
+            <CommentsProvider>
+              <PlannerInner
               dayIndex={dayIndex}
               setSelected={setSelected}
               selected={selected}
@@ -113,7 +116,8 @@ export default function Planner() {
               goTo={goTo}
               navRef={navRef}
               day={day}
-            />
+              />
+            </CommentsProvider>
           </SignupsProvider>
         </PollsProvider>
       </ReactionsProvider>
@@ -241,6 +245,8 @@ function PlannerInner({
         <DayGrid day={day} onSelect={setSelected} activeCategories={activeCategories} />
 
         <FunFact fact={day.funFact} />
+
+        <DayChat date={day.date} dayTitle={day.title} />
 
         <HelpfulStuff />
       </section>
