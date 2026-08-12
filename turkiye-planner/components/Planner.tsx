@@ -40,7 +40,15 @@ export default function Planner() {
   //   #activity=d3-bazaar  → jumps to the day and opens that activity
   useEffect(() => {
     const hash = window.location.hash.slice(1)
-    if (!hash) return
+    if (!hash) {
+      // No deep link: once the trip is underway, land on today's page instead
+      // of Day 1. Device-local date is the right clock — phones follow the
+      // crew from Boston time into Türkiye time.
+      const todayISO = new Date().toLocaleDateString('en-CA')
+      const t = ITINERARY.findIndex((d) => d.date === todayISO)
+      if (t >= 0) setDayIndex(t)
+      return
+    }
     if (hash.startsWith('activity=')) {
       const id = decodeURIComponent(hash.slice('activity='.length))
       for (let i = 0; i < ITINERARY.length; i++) {
