@@ -1,4 +1,5 @@
 import type { ReactNode } from 'react'
+import Link from 'next/link'
 import CurrencyConverter from './CurrencyConverter'
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -20,7 +21,8 @@ const LINKS: StampLink[] = [
     topText: 'OFFICIAL PACKING LIST',
     bottomText: '✶ TÜRKİYE 2026 ✶',
     icon: 'suitcase',
-    url: null, // TODO: paste the packing list link here
+    url: null,
+    internalHref: '/packing', // in-app checklist page
   },
   {
     // Mark Wiens' Istanbul food guide — source of the Beli restaurant list,
@@ -44,6 +46,8 @@ interface StampLink {
   bottomText: string
   icon: 'camera' | 'suitcase' | 'cutlery'
   url: string | null
+  /** In-app route (Next Link) — takes precedence over `url` when set. */
+  internalHref?: string
 }
 
 // Line-drawn icons, centered in the stamp's inner circle
@@ -118,6 +122,13 @@ function Stamp({ link }: { link: StampLink }) {
 function StampButton({ link, rotate }: { link: StampLink; rotate: string }) {
   const className = `group inline-block ${rotate} text-spice/75 transition-transform duration-300 hover:rotate-0 hover:scale-105 hover:text-spice focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-spice`
 
+  if (link.internalHref) {
+    return (
+      <Link href={link.internalHref} aria-label={link.label} className={className}>
+        <Stamp link={link} />
+      </Link>
+    )
+  }
   if (link.url) {
     return (
       <a
@@ -156,7 +167,7 @@ export default function HelpfulStuff() {
         ))}
       </div>
       <p className="mt-4 text-[11px] text-ink/40">
-        album &amp; packing list links coming soon — the food guide stamp is live
+        tap the suitcase for the packing checklist — album link coming soon
       </p>
 
       <CurrencyConverter />
