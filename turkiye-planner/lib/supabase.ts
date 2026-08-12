@@ -41,4 +41,10 @@ export interface PollVote {
   created_at: string
 }
 
+export interface PackingCheck {
+  profile_id: string
+  item_id: string
+  created_at: string
+}
+
 export const AVATARS_BUCKET = 'avatars'
