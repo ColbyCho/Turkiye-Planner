@@ -3,6 +3,7 @@ import Link from 'next/link'
 import CurrencyConverter from './CurrencyConverter'
 import TaxiCard from './TaxiCard'
 import Phrasebook from './Phrasebook'
+import { PackingTeaser } from './PackingLeaderboard'
 
 // ─────────────────────────────────────────────────────────────────────────────
 // Other Helpful Stuff — passport-stamp link buttons.
@@ -195,6 +196,8 @@ export default function HelpfulStuff() {
         tap the suitcase for the packing checklist · the taxi to hail a ride home ·
         the speech bubble for Turkish — album link coming soon
       </p>
+
+      <PackingTeaser />
 
       <CurrencyConverter />
     </section>

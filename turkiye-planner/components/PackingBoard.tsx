@@ -5,6 +5,7 @@ import { ProfileProvider, useProfile } from '@/lib/useProfile'
 import { usePacking } from '@/lib/usePacking'
 import { PACKING, PACKING_TOTAL } from '@/data/packing'
 import TurkishFlag from './TurkishFlag'
+import PackingLeaderboard from './PackingLeaderboard'
 import ProfileBadge from './ProfileBadge'
 import ProfileGate from './ProfileGate'
 import Countdown from './Countdown'
@@ -130,6 +131,8 @@ function PackingInner() {
           to check items off and save your own copy.
         </div>
       )}
+
+      <PackingLeaderboard />
 
       {/* The checklist */}
       <div className="overflow-hidden rounded-md border border-rule bg-paper-card shadow-page">
