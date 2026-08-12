@@ -9,6 +9,7 @@ import { CREW } from '@/data/itinerary'
 import { useProfile } from '@/lib/useProfile'
 import ActivityPoll from './ActivityPoll'
 import Avatar from './Avatar'
+import { ReactionsDetail, isReactable } from './Reactions'
 
 /**
  * Context-aware label for an activity's primary link. Recognizable platforms
@@ -246,6 +247,9 @@ export default function ActivityModal({ day, activity, onClose }: ActivityModalP
             {linkCta(activity.url, activity.category)} ↗
           </a>
         )}
+
+        {/* Who reacted, with what — the full view of the grid's pills */}
+        {isReactable(activity.category) && <ReactionsDetail activityId={activity.id} />}
 
         {/* Poll (Choose Your Adventure / Meals / Nighttime) */}
         <ActivityPoll activity={activity} />

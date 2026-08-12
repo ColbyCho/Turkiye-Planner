@@ -3,7 +3,7 @@
 import type { Activity, Category, DayPlan } from '@/lib/types'
 import { CATEGORIES } from '@/lib/categories'
 import { formatRange, hourLabel, toMinutes } from '@/lib/time'
-import Reactions from './Reactions'
+import Reactions, { isReactable } from './Reactions'
 
 const HOUR_PX = 56
 // The visible day runs 7 AM – midnight. Blocks outside the window are clamped
@@ -176,8 +176,7 @@ export default function DayGrid({ day, onSelect, activeCategories }: DayGridProp
           const dimmed =
             activeCategories.length > 0 && !activeCategories.includes(activity.category)
           // Housing and transport are logistics — no reactions there.
-          if (dimmed || activity.category === 'stay' || activity.category === 'transport')
-            return null
+          if (dimmed || !isReactable(activity.category)) return null
           return (
             <div
               key={activity.id}
