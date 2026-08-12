@@ -240,7 +240,20 @@ const ART: Record<MotifName, ReactNode> = {
   ),
 }
 
-/** Renders one motif as stroke-only line art in the current text color. */
+/**
+ * Motifs with a generated ink drawing in /public/motifs (ChatGPT gpt-image,
+ * white keyed to alpha). Rendered as a CSS mask filled with currentColor, so
+ * raster art still inherits each block's own ink exactly like the SVGs do.
+ * Names not in this set fall back to the hand-drawn SVG art above.
+ */
+const RASTER = new Set<MotifName>([
+  'plane', 'suitcase', 'van', 'compass', 'footsteps', 'meze', 'cay',
+  'mosque', 'lantern', 'doner', 'nargile', 'palace', 'ferry', 'market',
+  'fish', 'gulet', 'cocktail', 'moon', 'ruins', 'castle', 'windmill',
+  'beach', 'football',
+])
+
+/** Renders one motif in the current text color — generated ink art when available. */
 export default function Motif({
   name,
   size = 48,
@@ -250,6 +263,28 @@ export default function Motif({
   size?: number
   className?: string
 }) {
+  if (RASTER.has(name)) {
+    const mask = `url(/motifs/${name}.png)`
+    return (
+      <span
+        aria-hidden
+        className={`inline-block ${className}`}
+        style={{
+          width: size,
+          height: size,
+          backgroundColor: 'currentColor',
+          WebkitMaskImage: mask,
+          maskImage: mask,
+          WebkitMaskSize: 'contain',
+          maskSize: 'contain',
+          WebkitMaskRepeat: 'no-repeat',
+          maskRepeat: 'no-repeat',
+          WebkitMaskPosition: 'center',
+          maskPosition: 'center',
+        }}
+      />
+    )
+  }
   return (
     <svg
       viewBox="0 0 100 100"

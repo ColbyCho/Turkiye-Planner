@@ -193,10 +193,10 @@ export default function DayGrid({ day, onSelect, activeCategories }: DayGridProp
                   block's ink via currentColor; skipped on slivers. */}
               {motif && height >= 44 && (
                 <span
-                  className="pointer-events-none absolute right-1.5 top-1/2 -translate-y-1/2 opacity-[0.14]"
+                  className="pointer-events-none absolute right-2 top-1/2 -translate-y-1/2 opacity-[0.24]"
                   aria-hidden
                 >
-                  <Motif name={motif} size={Math.min(height - 10, 72)} />
+                  <Motif name={motif} size={Math.min(height - 10, 120)} />
                 </span>
               )}
               <span
