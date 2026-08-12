@@ -33,16 +33,12 @@ function escapeICS(text: string): string {
     .replace(/\r?\n/g, '\\n')
 }
 
-export function buildICS(day: DayPlan, activity: Activity): string {
+/** The VEVENT block for one activity — shared by single and whole-day exports. */
+function vevent(day: DayPlan, activity: Activity): string[] {
   const start = utcStamp(day.date, toMinutes(activity.start), day.utcOffsetHours)
   const end = utcStamp(day.date, toMinutes(activity.end), day.utcOffsetHours)
   const category = CATEGORIES[activity.category].label
-  const lines = [
-    'BEGIN:VCALENDAR',
-    'VERSION:2.0',
-    'PRODID:-//Turkiye Planner//EN',
-    'CALSCALE:GREGORIAN',
-    'METHOD:PUBLISH',
+  return [
     'BEGIN:VEVENT',
     `UID:${activity.id}-${day.date}@turkiye-planner`,
     `DTSTAMP:${utcStamp(day.date, 0)}`,
@@ -53,23 +49,48 @@ export function buildICS(day: DayPlan, activity: Activity): string {
     ...(activity.location ? [`LOCATION:${escapeICS(activity.location)}`] : []),
     ...(activity.url ? [`URL:${activity.url}`] : []),
     'END:VEVENT',
-    'END:VCALENDAR',
   ]
-  return lines.join('\r\n')
 }
 
-export function downloadICS(day: DayPlan, activity: Activity): void {
-  const blob = new Blob([buildICS(day, activity)], {
-    type: 'text/calendar;charset=utf-8',
-  })
+function wrapCalendar(events: string[]): string {
+  return [
+    'BEGIN:VCALENDAR',
+    'VERSION:2.0',
+    'PRODID:-//Turkiye Planner//EN',
+    'CALSCALE:GREGORIAN',
+    'METHOD:PUBLISH',
+    ...events,
+    'END:VCALENDAR',
+  ].join('\r\n')
+}
+
+export function buildICS(day: DayPlan, activity: Activity): string {
+  return wrapCalendar(vevent(day, activity))
+}
+
+/** Every activity of the day as one calendar file. */
+export function buildDayICS(day: DayPlan): string {
+  return wrapCalendar(day.activities.flatMap((a) => vevent(day, a)))
+}
+
+function downloadBlob(ics: string, filename: string): void {
+  const blob = new Blob([ics], { type: 'text/calendar;charset=utf-8' })
   const url = URL.createObjectURL(blob)
   const a = document.createElement('a')
   a.href = url
-  a.download = `${activity.title.replace(/[^\w]+/g, '-').toLowerCase()}.ics`
+  a.download = filename
   document.body.appendChild(a)
   a.click()
   a.remove()
   URL.revokeObjectURL(url)
+}
+
+export function downloadICS(day: DayPlan, activity: Activity): void {
+  downloadBlob(buildICS(day, activity), `${activity.title.replace(/[^\w]+/g, '-').toLowerCase()}.ics`)
+}
+
+export function downloadDayICS(day: DayPlan): void {
+  downloadBlob(buildDayICS(day), `${day.date}-${day.title.replace(/[^\w]+/g, '-').toLowerCase()}.ics`)
 }
 
 export function googleCalendarUrl(day: DayPlan, activity: Activity): string {

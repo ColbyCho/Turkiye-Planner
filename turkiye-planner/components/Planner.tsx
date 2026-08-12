@@ -4,6 +4,7 @@ import { useCallback, useEffect, useRef, useState } from 'react'
 import { ITINERARY } from '@/data/itinerary'
 import type { Activity, Category, DayPlan } from '@/lib/types'
 import { formatDate } from '@/lib/time'
+import { downloadDayICS } from '@/lib/calendar'
 import { CATEGORIES, CATEGORY_ORDER } from '@/lib/categories'
 import DayNav from './DayNav'
 import DayGrid from './DayGrid'
@@ -166,6 +167,14 @@ function PlannerInner({
               {formatDate(day.date)}
             </h2>
             <p className="mt-1 font-hand text-2xl text-cobalt">{day.title}</p>
+            <button
+              type="button"
+              onClick={() => downloadDayICS(day)}
+              title="One .ics with every activity — open it and iPhone/Google adds the whole day"
+              className="mt-2 inline-flex items-center gap-1.5 rounded-full border border-rule bg-paper px-3 py-1 text-xs font-medium text-ink/60 shadow-block transition hover:border-spice hover:text-spice"
+            >
+              📥 Add whole day to calendar
+            </button>
           </div>
           {/* Passport-style city stamp */}
           <div className="rotate-[4deg] rounded border-2 border-spice/70 px-3 py-1.5 text-center text-spice/80">
