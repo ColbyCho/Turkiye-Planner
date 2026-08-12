@@ -8,6 +8,7 @@ import { downloadDayICS } from '@/lib/calendar'
 import { CATEGORIES, CATEGORY_ORDER } from '@/lib/categories'
 import DayNav from './DayNav'
 import DayGrid from './DayGrid'
+import DayWeather from './DayWeather'
 import ActivityModal from './ActivityModal'
 import FunFact from './FunFact'
 import HelpfulStuff from './HelpfulStuff'
@@ -176,14 +177,17 @@ function PlannerInner({
               📥 Add whole day to calendar
             </button>
           </div>
-          {/* Passport-style city stamp */}
-          <div className="rotate-[4deg] rounded border-2 border-spice/70 px-3 py-1.5 text-center text-spice/80">
-            <p className="text-[10px] font-bold uppercase tracking-[0.3em]">
-              Türkiye · {day.date.slice(5).replace('-', '/')}
-            </p>
-            <p className="font-display text-lg font-bold uppercase tracking-widest">
-              {day.city}
-            </p>
+          {/* Passport-style city stamp, with the day's forecast tucked under it */}
+          <div className="flex flex-col items-end gap-2">
+            <div className="rotate-[4deg] rounded border-2 border-spice/70 px-3 py-1.5 text-center text-spice/80">
+              <p className="text-[10px] font-bold uppercase tracking-[0.3em]">
+                Türkiye · {day.date.slice(5).replace('-', '/')}
+              </p>
+              <p className="font-display text-lg font-bold uppercase tracking-widest">
+                {day.city}
+              </p>
+            </div>
+            <DayWeather day={day} />
           </div>
         </div>
 
