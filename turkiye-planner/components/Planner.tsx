@@ -70,7 +70,14 @@ export default function Planner() {
 
   // Keep the URL in sync so the address bar always reflects what's on screen:
   // an open activity gets a shareable #activity=… hash, otherwise the day.
+  // Skipped on the mount commit — the deep-link effect above hasn't applied
+  // its setState yet, and writing here first would clobber the incoming hash.
+  const syncedOnce = useRef(false)
   useEffect(() => {
+    if (!syncedOnce.current) {
+      syncedOnce.current = true
+      return
+    }
     const target = selected ? `#activity=${selected.id}` : `#${ITINERARY[dayIndex].date}`
     if (window.location.hash !== target) {
       window.history.replaceState(null, '', target)
