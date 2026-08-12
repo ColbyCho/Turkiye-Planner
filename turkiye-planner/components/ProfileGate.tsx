@@ -46,7 +46,8 @@ export default function ProfileGate() {
           <>
             <p className="text-center font-hand text-3xl text-spice">Who are you?</p>
             <p className="mb-6 mt-1 text-center text-sm text-ink/60">
-              Pick yourself to react to the plans. We’ll remember you on this device.
+              Pick yourself so the crew knows who&rsquo;s who. We&rsquo;ll remember you on
+              this device.
             </p>
 
             {loading && <p className="py-8 text-center text-sm text-ink/50">Loading the crew…</p>}
@@ -75,29 +76,22 @@ export default function ProfileGate() {
               </div>
             )}
 
+            {/* No skip: the whole site is crew-interactive, so everyone signs in.
+                The only way around the gate is the connection-error fallback above. */}
             {!loading && !error && (
-              <>
-                <div className="grid grid-cols-2 gap-2.5 sm:grid-cols-3">
-                  {profiles.map((p) => (
-                    <button
-                      key={p.id}
-                      type="button"
-                      onClick={() => setPickedId(p.id)}
-                      className="flex flex-col items-center gap-2 rounded-md border border-rule bg-paper px-2 py-4 transition hover:border-spice hover:bg-spice/5"
-                    >
-                      <Avatar profile={p} size={52} />
-                      <span className="text-sm font-medium text-ink/80">{p.name}</span>
-                    </button>
-                  ))}
-                </div>
-                <button
-                  type="button"
-                  onClick={dismissGate}
-                  className="mt-5 w-full text-center text-xs text-ink/40 underline underline-offset-2 hover:text-ink/60"
-                >
-                  just browsing — skip for now
-                </button>
-              </>
+              <div className="grid grid-cols-2 gap-2.5 sm:grid-cols-3">
+                {profiles.map((p) => (
+                  <button
+                    key={p.id}
+                    type="button"
+                    onClick={() => setPickedId(p.id)}
+                    className="flex flex-col items-center gap-2 rounded-md border border-rule bg-paper px-2 py-4 transition hover:border-spice hover:bg-spice/5"
+                  >
+                    <Avatar profile={p} size={52} />
+                    <span className="text-sm font-medium text-ink/80">{p.name}</span>
+                  </button>
+                ))}
+              </div>
             )}
           </>
         )}
