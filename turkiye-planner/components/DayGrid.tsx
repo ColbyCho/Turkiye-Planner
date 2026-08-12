@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react'
 import type { Activity, Category, DayPlan } from '@/lib/types'
 import { CATEGORIES } from '@/lib/categories'
 import { formatRange, hourLabel, toMinutes } from '@/lib/time'
+import Motif, { motifFor } from './Motif'
 import Reactions, { isReactable } from './Reactions'
 
 const HOUR_PX = 56
@@ -171,6 +172,7 @@ export default function DayGrid({ day, onSelect, activeCategories }: DayGridProp
           const dimmed =
             activeCategories.length > 0 &&
             !activeCategories.includes(activity.category)
+          const motif = motifFor(activity.id, activity.title)
           return (
             <button
               key={activity.id}
@@ -187,6 +189,16 @@ export default function DayGrid({ day, onSelect, activeCategories }: DayGridProp
                 backgroundImage: cat.pattern,
               }}
             >
+              {/* Watermark: what this block IS, at a glance. Inherits the
+                  block's ink via currentColor; skipped on slivers. */}
+              {motif && height >= 44 && (
+                <span
+                  className="pointer-events-none absolute right-1.5 top-1/2 -translate-y-1/2 opacity-[0.14]"
+                  aria-hidden
+                >
+                  <Motif name={motif} size={Math.min(height - 10, 72)} />
+                </span>
+              )}
               <span
                 className={`block truncate font-bold uppercase tracking-wide opacity-70 ${
                   compact ? 'text-[8px]' : 'text-[9px]'
