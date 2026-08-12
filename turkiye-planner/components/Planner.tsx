@@ -20,6 +20,7 @@ import NazarCharm from './NazarCharm'
 import { ProfileProvider } from '@/lib/useProfile'
 import { ReactionsProvider } from '@/lib/useReactions'
 import { PollsProvider } from '@/lib/usePolls'
+import { SignupsProvider } from '@/lib/useSignups'
 import ProfileGate from './ProfileGate'
 import ProfileBadge from './ProfileBadge'
 
@@ -101,17 +102,19 @@ export default function Planner() {
     <ProfileProvider>
       <ReactionsProvider>
         <PollsProvider>
-          <PlannerInner
-          dayIndex={dayIndex}
-          setSelected={setSelected}
-          selected={selected}
-          activeCategories={activeCategories}
-          setActiveCategories={setActiveCategories}
-          toggleCategory={toggleCategory}
-          goTo={goTo}
-            navRef={navRef}
-            day={day}
-          />
+          <SignupsProvider>
+            <PlannerInner
+              dayIndex={dayIndex}
+              setSelected={setSelected}
+              selected={selected}
+              activeCategories={activeCategories}
+              setActiveCategories={setActiveCategories}
+              toggleCategory={toggleCategory}
+              goTo={goTo}
+              navRef={navRef}
+              day={day}
+            />
+          </SignupsProvider>
         </PollsProvider>
       </ReactionsProvider>
     </ProfileProvider>
