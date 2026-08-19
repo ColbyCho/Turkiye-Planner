@@ -13,7 +13,7 @@ const LINKS: StampLink[] = [
     topText: 'SHARED PHOTO ALBUM',
     bottomText: '✶ TÜRKİYE 2026 ✶',
     icon: 'camera',
-    url: null, // TODO: paste the shared album link here
+    url: 'https://www.icloud.com/sharedalbum/#B1dGWZuqDPZ79kz',
   },
   {
     id: 'packing',
@@ -167,7 +167,7 @@ export default function HelpfulStuff() {
         ))}
       </div>
       <p className="mt-4 text-[11px] text-ink/40">
-        tap the suitcase for the packing checklist — album link coming soon
+        tap a stamp — the packing checklist, photo album &amp; food guide are all live
       </p>
 
       <CurrencyConverter />
