@@ -20,6 +20,10 @@ const ALL = [...CREW]
 // she's not on anything in Istanbul before then.
 const PRE_BODRUM = ALL.filter((name) => name !== 'Hannah')
 
+// Last-Istanbul-morning split on the 25th: the guys eye a hammam, the ladies a shop.
+const FELLAS = ['Colby', 'Bob', 'Derin', 'Matt', 'Andrew']
+const LADIES = ['Maddie', 'Alyssa']
+
 // ─────────────────────────────────────────────────────────────────────────────
 // THE ITINERARY — synced from the group planning spreadsheet (Aug 21–31, 2026).
 //
@@ -429,8 +433,20 @@ export const ITINERARY: DayPlan[] = [
         end: '11:00',
         location: 'Historic hammam, Istanbul (TBD)',
         notes:
-          'LOOKING UNLIKELY — the historic bathhouses don’t have availability for our window on the 25th, so this probably won’t happen. Keeping it here as a tentative option in case something opens up: Andrew’s scrub-and-soak send-off (Kılıç Ali Paşa, Çemberlitaş, or Hürrem Sultan by Hagia Sophia), ~$100 a person. More likely we take the last Istanbul morning easy — a Gülhane wander, a peek into Sirkeci Station, or a simit by the water. Either way, mind the 11:00 checkout.',
-        participants: PRE_BODRUM,
+          'LOOKING UNLIKELY — the historic bathhouses don’t have availability for our window on the 25th, so this probably won’t happen. If it does, it’s a fellas’ outing (the ladies are leaning toward a shopping run instead): Andrew’s scrub-and-soak send-off (Kılıç Ali Paşa, Çemberlitaş, or Hürrem Sultan by Hagia Sophia), ~$100 a person. No rush against the 11:00 checkout — the hotel holds our bags, so this can just as easily happen after checkout, before the ~1 PM airport run.',
+        participants: FELLAS,
+      },
+      {
+        id: 'd5-shopping',
+        title: 'Ladies’ shopping run',
+        category: 'misc',
+        emoji: '🛍️',
+        start: '09:30',
+        end: '11:00',
+        location: 'Grand Bazaar / İstiklal',
+        notes:
+          'Maddie & Alyssa’s pick over the hammam — one more pass at the Grand Bazaar, Sultanahmet boutiques, or the İstiklal shops for anything still on the list (lokum, spices, that lamp). Bags are held at the hotel after the 11:00 checkout, so no need to rush — roam right up to the ~1 PM airport run.',
+        participants: LADIES,
       },
       {
         id: 'd5-checkout',
@@ -442,7 +458,7 @@ export const ITINERARY: DayPlan[] = [
         location: 'Orient Express & Spa by Orka Hotels, Istanbul',
         url: 'https://www.expedia.com/Istanbul-Hotels-Orient-Express-Spa-By-Orka-Hotels.h479525.Hotel-Information?chkin=2026-08-22&chkout=2026-08-25',
         notes:
-          'Check-out is 11:00 AM but the flight isn’t until 4:20 PM — sort a luggage plan (hotel storage, then grab bags on the way to the airport).',
+          'Check-out is 11:00 AM but the flight isn’t until 4:20 PM — the hotel will hold our bags, so we’re free to roam (hammam, shopping, a last wander) and grab them on the way to the airport.',
         participants: PRE_BODRUM,
       },
       {
@@ -958,7 +974,7 @@ export const ITINERARY: DayPlan[] = [
         location: 'Walton Hotel Galata, Istanbul',
         url: 'https://www.booking.com/hotel/tr/walton.html?checkin=2026-08-30&checkout=2026-08-31&group_adults=8&group_children=0&no_rooms=4',
         notes:
-          'BOOKING IN PROGRESS — four doubles at the Walton Hotel Galata for the last night (Aug 30–31, party of 8). Central in Galata/Beyoğlu, an easy base for the final evening; the flight home isn’t until 4:40 PM, so no rush in the morning. Check-in opens 3:00 PM.',
+          'BOOKED — four doubles confirmed at the Walton Hotel Galata for the last night (Aug 30–31, party of 8). Central in Galata/Beyoğlu, an easy base for the final evening; the flight home isn’t until 4:40 PM, so no rush in the morning. Check-in opens 3:00 PM.',
         participants: ALL,
       },
       {
