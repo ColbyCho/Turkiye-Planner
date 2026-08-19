@@ -429,7 +429,7 @@ export const ITINERARY: DayPlan[] = [
         end: '11:00',
         location: 'Historic hammam, Istanbul (TBD)',
         notes:
-          'Andrew’s angling to book a proper hammam for our last Istanbul morning — a scrub-and-soak send-off at one of the historic bathhouses (Kılıç Ali Paşa, Çemberlitaş, or Hürrem Sultan by Hagia Sophia). About $100 a person. Optional — not soaking? One last Gülhane wander, a peek into Sirkeci Station, or a simit by the water. Give Andrew your headcount so he can book, and mind the 11:00 checkout.',
+          'LOOKING UNLIKELY — the historic bathhouses don’t have availability for our window on the 25th, so this probably won’t happen. Keeping it here as a tentative option in case something opens up: Andrew’s scrub-and-soak send-off (Kılıç Ali Paşa, Çemberlitaş, or Hürrem Sultan by Hagia Sophia), ~$100 a person. More likely we take the last Istanbul morning easy — a Gülhane wander, a peek into Sirkeci Station, or a simit by the water. Either way, mind the 11:00 checkout.',
         participants: PRE_BODRUM,
       },
       {
