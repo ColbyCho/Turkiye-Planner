@@ -965,19 +965,8 @@ export const ITINERARY: DayPlan[] = [
         participants: ALL,
       },
       {
-        id: 'd10-cyoa',
-        title: 'Choose Your Adventure: Last Istanbul Evening',
-        category: 'adventure',
-        start: '15:30',
-        end: '16:45',
-        location: 'Karaköy / Beşiktaş',
-        notes:
-          'Between check-in and döner: Dolmabahçe Palace’s gates and clock tower on the way to Beşiktaş · third-wave coffee in Karaköy · a wander through Galata’s side streets · or drop the bags and nap — big final night ahead (Galata Tower itself is booked for sunset).',
-        participants: ALL,
-      },
-      {
         id: 'd10-doner',
-        title: 'Pre-match döner — Karadeniz Döner Asım Usta',
+        title: 'Döner run — Karadeniz Döner Asım Usta',
         category: 'meal',
         image: {
           src: '/postcards/doner.jpg',
@@ -985,11 +974,11 @@ export const ITINERARY: DayPlan[] = [
           creditName: 'photo: döner — Wikimedia Commons',
           creditUrl: 'https://commons.wikimedia.org/wiki/File:D%C3%B6ner_Kebab,_Berlin,_2010_(01).jpg',
         },
-        start: '17:00',
-        end: '18:30',
+        start: '16:00',
+        end: '17:00',
         location: 'Karadeniz Döner Asım Usta, Beşiktaş',
         notes:
-          'From the Beli hit list — THE Mark Wiens döner, conveniently in buzzy Beşiktaş. It famously sells out, so we go early and hungry. Match or no match, this happens.',
+          'From the Beli hit list — THE Mark Wiens döner in buzzy Beşiktaş, hit right after we drop bags (it famously sells out, so early is the move). Then we cross back toward Galata: the fellas to the 5:30 hammam, the ladies to the shops, everyone to the tower for sunset.',
         participants: ALL,
       },
       {
@@ -999,10 +988,10 @@ export const ITINERARY: DayPlan[] = [
         emoji: '🧖',
         start: '17:30',
         end: '18:30',
-        location: 'Kılıç Ali Paşa Hamamı, Karaköy',
-        url: 'https://share.google/CVIAKDyFeQBCNX9no',
+        location: 'Kılıç Ali Paşa Hamamı, Tophane',
+        url: 'https://www.kilicalipasahamami.com',
         notes:
-          'POTENTIAL — awaiting confirmation. A fellas’ hammam at Kılıç Ali Paşa Hamamı, the stunning 16th-century Mimar Sinan bathhouse, ~5:30 PM for about an hour — and conveniently steps from the Walton in Karaköy. The ladies shop meanwhile. Heads up: this overlaps the Beşiktaş döner run, and the two are in different neighborhoods, so we’ll sort the order once it’s confirmed.',
+          'CONFIRMED — 5:30 PM, 5 guests, Traditional Turkish Hamam (conf. U2E3SGYO; 21,500 TL total, ~4,300 TL a head). The fellas’ soak at Kılıç Ali Paşa Hamamı, the stunning 16th-century Mimar Sinan bathhouse in Tophane, a few minutes’ walk from the Walton. The ladies shop meanwhile, and everyone regroups at Galata Tower for sunset right after.',
         participants: FELLAS,
       },
       {
