@@ -425,28 +425,15 @@ export const ITINERARY: DayPlan[] = [
         participants: PRE_BODRUM,
       },
       {
-        id: 'd5-hammam',
-        title: 'Turkish bath (hammam) — Andrew’s pick',
-        category: 'misc',
-        emoji: '🧖',
+        id: 'd5-cyoa',
+        title: 'Choose Your Adventure: Last Istanbul Morning (for now)',
+        category: 'adventure',
         start: '09:30',
         end: '11:00',
-        location: 'Historic hammam, Istanbul (TBD)',
+        location: 'Sirkeci & Gülhane',
         notes:
-          'LOOKING UNLIKELY — the historic bathhouses don’t have availability for our window on the 25th, so this probably won’t happen. If it does, it’s a fellas’ outing (the ladies are leaning toward a shopping run instead): Andrew’s scrub-and-soak send-off (Kılıç Ali Paşa, Çemberlitaş, or Hürrem Sultan by Hagia Sophia), ~$100 a person. No rush against the 11:00 checkout — the hotel holds our bags, so this can just as easily happen after checkout, before the ~1 PM airport run.',
-        participants: FELLAS,
-      },
-      {
-        id: 'd5-shopping',
-        title: 'Ladies’ shopping run',
-        category: 'misc',
-        emoji: '🛍️',
-        start: '09:30',
-        end: '11:00',
-        location: 'Grand Bazaar / İstiklal',
-        notes:
-          'Maddie & Alyssa’s pick over the hammam — one more pass at the Grand Bazaar, Sultanahmet boutiques, or the İstiklal shops for anything still on the list (lokum, spices, that lamp). Bags are held at the hotel after the 11:00 checkout, so no need to rush — roam right up to the ~1 PM airport run.',
-        participants: LADIES,
+          'The hotel holds bags after the 11:00 checkout, so no rush: Gülhane Park under the plane trees · peek into Sirkeci Station, the old Orient Express terminus (fitting, given the hotel) · lokum + baklava stock-up at Hafız Mustafa · one last simit by the water. (The hammam moved to our last night on the 30th.)',
+        participants: PRE_BODRUM,
       },
       {
         id: 'd5-checkout',
@@ -458,7 +445,7 @@ export const ITINERARY: DayPlan[] = [
         location: 'Orient Express & Spa by Orka Hotels, Istanbul',
         url: 'https://www.expedia.com/Istanbul-Hotels-Orient-Express-Spa-By-Orka-Hotels.h479525.Hotel-Information?chkin=2026-08-22&chkout=2026-08-25',
         notes:
-          'Check-out is 11:00 AM but the flight isn’t until 4:20 PM — the hotel will hold our bags, so we’re free to roam (hammam, shopping, a last wander) and grab them on the way to the airport.',
+          'Check-out is 11:00 AM but the flight isn’t until 4:20 PM — the hotel will hold our bags, so we’re free to roam for a last Istanbul morning and grab them on the way to the airport.',
         participants: PRE_BODRUM,
       },
       {
@@ -985,7 +972,7 @@ export const ITINERARY: DayPlan[] = [
         end: '16:45',
         location: 'Karaköy / Beşiktaş',
         notes:
-          'Between check-in and döner: Galata Tower redemption arc if Monday’s gap didn’t get you up it · Dolmabahçe Palace’s gates and clock tower on the way to Beşiktaş · third-wave coffee in Karaköy · or drop the bags and nap — big final night ahead.',
+          'Between check-in and döner: Dolmabahçe Palace’s gates and clock tower on the way to Beşiktaş · third-wave coffee in Karaköy · a wander through Galata’s side streets · or drop the bags and nap — big final night ahead (Galata Tower itself is booked for sunset).',
         participants: ALL,
       },
       {
@@ -1003,6 +990,44 @@ export const ITINERARY: DayPlan[] = [
         location: 'Karadeniz Döner Asım Usta, Beşiktaş',
         notes:
           'From the Beli hit list — THE Mark Wiens döner, conveniently in buzzy Beşiktaş. It famously sells out, so we go early and hungry. Match or no match, this happens.',
+        participants: ALL,
+      },
+      {
+        id: 'd10-hammam',
+        title: 'Hammam — Kılıç Ali Paşa (fellas)',
+        category: 'misc',
+        emoji: '🧖',
+        start: '17:30',
+        end: '18:30',
+        location: 'Kılıç Ali Paşa Hamamı, Karaköy',
+        url: 'https://share.google/CVIAKDyFeQBCNX9no',
+        notes:
+          'POTENTIAL — awaiting confirmation. A fellas’ hammam at Kılıç Ali Paşa Hamamı, the stunning 16th-century Mimar Sinan bathhouse, ~5:30 PM for about an hour — and conveniently steps from the Walton in Karaköy. The ladies shop meanwhile. Heads up: this overlaps the Beşiktaş döner run, and the two are in different neighborhoods, so we’ll sort the order once it’s confirmed.',
+        participants: FELLAS,
+      },
+      {
+        id: 'd10-shopping',
+        title: 'Ladies’ shopping run',
+        category: 'misc',
+        emoji: '🛍️',
+        start: '17:30',
+        end: '18:30',
+        location: 'Karaköy / Galata',
+        notes:
+          'While the fellas soak, Maddie & Alyssa hit the Karaköy galleries and Galata boutiques for the last hauls — whatever’s still circled on the list.',
+        participants: LADIES,
+      },
+      {
+        id: 'd10-galata',
+        title: 'Galata Tower at sunset',
+        category: 'tour',
+        emoji: '🗼',
+        start: '19:00',
+        end: '20:15',
+        location: 'Galata Kulesi, Beyoğlu',
+        url: 'https://muze.gen.tr',
+        notes:
+          'Finally up the tower we keep circling — and it’s a 5-minute walk from the Walton, so everyone regroups here after the hammam and shopping. Timed for golden hour: late-August sunset lands around 7:40 PM, so we get the 360° Bosphorus-and-old-city panorama as the lights come on. Grab timed-entry tickets ahead (the line is real). If the (unlikely) match happens instead, this slides to tomorrow morning before the flight — the hotel’s right here either way.',
         participants: ALL,
       },
       {
