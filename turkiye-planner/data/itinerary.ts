@@ -972,7 +972,7 @@ export const ITINERARY: DayPlan[] = [
         end: '16:45',
         location: 'Karaköy / Beşiktaş',
         notes:
-          'Between check-in and döner: Galata Tower redemption arc if Monday’s gap didn’t get you up it · Dolmabahçe Palace’s gates and clock tower on the way to Beşiktaş · third-wave coffee in Karaköy · or drop the bags and nap — big final night ahead.',
+          'Between check-in and döner: Dolmabahçe Palace’s gates and clock tower on the way to Beşiktaş · third-wave coffee in Karaköy · a wander through Galata’s side streets · or drop the bags and nap — big final night ahead (Galata Tower itself is booked for sunset).',
         participants: ALL,
       },
       {
@@ -1016,6 +1016,19 @@ export const ITINERARY: DayPlan[] = [
         notes:
           'While the fellas soak, Maddie & Alyssa hit the Karaköy galleries and Galata boutiques for the last hauls — whatever’s still circled on the list.',
         participants: LADIES,
+      },
+      {
+        id: 'd10-galata',
+        title: 'Galata Tower at sunset',
+        category: 'tour',
+        emoji: '🗼',
+        start: '19:00',
+        end: '20:15',
+        location: 'Galata Kulesi, Beyoğlu',
+        url: 'https://muze.gen.tr',
+        notes:
+          'Finally up the tower we keep circling — and it’s a 5-minute walk from the Walton, so everyone regroups here after the hammam and shopping. Timed for golden hour: late-August sunset lands around 7:40 PM, so we get the 360° Bosphorus-and-old-city panorama as the lights come on. Grab timed-entry tickets ahead (the line is real). If the (unlikely) match happens instead, this slides to tomorrow morning before the flight — the hotel’s right here either way.',
+        participants: ALL,
       },
       {
         id: 'd10-match',
