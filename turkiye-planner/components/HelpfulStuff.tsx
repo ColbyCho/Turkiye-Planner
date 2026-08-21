@@ -16,7 +16,7 @@ const LINKS: StampLink[] = [
     topText: 'SHARED PHOTO ALBUM',
     bottomText: '✶ TÜRKİYE 2026 ✶',
     icon: 'camera',
-    url: null, // TODO: paste the shared album link here
+    url: 'https://www.icloud.com/sharedalbum/#B1dGWZuqDPZ79kz',
   },
   {
     id: 'packing',
@@ -193,8 +193,8 @@ export default function HelpfulStuff() {
         <Phrasebook rotate={ROTATIONS[(LINKS.length + 1) % ROTATIONS.length]} />
       </div>
       <p className="mt-4 text-[11px] text-ink/40">
-        tap the suitcase for the packing checklist · the taxi to hail a ride home ·
-        the speech bubble for Turkish — album link coming soon
+        tap a stamp — packing checklist, photo album &amp; food guide are live ·
+        the taxi hails a ride home · the speech bubble speaks Turkish
       </p>
 
       <PackingTeaser />
