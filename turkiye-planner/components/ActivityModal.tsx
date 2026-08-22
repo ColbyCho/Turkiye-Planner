@@ -7,8 +7,11 @@ import { formatDate, formatDuration, formatRange, toMinutes } from '@/lib/time'
 import { downloadICS, googleCalendarUrl } from '@/lib/calendar'
 import { CREW } from '@/data/itinerary'
 import { useProfile } from '@/lib/useProfile'
+import { useSignups } from '@/lib/useSignups'
+import CommentThread from './CommentThread'
 import ActivityPoll from './ActivityPoll'
 import Avatar from './Avatar'
+import { ReactionsDetail, isReactable } from './Reactions'
 
 /**
  * Context-aware label for an activity's primary link. Recognizable platforms
@@ -78,9 +81,17 @@ interface ActivityModalProps {
 
 export default function ActivityModal({ day, activity, onClose }: ActivityModalProps) {
   const cat = CATEGORIES[activity.category]
-  const everyone = activity.participants.length === CREW.length
-  const { profiles } = useProfile()
+  const { profiles, me, openGate } = useProfile()
+  const { available: rsvpReady, participantsFor, setMine } = useSignups()
   const [copied, setCopied] = useState(false)
+
+  // Live participant list: itinerary seeds ± self-serve RSVPs.
+  const participantIds = participantsFor(activity.id, activity.participants)
+  const meIn = me ? participantIds.includes(me.id) : false
+  const everyone =
+    profiles.length > 0
+      ? participantIds.length >= profiles.length
+      : activity.participants.length === CREW.length
 
   const share = async () => {
     const { origin, pathname } = window.location
@@ -247,6 +258,9 @@ export default function ActivityModal({ day, activity, onClose }: ActivityModalP
           </a>
         )}
 
+        {/* Who reacted, with what — the full view of the grid's pills */}
+        {isReactable(activity.category) && <ReactionsDetail activityId={activity.id} />}
+
         {/* Poll (Choose Your Adventure / Meals / Nighttime) */}
         <ActivityPoll activity={activity} />
 
@@ -256,24 +270,53 @@ export default function ActivityModal({ day, activity, onClose }: ActivityModalP
             Who&rsquo;s in {everyone && '— everyone!'}
           </p>
           <div className="mt-2 flex flex-wrap gap-1.5">
-            {activity.participants.map((name) => {
-              // Participants are stored as the original crew names, which match
-              // each profile's slug id (e.g. "Colby" -> "colby").
+            {participantIds.map((id) => {
+              // Ids are the crew-name slugs ("Colby" -> "colby"); prefer the
+              // live profile (custom display name + photo), fall back to the
+              // itinerary spelling for anyone the DB doesn't know.
+              const seedName = activity.participants.find((n) => n.toLowerCase() === id)
               const profile =
-                profiles.find((p) => p.id === name.toLowerCase()) ??
-                ({ id: name, name, avatar_url: null } as const)
+                profiles.find((p) => p.id === id) ??
+                ({ id, name: seedName ?? id, avatar_url: null } as const)
               return (
                 <span
-                  key={name}
-                  className="inline-flex items-center gap-1.5 rounded-full border border-rule bg-paper py-0.5 pl-0.5 pr-2 text-xs font-medium text-ink/80"
+                  key={id}
+                  className={`inline-flex items-center gap-1.5 rounded-full border py-0.5 pl-0.5 pr-2 text-xs font-medium text-ink/80 ${
+                    me?.id === id ? 'border-spice/60 bg-spice/5' : 'border-rule bg-paper'
+                  }`}
                 >
                   <Avatar profile={profile} size={18} />
-                  {name}
+                  {profile.name}
                 </span>
               )
             })}
+            {participantIds.length === 0 && (
+              <span className="text-sm text-ink/40">Nobody yet — first in sets the tone.</span>
+            )}
           </div>
+          {rsvpReady && (
+            <button
+              type="button"
+              onClick={() => {
+                if (!me) {
+                  openGate()
+                  return
+                }
+                setMine(activity.id, me.id, meIn ? 'out' : 'in')
+              }}
+              className={`mt-2.5 inline-flex items-center gap-1.5 rounded-full border px-3.5 py-1.5 text-sm font-medium transition ${
+                meIn
+                  ? 'border-rule bg-paper text-ink/60 hover:border-spice/50 hover:text-spice'
+                  : 'border-spice bg-spice/10 text-spice hover:bg-spice hover:text-paper'
+              }`}
+            >
+              {meIn ? '✌️ Count me out' : '🙋 Count me in'}
+            </button>
+          )}
         </div>
+
+        {/* Chat about this one specifically */}
+        <CommentThread target={activity.id} title="Group chat" className="mt-5" />
 
         {/* Add to calendar */}
         <div className="mt-6 flex flex-wrap gap-2 border-t border-rule pt-4">

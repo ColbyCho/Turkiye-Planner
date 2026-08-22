@@ -47,4 +47,21 @@ export interface PackingCheck {
   created_at: string
 }
 
+/** RSVP override: 'in' adds you to an activity, 'out' takes you off the seed list. */
+export interface SignupRow {
+  activity_id: string
+  profile_id: string
+  status: 'in' | 'out'
+  created_at: string
+}
+
+export interface CommentRow {
+  id: string
+  /** Activity id ('d3-bazaar') or ISO day date ('2026-08-23'). */
+  target: string
+  profile_id: string
+  body: string
+  created_at: string
+}
+
 export const AVATARS_BUCKET = 'avatars'

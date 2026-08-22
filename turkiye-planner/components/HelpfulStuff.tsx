@@ -1,6 +1,9 @@
 import type { ReactNode } from 'react'
 import Link from 'next/link'
 import CurrencyConverter from './CurrencyConverter'
+import TaxiCard from './TaxiCard'
+import Phrasebook from './Phrasebook'
+import { PackingTeaser } from './PackingLeaderboard'
 
 // ─────────────────────────────────────────────────────────────────────────────
 // Other Helpful Stuff — passport-stamp link buttons.
@@ -39,12 +42,12 @@ const LINKS: StampLink[] = [
 /** Stamp rotation per slot so the row reads hand-placed, not printed. */
 const ROTATIONS = ['-rotate-3', 'rotate-2', '-rotate-2']
 
-interface StampLink {
+export interface StampLink {
   id: string
   label: string
   topText: string
   bottomText: string
-  icon: 'camera' | 'suitcase' | 'cutlery'
+  icon: 'camera' | 'suitcase' | 'cutlery' | 'taxi' | 'speech'
   url: string | null
   /** In-app route (Next Link) — takes precedence over `url` when set. */
   internalHref?: string
@@ -78,10 +81,31 @@ const ICONS: Record<StampLink['icon'], ReactNode> = {
       <path d="M70.5 45.5v32" />
     </g>
   ),
+  taxi: (
+    <g fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+      {/* roof sign */}
+      <path d="M57.5 45.5h5" />
+      {/* cabin */}
+      <path d="M48.5 61l4.5-10.5h14L71.5 61" />
+      {/* body */}
+      <rect x="42.5" y="61" width="35" height="11" rx="3" />
+      {/* headlights */}
+      <path d="M46.5 66.5h3M70.5 66.5h3" />
+      {/* wheels */}
+      <circle cx="52" cy="75.5" r="3.2" />
+      <circle cx="68" cy="75.5" r="3.2" />
+    </g>
+  ),
+  speech: (
+    <g fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M46 47.5h28a4 4 0 014 4v14a4 4 0 01-4 4H59.5l-8.5 7v-7H46a4 4 0 01-4-4v-14a4 4 0 014-4z" />
+      <path d="M50.5 56h19M50.5 61.5h12" />
+    </g>
+  ),
 }
 
 /** A round, line-drawn passport stamp with text on the arcs and an icon inside. */
-function Stamp({ link }: { link: StampLink }) {
+export function Stamp({ link }: { link: StampLink }) {
   return (
     <svg viewBox="0 0 120 120" className="h-28 w-28 sm:h-32 sm:w-32" aria-hidden>
       <defs>
@@ -165,10 +189,15 @@ export default function HelpfulStuff() {
         {LINKS.map((link, i) => (
           <StampButton key={link.id} link={link} rotate={ROTATIONS[i % ROTATIONS.length]} />
         ))}
+        <TaxiCard rotate={ROTATIONS[LINKS.length % ROTATIONS.length]} />
+        <Phrasebook rotate={ROTATIONS[(LINKS.length + 1) % ROTATIONS.length]} />
       </div>
       <p className="mt-4 text-[11px] text-ink/40">
-        tap a stamp — the packing checklist, photo album &amp; food guide are all live
+        tap a stamp — packing checklist, photo album &amp; food guide are live ·
+        the taxi hails a ride home · the speech bubble speaks Turkish
       </p>
+
+      <PackingTeaser />
 
       <CurrencyConverter />
     </section>

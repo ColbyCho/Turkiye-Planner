@@ -4,9 +4,11 @@ import { useCallback, useEffect, useRef, useState } from 'react'
 import { ITINERARY } from '@/data/itinerary'
 import type { Activity, Category, DayPlan } from '@/lib/types'
 import { formatDate } from '@/lib/time'
+import { downloadDayICS } from '@/lib/calendar'
 import { CATEGORIES, CATEGORY_ORDER } from '@/lib/categories'
 import DayNav from './DayNav'
 import DayGrid from './DayGrid'
+import DayWeather from './DayWeather'
 import ActivityModal from './ActivityModal'
 import FunFact from './FunFact'
 import HelpfulStuff from './HelpfulStuff'
@@ -18,6 +20,9 @@ import NazarCharm from './NazarCharm'
 import { ProfileProvider } from '@/lib/useProfile'
 import { ReactionsProvider } from '@/lib/useReactions'
 import { PollsProvider } from '@/lib/usePolls'
+import { SignupsProvider } from '@/lib/useSignups'
+import { CommentsProvider } from '@/lib/useComments'
+import { DayChat } from './CommentThread'
 import ProfileGate from './ProfileGate'
 import ProfileBadge from './ProfileBadge'
 
@@ -38,7 +43,15 @@ export default function Planner() {
   //   #activity=d3-bazaar  → jumps to the day and opens that activity
   useEffect(() => {
     const hash = window.location.hash.slice(1)
-    if (!hash) return
+    if (!hash) {
+      // No deep link: once the trip is underway, land on today's page instead
+      // of Day 1. Device-local date is the right clock — phones follow the
+      // crew from Boston time into Türkiye time.
+      const todayISO = new Date().toLocaleDateString('en-CA')
+      const t = ITINERARY.findIndex((d) => d.date === todayISO)
+      if (t >= 0) setDayIndex(t)
+      return
+    }
     if (hash.startsWith('activity=')) {
       const id = decodeURIComponent(hash.slice('activity='.length))
       for (let i = 0; i < ITINERARY.length; i++) {
@@ -57,7 +70,14 @@ export default function Planner() {
 
   // Keep the URL in sync so the address bar always reflects what's on screen:
   // an open activity gets a shareable #activity=… hash, otherwise the day.
+  // Skipped on the mount commit — the deep-link effect above hasn't applied
+  // its setState yet, and writing here first would clobber the incoming hash.
+  const syncedOnce = useRef(false)
   useEffect(() => {
+    if (!syncedOnce.current) {
+      syncedOnce.current = true
+      return
+    }
     const target = selected ? `#activity=${selected.id}` : `#${ITINERARY[dayIndex].date}`
     if (window.location.hash !== target) {
       window.history.replaceState(null, '', target)
@@ -91,17 +111,21 @@ export default function Planner() {
     <ProfileProvider>
       <ReactionsProvider>
         <PollsProvider>
-          <PlannerInner
-          dayIndex={dayIndex}
-          setSelected={setSelected}
-          selected={selected}
-          activeCategories={activeCategories}
-          setActiveCategories={setActiveCategories}
-          toggleCategory={toggleCategory}
-          goTo={goTo}
-            navRef={navRef}
-            day={day}
-          />
+          <SignupsProvider>
+            <CommentsProvider>
+              <PlannerInner
+              dayIndex={dayIndex}
+              setSelected={setSelected}
+              selected={selected}
+              activeCategories={activeCategories}
+              setActiveCategories={setActiveCategories}
+              toggleCategory={toggleCategory}
+              goTo={goTo}
+              navRef={navRef}
+              day={day}
+              />
+            </CommentsProvider>
+          </SignupsProvider>
         </PollsProvider>
       </ReactionsProvider>
     </ProfileProvider>
@@ -166,15 +190,26 @@ function PlannerInner({
               {formatDate(day.date)}
             </h2>
             <p className="mt-1 font-hand text-2xl text-cobalt">{day.title}</p>
+            <button
+              type="button"
+              onClick={() => downloadDayICS(day)}
+              title="One .ics with every activity — open it and iPhone/Google adds the whole day"
+              className="mt-2 inline-flex items-center gap-1.5 rounded-full border border-rule bg-paper px-3 py-1 text-xs font-medium text-ink/60 shadow-block transition hover:border-spice hover:text-spice"
+            >
+              📥 Add whole day to calendar
+            </button>
           </div>
-          {/* Passport-style city stamp */}
-          <div className="rotate-[4deg] rounded border-2 border-spice/70 px-3 py-1.5 text-center text-spice/80">
-            <p className="text-[10px] font-bold uppercase tracking-[0.3em]">
-              Türkiye · {day.date.slice(5).replace('-', '/')}
-            </p>
-            <p className="font-display text-lg font-bold uppercase tracking-widest">
-              {day.city}
-            </p>
+          {/* Passport-style city stamp, with the day's forecast tucked under it */}
+          <div className="flex flex-col items-end gap-2">
+            <div className="rotate-[4deg] rounded border-2 border-spice/70 px-3 py-1.5 text-center text-spice/80">
+              <p className="text-[10px] font-bold uppercase tracking-[0.3em]">
+                Türkiye · {day.date.slice(5).replace('-', '/')}
+              </p>
+              <p className="font-display text-lg font-bold uppercase tracking-widest">
+                {day.city}
+              </p>
+            </div>
+            <DayWeather day={day} />
           </div>
         </div>
 
@@ -217,6 +252,8 @@ function PlannerInner({
         <DayGrid day={day} onSelect={setSelected} activeCategories={activeCategories} />
 
         <FunFact fact={day.funFact} />
+
+        <DayChat date={day.date} dayTitle={day.title} />
 
         <HelpfulStuff />
       </section>

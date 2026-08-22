@@ -1,9 +1,11 @@
 'use client'
 
+import { useEffect, useState } from 'react'
 import type { Activity, Category, DayPlan } from '@/lib/types'
 import { CATEGORIES } from '@/lib/categories'
 import { formatRange, hourLabel, toMinutes } from '@/lib/time'
-import Reactions from './Reactions'
+import Motif, { motifFor } from './Motif'
+import Reactions, { isReactable } from './Reactions'
 
 const HOUR_PX = 56
 // The visible day runs 7 AM – midnight. Blocks outside the window are clamped
@@ -80,6 +82,46 @@ function layoutDay(activities: Activity[]): LaidActivity[] {
   return results
 }
 
+/**
+ * Red "now" marker across the grid — only when this day page IS today on the
+ * viewer's device (phones ride the local timezone through the trip, so device
+ * time is the right clock). Re-checks each minute.
+ */
+function NowLine({ day }: { day: DayPlan }) {
+  const [minutes, setMinutes] = useState<number | null>(null)
+
+  useEffect(() => {
+    const compute = () => {
+      const now = new Date()
+      // en-CA formats as YYYY-MM-DD, matching DayPlan.date.
+      if (now.toLocaleDateString('en-CA') !== day.date) {
+        setMinutes(null)
+        return
+      }
+      setMinutes(now.getHours() * 60 + now.getMinutes())
+    }
+    compute()
+    const t = window.setInterval(compute, 60_000)
+    return () => window.clearInterval(t)
+  }, [day.date])
+
+  if (minutes === null || minutes < DAY_START_MIN || minutes > DAY_END_MIN) return null
+  const top = ((minutes - DAY_START_MIN) / 60) * HOUR_PX
+
+  return (
+    <div className="pointer-events-none absolute inset-x-0 z-20" style={{ top }} aria-hidden>
+      <div
+        className="absolute h-2 w-2 -translate-y-1/2 rounded-full bg-spice shadow-sm"
+        style={{ left: 52 }}
+      />
+      <div
+        className="absolute inset-x-14 border-t-2 border-spice/70"
+        style={{ boxShadow: '0 1px 3px rgba(193,68,14,0.35)' }}
+      />
+    </div>
+  )
+}
+
 interface DayGridProps {
   day: DayPlan
   onSelect: (activity: Activity) => void
@@ -113,6 +155,8 @@ export default function DayGrid({ day, onSelect, activeCategories }: DayGridProp
         )
       })}
 
+      <NowLine day={day} />
+
       {/* Ledger-style red margin line */}
       <div
         className="absolute bottom-0 top-0 border-l border-spice/40"
@@ -128,6 +172,7 @@ export default function DayGrid({ day, onSelect, activeCategories }: DayGridProp
           const dimmed =
             activeCategories.length > 0 &&
             !activeCategories.includes(activity.category)
+          const motif = motifFor(activity.id, activity.title)
           return (
             <button
               key={activity.id}
@@ -144,6 +189,16 @@ export default function DayGrid({ day, onSelect, activeCategories }: DayGridProp
                 backgroundImage: cat.pattern,
               }}
             >
+              {/* Watermark: what this block IS, at a glance. Inherits the
+                  block's ink via currentColor; skipped on slivers. */}
+              {motif && height >= 44 && (
+                <span
+                  className="pointer-events-none absolute right-2 top-1/2 -translate-y-1/2 opacity-[0.24]"
+                  aria-hidden
+                >
+                  <Motif name={motif} size={Math.min(height - 10, 120)} />
+                </span>
+              )}
               <span
                 className={`block truncate font-bold uppercase tracking-wide opacity-70 ${
                   compact ? 'text-[8px]' : 'text-[9px]'
@@ -176,8 +231,7 @@ export default function DayGrid({ day, onSelect, activeCategories }: DayGridProp
           const dimmed =
             activeCategories.length > 0 && !activeCategories.includes(activity.category)
           // Housing and transport are logistics — no reactions there.
-          if (dimmed || activity.category === 'stay' || activity.category === 'transport')
-            return null
+          if (dimmed || !isReactable(activity.category)) return null
           return (
             <div
               key={activity.id}

@@ -10,6 +10,11 @@ import Avatar from './Avatar'
 export const DERIN_REACTION = ':derin:'
 const QUICK: string[] = ['👍', '🔥', '😂', '👀', DERIN_REACTION]
 
+/** Stays and transport don't take reactions — same rule as the grid overlay. */
+export function isReactable(category: string): boolean {
+  return category !== 'stay' && category !== 'transport'
+}
+
 /** Render a reaction as its emoji, or Derin's dedicated image for the token. */
 function ReactionGlyph({
   emoji,
@@ -245,6 +250,93 @@ function EmojiPopover({
         </div>
       </div>
     </>
+  )
+}
+
+/**
+ * The modal's reactions section: every emoji with the faces + names of who
+ * reacted, laid out in full — no long-press needed. Tapping a row joins (or
+ * leaves) that reaction; the smiley adds a new one.
+ */
+export function ReactionsDetail({ activityId }: { activityId: string }) {
+  const { me, profiles, openGate } = useProfile()
+  const { getFor, hasMine, toggle } = useReactions()
+  const [adding, setAdding] = useState(false)
+
+  const reactions = getFor(activityId)
+
+  const react = (emoji: string) => {
+    if (!me) {
+      openGate()
+      return
+    }
+    toggle(activityId, emoji, me.id)
+  }
+
+  return (
+    <div className="mt-5">
+      <p className="text-[11px] font-bold uppercase tracking-[0.2em] text-ink/50">Reactions</p>
+
+      <div className="mt-2 space-y-1.5">
+        {reactions.map((r) => {
+          const mine = me ? hasMine(activityId, r.emoji, me.id) : false
+          return (
+            <button
+              key={r.emoji}
+              type="button"
+              onClick={() => react(r.emoji)}
+              title={mine ? 'Tap to take yours back' : 'Tap to react with this too'}
+              className={`flex w-full items-center gap-2.5 rounded-full border px-3 py-1.5 text-left transition ${
+                mine
+                  ? 'border-spice bg-spice/5 hover:bg-spice/10'
+                  : 'border-rule bg-paper hover:border-spice/60 hover:bg-spice/5'
+              }`}
+            >
+              <ReactionGlyph emoji={r.emoji} size={22} className="text-xl leading-none" />
+              <span className="flex min-w-0 flex-wrap items-center gap-x-2 gap-y-1">
+                {r.profileIds.map((id) => {
+                  const p = profiles.find((x) => x.id === id)
+                  if (!p) return null
+                  return (
+                    <span
+                      key={id}
+                      className="inline-flex items-center gap-1 text-xs font-medium text-ink/80"
+                    >
+                      <Avatar profile={p} size={18} />
+                      {p.name}
+                    </span>
+                  )
+                })}
+              </span>
+            </button>
+          )
+        })}
+
+        {reactions.length === 0 && (
+          <p className="text-sm text-ink/40">No reactions yet — start it off.</p>
+        )}
+
+        <div className="relative inline-block">
+          <button
+            type="button"
+            onClick={() => (me ? setAdding((v) => !v) : openGate())}
+            aria-label="Add a reaction"
+            className="flex h-7 w-7 items-center justify-center rounded-full border border-spice/40 bg-white p-1 text-spice shadow-block transition hover:border-spice"
+          >
+            <SmileyPlus />
+          </button>
+          {adding && (
+            <EmojiPopover
+              onPick={(emoji) => {
+                react(emoji)
+                setAdding(false)
+              }}
+              onClose={() => setAdding(false)}
+            />
+          )}
+        </div>
+      </div>
+    </div>
   )
 }
 
