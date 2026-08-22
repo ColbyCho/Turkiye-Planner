@@ -49,13 +49,10 @@ async function polite(url: string, attempt = 0): Promise<Response | null> {
 
 /** What each activity wants a picture of. */
 const SUBJECTS: { slug: string; query: string }[] = [
-  // Round four: the ones that came back empty or poor. Shorter queries.
-  { slug: 'borek', query: 'su böreği' },
-  { slug: 'ciya', query: 'lokanta Turkish food' },
-  { slug: 'bodrum-oldtown', query: 'Bodrum street' },
-  { slug: 'bodrum-harbour', query: 'Bodrum harbour' },
-  { slug: 'kahvalti2', query: 'kahvaltı' },
-  { slug: 'nargile-cafe', query: 'Çorlulu Ali Paşa Medresesi' },
+  // Round five: the two Bodrum dinners still want food rather than another
+  // photograph of boats.
+  { slug: 'meyhane', query: 'meyhane' },
+  { slug: 'mangal', query: 'mangal Turkish barbecue' },
 ]
 
 interface Candidate {
