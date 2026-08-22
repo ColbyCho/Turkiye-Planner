@@ -2,7 +2,6 @@
 
 import { useEffect, useRef, useState, type RefObject } from 'react'
 import { ITINERARY } from '@/data/itinerary'
-import { downloadDayICS } from '@/lib/calendar'
 import { tabParts } from '@/lib/time'
 
 interface FloatingDayToolbarProps {
@@ -43,9 +42,6 @@ export default function FloatingDayToolbar({
   const hasPrev = currentIndex > 0
   const hasNext = currentIndex < ITINERARY.length - 1
 
-  const roundButton =
-    'flex h-11 w-11 shrink-0 items-center justify-center rounded-full border shadow-block transition'
-
   const edgeButton =
     'flex h-11 items-center gap-1.5 rounded-full border border-rule bg-paper-card px-3 text-sm font-semibold text-ink/80 shadow-block transition enabled:hover:border-saffron enabled:hover:bg-saffron-light/40 disabled:opacity-30 sm:px-4'
 
@@ -75,7 +71,7 @@ export default function FloatingDayToolbar({
 
         <button
           type="button"
-          className={`${roundButton} border-cobalt bg-cobalt text-lg text-paper hover:bg-cobalt-light`}
+          className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full border border-cobalt bg-cobalt text-lg text-paper shadow-block transition hover:bg-cobalt-light"
           onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
           aria-label="Back to top"
           title="Back to top"
@@ -83,33 +79,6 @@ export default function FloatingDayToolbar({
           <span aria-hidden className="leading-none">↑</span>
         </button>
 
-        <button
-          type="button"
-          className={`${roundButton} border-rule bg-paper text-ink/60 hover:border-spice hover:text-spice`}
-          onClick={() => downloadDayICS(ITINERARY[currentIndex])}
-          aria-label={`Add all of ${dayLabel(currentIndex)} to your calendar`}
-          title="One .ics with every activity — open it and iPhone/Google adds the whole day"
-        >
-          {/* Lucide "calendar-arrow-down" (ISC) — matches the drawn weather marks. */}
-          <svg
-            viewBox="0 0 24 24"
-            width="19"
-            height="19"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="1.75"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            aria-hidden
-          >
-            <path d="m14 17 4 4 4-4" />
-            <path d="M16 2v3" />
-            <path d="M18 13v8" />
-            <path d="M21 10.354V5a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h7.343" />
-            <path d="M3 9h18" />
-            <path d="M8 2v3" />
-          </svg>
-        </button>
 
         <button
           type="button"

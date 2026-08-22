@@ -259,7 +259,7 @@ function PlannerInner({
 
         <DayChat date={day.date} dayTitle={day.title} />
 
-        <HelpfulStuff />
+        <HelpfulStuff day={day} />
       </section>
 
       <footer className="mt-6 text-center text-xs text-ink/40">
