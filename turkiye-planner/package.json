@@ -7,7 +7,8 @@
     "build": "next build",
     "start": "next start -p 3117",
     "lint": "next lint",
-    "album": "tsx scripts/fetch-album.ts"
+    "album": "tsx scripts/fetch-album.ts",
+    "photos": "tsx scripts/fetch-sight-photos.ts"
   },
   "dependencies": {
     "@fontsource/caveat": "^5.2.5",
