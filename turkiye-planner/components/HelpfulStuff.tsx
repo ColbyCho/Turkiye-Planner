@@ -1,6 +1,8 @@
 import type { ReactNode } from 'react'
 import Link from 'next/link'
 import CurrencyConverter from './CurrencyConverter'
+import { downloadDayICS } from '@/lib/calendar'
+import type { DayPlan } from '@/lib/types'
 import TaxiCard from './TaxiCard'
 import Phrasebook from './Phrasebook'
 import { PackingTeaser } from './PackingLeaderboard'
@@ -178,7 +180,7 @@ function StampButton({ link, rotate }: { link: StampLink; rotate: string }) {
   )
 }
 
-export default function HelpfulStuff() {
+export default function HelpfulStuff({ day }: { day: DayPlan }) {
   return (
     <section
       aria-label="Other Helpful Stuff"
@@ -200,6 +202,37 @@ export default function HelpfulStuff() {
       <PackingTeaser />
 
       <CurrencyConverter />
+
+      {/* The whole day as one .ics, parked under the converter where the other
+          take-it-with-you tools live. */}
+      <button
+        type="button"
+        onClick={() => downloadDayICS(day)}
+        title="One .ics with every activity — open it and iPhone/Google adds the whole day"
+        className="mx-auto mt-4 flex max-w-sm items-center justify-center gap-2 rounded-md border border-rule bg-paper-card px-5 py-3 text-sm font-medium text-ink/70 shadow-block transition hover:border-spice hover:text-spice"
+      >
+        {/* Lucide "calendar-arrow-down" (ISC) — matches the drawn weather marks. */}
+        <svg
+          viewBox="0 0 24 24"
+          width="17"
+          height="17"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="1.75"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          aria-hidden
+          className="shrink-0"
+        >
+          <path d="m14 17 4 4 4-4" />
+          <path d="M16 2v3" />
+          <path d="M18 13v8" />
+          <path d="M21 10.354V5a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h7.343" />
+          <path d="M3 9h18" />
+          <path d="M8 2v3" />
+        </svg>
+        Add this whole day to your calendar
+      </button>
     </section>
   )
 }
