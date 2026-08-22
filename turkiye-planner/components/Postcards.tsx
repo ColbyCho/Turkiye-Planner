@@ -1,16 +1,22 @@
 'use client'
 
-interface Postcard {
+import { useAlbum } from '@/lib/useAlbum'
+
+/** What a polaroid needs to draw itself, whoever took the photo. */
+interface Card {
   src: string
   alt: string
   caption: string
+  /** Tailwind classes for the scattered desktop placement (fixed positioning). */
+  desktop: string
+  rotate: string
+}
+
+interface Postcard extends Card {
   /** Short name used in the photo-credit footer line. */
   creditName: string
   /** Wikimedia Commons file page with author + license details. */
   creditUrl: string
-  /** Tailwind classes for the scattered desktop placement (fixed positioning). */
-  desktop: string
-  rotate: string
   /** The days this shot belongs to. A day with no match falls back to the
    *  whole pile, so travel days never look bare. */
   days: string[]
@@ -73,7 +79,7 @@ const POSTCARDS: Postcard[] = [
   },
 ]
 
-function Frame({ card, fixed }: { card: Postcard; fixed: boolean }) {
+function Frame({ card, fixed }: { card: Card; fixed: boolean }) {
   return (
     <figure
       className={`group bg-white p-1.5 pb-2 shadow-note transition-transform duration-300 ${
@@ -107,9 +113,41 @@ function Frame({ card, fixed }: { card: Postcard; fixed: boolean }) {
   )
 }
 
+/** Where a shot lands on a wide screen — reused in order for album photos. */
+const SLOTS = POSTCARDS.map(({ desktop, rotate }) => ({ desktop, rotate }))
+
+/** Most days shouldn't turn into a contact sheet. */
+const MAX_ALBUM_SHOTS = 6
+
+const TIME = new Intl.DateTimeFormat('en-US', {
+  hour: 'numeric',
+  minute: '2-digit',
+  timeZone: 'Europe/Istanbul',
+})
+
 export default function Postcards({ date }: { date: string }) {
+  const album = useAlbum()
+
+  // The crew's own photos from this day, oldest first so the day reads in
+  // order, win over the stock postcards.
+  const shots = album
+    .filter((photo) => photo.day === date)
+    .sort((a, b) => Date.parse(a.takenAt) - Date.parse(b.takenAt))
+    .slice(0, MAX_ALBUM_SHOTS)
+
   const matched = POSTCARDS.filter((card) => card.days.includes(date))
-  const cards = matched.length > 0 ? matched : POSTCARDS
+  const postcards = matched.length > 0 ? matched : POSTCARDS
+
+  const ours = shots.length > 0
+  const cards: Card[] = ours
+    ? shots.map((photo, i) => ({
+        src: photo.url,
+        alt: photo.caption || 'A photo from the crew’s shared album',
+        // An untitled shot still gets a line: when it was taken, Türkiye time.
+        caption: photo.caption || TIME.format(new Date(photo.takenAt)),
+        ...SLOTS[i % SLOTS.length],
+      }))
+    : postcards
 
   return (
     <>
@@ -123,7 +161,7 @@ export default function Postcards({ date }: { date: string }) {
       {/* Narrower screens: a postcard pile below the planner, captions visible */}
       <section className="mt-10 xl:hidden" aria-label="Postcards from Türkiye">
         <p className="mb-4 text-center font-hand text-2xl text-spice">
-          Postcards from the Trip
+          {ours ? 'Straight from the Album' : 'Postcards from the Trip'}
         </p>
         <div
           className={
@@ -138,23 +176,26 @@ export default function Postcards({ date }: { date: string }) {
         </div>
       </section>
 
-      {/* Photo credits — each link goes to the Commons file page with author & license */}
-      <p className="mt-10 text-center text-[10px] leading-relaxed text-ink/35">
-        Postcard photos via Wikimedia Commons (author &amp; license on each page):{' '}
-        {cards.map((card, i) => (
-          <span key={card.src}>
-            {i > 0 && ' · '}
-            <a
-              href={card.creditUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="underline underline-offset-2 hover:text-ink/60"
-            >
-              {card.creditName}
-            </a>
-          </span>
-        ))}
-      </p>
+      {/* Photo credits — only the stock postcards need them; the crew's own
+          photos are the crew's own. */}
+      {!ours && (
+        <p className="mt-10 text-center text-[10px] leading-relaxed text-ink/35">
+          Postcard photos via Wikimedia Commons (author &amp; license on each page):{' '}
+          {postcards.map((card, i) => (
+            <span key={card.src}>
+              {i > 0 && ' · '}
+              <a
+                href={card.creditUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="underline underline-offset-2 hover:text-ink/60"
+              >
+                {card.creditName}
+              </a>
+            </span>
+          ))}
+        </p>
+      )}
     </>
   )
 }

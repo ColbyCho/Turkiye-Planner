@@ -43,6 +43,24 @@ self.addEventListener('fetch', (event) => {
     return
   }
 
+  // The album index changes whenever new photos land, so it goes network-first
+  // like a page. The photos themselves are named by a stable GUID and never
+  // change, so they stay cache-first below.
+  if (url.pathname === '/album/index.json') {
+    event.respondWith(
+      fetch(request)
+        .then((res) => {
+          if (res.ok) {
+            const copy = res.clone()
+            caches.open(CACHE).then((cache) => cache.put(request, copy))
+          }
+          return res
+        })
+        .catch(() => caches.match(request))
+    )
+    return
+  }
+
   event.respondWith(
     caches.match(request).then(
       (hit) =>
