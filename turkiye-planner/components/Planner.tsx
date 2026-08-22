@@ -266,7 +266,7 @@ function PlannerInner({
         Tap any activity for details, links & add-to-calendar. Use ← → to flip days.
       </footer>
 
-      <Postcards />
+      <Postcards date={day.date} />
 
       {selected && (
         <ActivityModal

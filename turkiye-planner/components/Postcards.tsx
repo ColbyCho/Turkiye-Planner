@@ -11,6 +11,9 @@ interface Postcard {
   /** Tailwind classes for the scattered desktop placement (fixed positioning). */
   desktop: string
   rotate: string
+  /** The days this shot belongs to. A day with no match falls back to the
+   *  whole pile, so travel days never look bare. */
+  days: string[]
 }
 
 // Images live in public/postcards/ (sourced from Wikimedia Commons).
@@ -23,6 +26,7 @@ const POSTCARDS: Postcard[] = [
     creditUrl: 'https://commons.wikimedia.org/wiki/File:Hagia_Sophia_Mars_2013.jpg',
     desktop: 'left-4 top-36',
     rotate: '-rotate-6',
+    days: ['2026-08-22', '2026-08-23'],
   },
   {
     src: '/postcards/blue-mosque.jpg',
@@ -33,6 +37,7 @@ const POSTCARDS: Postcard[] = [
       'https://commons.wikimedia.org/wiki/File:Sultan_Ahmed_Mosque_Istanbul_Turkey_retouched.jpg',
     desktop: 'right-4 top-[26vh]',
     rotate: 'rotate-3',
+    days: ['2026-08-22', '2026-08-23', '2026-08-24'],
   },
   {
     src: '/postcards/doner.jpg',
@@ -43,6 +48,7 @@ const POSTCARDS: Postcard[] = [
       'https://commons.wikimedia.org/wiki/File:D%C3%B6ner_Kebab,_Berlin,_2010_(01).jpg',
     desktop: 'left-5 top-[52vh]',
     rotate: 'rotate-2',
+    days: ['2026-08-24', '2026-08-30', '2026-08-31'],
   },
   {
     src: '/postcards/bodrum.jpg',
@@ -52,6 +58,7 @@ const POSTCARDS: Postcard[] = [
     creditUrl: 'https://commons.wikimedia.org/wiki/File:Bodrum_06.jpg',
     desktop: 'right-5 top-[62vh]',
     rotate: '-rotate-3',
+    days: ['2026-08-25', '2026-08-26', '2026-08-27', '2026-08-28', '2026-08-29'],
   },
   {
     src: '/postcards/besiktas-stadium.jpg',
@@ -62,6 +69,7 @@ const POSTCARDS: Postcard[] = [
       'https://commons.wikimedia.org/wiki/File:T%C3%BCpra%C5%9F_Stadyumu_20231011_2.jpg',
     desktop: 'left-4 top-[78vh]',
     rotate: 'rotate-6',
+    days: ['2026-08-30'],
   },
 ]
 
@@ -99,12 +107,15 @@ function Frame({ card, fixed }: { card: Postcard; fixed: boolean }) {
   )
 }
 
-export default function Postcards() {
+export default function Postcards({ date }: { date: string }) {
+  const matched = POSTCARDS.filter((card) => card.days.includes(date))
+  const cards = matched.length > 0 ? matched : POSTCARDS
+
   return (
     <>
       {/* Wide screens: scattered around the planner like postcards on a desk */}
       <div className="hidden xl:block" aria-label="Postcards from Türkiye">
-        {POSTCARDS.map((card) => (
+        {cards.map((card) => (
           <Frame key={card.src} card={card} fixed />
         ))}
       </div>
@@ -114,8 +125,14 @@ export default function Postcards() {
         <p className="mb-4 text-center font-hand text-2xl text-spice">
           Postcards from the Trip
         </p>
-        <div className="grid grid-cols-2 gap-4 sm:grid-cols-3">
-          {POSTCARDS.map((card) => (
+        <div
+          className={
+            cards.length === 1
+              ? 'mx-auto w-1/2 sm:w-1/3'
+              : 'grid grid-cols-2 gap-4 sm:grid-cols-3'
+          }
+        >
+          {cards.map((card) => (
             <Frame key={card.src} card={card} fixed={false} />
           ))}
         </div>
@@ -124,7 +141,7 @@ export default function Postcards() {
       {/* Photo credits — each link goes to the Commons file page with author & license */}
       <p className="mt-10 text-center text-[10px] leading-relaxed text-ink/35">
         Postcard photos via Wikimedia Commons (author &amp; license on each page):{' '}
-        {POSTCARDS.map((card, i) => (
+        {cards.map((card, i) => (
           <span key={card.src}>
             {i > 0 && ' · '}
             <a
