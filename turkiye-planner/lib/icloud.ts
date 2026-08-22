@@ -12,7 +12,7 @@
 //
 // Signed URLs expire in about an hour, so they can never be baked into a
 // build — anything that wants durable images has to download the bytes
-// (see scripts/fetch-album.mjs).
+// (see scripts/fetch-album.ts).
 //
 // This module is isomorphic: it runs in the browser, in a serverless
 // function, and under plain Node, and it never throws — every failure path
@@ -82,11 +82,17 @@ function pickDerivative(
   return all.sort((a, b) => num(b.width) - num(a.width))[0]
 }
 
-async function post(
-  url: string,
-  body: unknown,
-  fetchImpl: typeof fetch
-): Promise<Record<string, unknown> | null> {
+interface PostResult {
+  status: number
+  json: Record<string, unknown> | null
+}
+
+/**
+ * Apple answers a wrong-partition request with HTTP 330 and a JSON body naming
+ * the host that actually holds the album, so the body matters even when the
+ * status isn't ok — the status comes back alongside rather than swallowed.
+ */
+async function post(url: string, body: unknown, fetchImpl: typeof fetch): Promise<PostResult> {
   try {
     const res = await fetchImpl(url, {
       method: 'POST',
@@ -95,11 +101,36 @@ async function post(
       headers: { 'Content-Type': 'text/plain' },
       body: JSON.stringify(body),
     })
-    if (!res.ok) return null
-    return (await res.json()) as Record<string, unknown>
+    let json: Record<string, unknown> | null = null
+    try {
+      json = (await res.json()) as Record<string, unknown>
+    } catch {
+      /* not JSON — leave it null */
+    }
+    return { status: res.status, json }
   } catch {
-    return null
+    return { status: 0, json: null }
   }
+}
+
+/** The host actually holding this album, following Apple's 330 at most once. */
+export async function resolveStream(
+  token: string,
+  fetchImpl: typeof fetch = fetch
+): Promise<{ host: string; stream: Record<string, unknown> } | null> {
+  const url = (host: string) => `https://${host}/${token}/sharedstreams/webstream`
+
+  let host = 'p01-sharedstreams.icloud.com'
+  let res = await post(url(host), { streamCtag: null }, fetchImpl)
+
+  const redirect = res.json?.['X-Apple-MMe-Host']
+  if (typeof redirect === 'string' && redirect) {
+    host = redirect
+    res = await post(url(host), { streamCtag: null }, fetchImpl)
+  }
+
+  if (res.status !== 200 || !res.json) return null
+  return { host, stream: res.json }
 }
 
 export interface FetchAlbumOptions {
@@ -122,19 +153,11 @@ export async function fetchAlbum({
   maxPhotos = 120,
   targetWidth = 1024,
 }: FetchAlbumOptions = {}): Promise<AlbumPhoto[]> {
-  const base = (host: string) => `https://${host}/${token}/sharedstreams`
+  const resolved = await resolveStream(token, fetchImpl)
+  if (!resolved) return []
+  const { host, stream } = resolved
 
-  let host = 'p01-sharedstreams.icloud.com'
-  let stream = await post(`${base(host)}/webstream`, { streamCtag: null }, fetchImpl)
-
-  // Wrong partition: Apple names the right one and we ask again.
-  const redirect = stream?.['X-Apple-MMe-Host']
-  if (typeof redirect === 'string' && redirect) {
-    host = redirect
-    stream = await post(`${base(host)}/webstream`, { streamCtag: null }, fetchImpl)
-  }
-
-  const photos = stream?.photos
+  const photos = stream.photos
   if (!Array.isArray(photos) || photos.length === 0) return []
 
   // Newest first, then trimmed, so we only ask for the URLs we'll use.
@@ -153,11 +176,11 @@ export async function fetchAlbum({
   if (wanted.length === 0) return []
 
   const urls = await post(
-    `${base(host)}/webasseturls`,
+    `https://${host}/${token}/sharedstreams/webasseturls`,
     { photoGuids: wanted.map((w) => w.photo.photoGuid) },
     fetchImpl
   )
-  const items = (urls?.items ?? {}) as Record<
+  const items = (urls.json?.items ?? {}) as Record<
     string,
     { url_location?: string; url_path?: string }
   >

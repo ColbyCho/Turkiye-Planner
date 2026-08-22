@@ -13,7 +13,7 @@
  */
 import { mkdir, readdir, readFile, rm, writeFile } from 'node:fs/promises'
 import { join } from 'node:path'
-import { ALBUM_TOKEN, fetchAlbum, type AlbumPhoto } from '../lib/icloud'
+import { ALBUM_TOKEN, fetchAlbum, resolveStream, type AlbumPhoto } from '../lib/icloud'
 
 const OUT_DIR = join(process.cwd(), 'public', 'album')
 const INDEX = join(OUT_DIR, 'index.json')
@@ -36,22 +36,38 @@ export interface AlbumIndex {
   photos: AlbumIndexEntry[]
 }
 
-/** Ask Apple directly what it says, so a CI log can show why a run came back empty. */
+/**
+ * Say what Apple actually returned, so a CI log explains an empty run instead
+ * of just reporting one.
+ */
 async function diagnose(token: string): Promise<void> {
-  for (const host of ['p01-sharedstreams.icloud.com', 'p23-sharedstreams.icloud.com']) {
-    const url = `https://${host}/${token}/sharedstreams/webstream`
-    try {
-      const res = await fetch(url, {
-        method: 'POST',
-        headers: { 'Content-Type': 'text/plain' },
-        body: JSON.stringify({ streamCtag: null }),
-      })
-      const text = await res.text()
-      console.log(`  ${host} → HTTP ${res.status}`)
-      console.log(`    ${text.slice(0, 600)}`)
-    } catch (err) {
-      console.log(`  ${host} → threw: ${String(err).slice(0, 200)}`)
-    }
+  const resolved = await resolveStream(token)
+  if (!resolved) {
+    console.log('  Could not resolve the album host — the token may be wrong or revoked.')
+    return
+  }
+  const { host, stream } = resolved
+  console.log(`  Reached "${String(stream.streamName ?? '?')}" on ${host}`)
+  console.log(`  Response keys: ${Object.keys(stream).join(', ')}`)
+
+  const photos = stream.photos
+  if (!Array.isArray(photos)) {
+    console.log(`  No "photos" array. itemsReturned=${String(stream.itemsReturned)}`)
+    return
+  }
+  if (photos.length === 0) {
+    console.log('  The album is reachable and empty — nobody has added a photo yet.')
+    return
+  }
+  console.log(`  photos: ${photos.length}`)
+  const first = photos[0] as Record<string, unknown> | undefined
+  if (!first) return
+  console.log(`  First photo keys: ${Object.keys(first).join(', ')}`)
+  const derivatives = first.derivatives as Record<string, unknown> | undefined
+  if (derivatives) {
+    console.log(`  Derivative sizes: ${Object.keys(derivatives).join(', ')}`)
+    const one = Object.values(derivatives)[0] as Record<string, unknown> | undefined
+    if (one) console.log(`  Derivative keys: ${Object.keys(one).join(', ')}`)
   }
 }
 
@@ -76,7 +92,7 @@ async function main() {
 
   const photos = await fetchAlbum({ token, maxPhotos: MAX_PHOTOS, targetWidth: TARGET_WIDTH })
   if (photos.length === 0) {
-    console.log('No photos came back. Asking Apple directly for the reason:')
+    console.log('No photos to snapshot. Checking what Apple says:')
     await diagnose(token)
     // An empty album is not a build failure — the planner falls back to its
     // own postcards, and a later run can pick the photos up.
