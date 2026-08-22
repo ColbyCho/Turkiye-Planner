@@ -7,7 +7,10 @@ import { usePolls } from '@/lib/usePolls'
 import AvatarStack from './AvatarStack'
 
 // Only these categories get a poll.
-const POLLABLE = new Set<Category>(['adventure', 'meal', 'night'])
+// Polls are for the days' genuinely open questions — a Choose Your Adventure
+// block is a fork in the plan. Everything else is already decided, so a poll
+// there is just noise.
+const POLLABLE = new Set<Category>(['adventure'])
 
 export function isPollable(category: Category): boolean {
   return POLLABLE.has(category)
