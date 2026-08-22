@@ -2,6 +2,8 @@
 
 import { useEffect, useState } from 'react'
 import type { DayPlan } from '@/lib/types'
+import { tabParts } from '@/lib/time'
+import WeatherIcon, { weatherFor } from './WeatherIcon'
 
 // Open-Meteo (free, no key). One request per city covers its whole 16-day
 // forecast horizon; each day page then just picks its date out of the cache.
@@ -21,18 +23,6 @@ type CityForecasts = Record<string, DailyForecast> // date -> forecast
 
 const TTL_MS = 3 * 3600_000
 const memory = new Map<string, CityForecasts>()
-
-/** WMO weather code → a glanceable emoji. */
-function weatherEmoji(code: number): string {
-  if (code === 0) return '☀️'
-  if (code <= 2) return '🌤️'
-  if (code === 3) return '☁️'
-  if (code === 45 || code === 48) return '🌫️'
-  if (code >= 95) return '⛈️'
-  if ((code >= 71 && code <= 77) || code === 85 || code === 86) return '❄️'
-  if (code >= 51) return '🌧️'
-  return '🌤️'
-}
 
 async function fetchCity(city: string): Promise<CityForecasts | null> {
   const hit = memory.get(city)
@@ -102,9 +92,10 @@ function citiesOf(day: DayPlan): string[] {
 }
 
 /**
- * Compact forecast line for the day header: "☀️ 91°/75°", one entry per city
+ * The viewed day's forecast, as one line for the day header: the date it
+ * belongs to, then a drawn weather mark and the high/low — one entry per city
  * on transfer days. Renders nothing while loading, out of forecast range, or
- * offline — the planner never waits on the weather.
+ * offline, so the planner never waits on the weather.
  */
 export default function DayWeather({ day }: { day: DayPlan }) {
   const [entries, setEntries] = useState<{ city: string; f: DailyForecast }[]>([])
@@ -128,14 +119,35 @@ export default function DayWeather({ day }: { day: DayPlan }) {
 
   if (entries.length === 0) return null
 
+  const { weekday, day: dayNum } = tabParts(day.date)
+
   return (
-    <p className="flex flex-wrap items-center justify-end gap-x-3 gap-y-0.5 text-xs font-medium text-ink/60">
-      {entries.map(({ city, f }) => (
-        <span key={city} title={`${city}: high ${f.maxF}°F / low ${f.minF}°F`}>
-          {entries.length > 1 && <span className="text-ink/45">{city} </span>}
-          <span aria-hidden>{weatherEmoji(f.code)}</span> {f.maxF}°/{f.minF}°
-        </span>
-      ))}
-    </p>
+    <div className="text-right leading-tight">
+      <p className="text-[10px] font-medium uppercase tracking-[0.2em] text-ink/40">
+        {weekday} {dayNum}
+      </p>
+      <p className="flex flex-wrap items-center justify-end gap-x-2.5 text-xs font-medium text-ink/60">
+        {entries.map(({ city, f }) => {
+          const { icon, label } = weatherFor(f.code)
+          return (
+            <span
+              key={city}
+              className="inline-flex items-center gap-1"
+              title={`${city}: ${label}, high ${f.maxF}°F / low ${f.minF}°F`}
+            >
+              {entries.length > 1 && (
+                <span className="text-[10px] uppercase tracking-[0.1em] text-ink/40">
+                  {city.slice(0, 3)}
+                </span>
+              )}
+              <WeatherIcon name={icon} size={15} className="shrink-0 text-spice/75" />
+              <span className="tabular-nums">
+                {f.maxF}°<span className="text-ink/35">/{f.minF}°</span>
+              </span>
+            </span>
+          )
+        })}
+      </p>
+    </div>
   )
 }
