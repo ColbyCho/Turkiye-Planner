@@ -47,12 +47,16 @@ async function diagnose(token: string): Promise<void> {
     return
   }
   const { host, stream } = resolved
-  console.log(`  Host: ${host}`)
+  console.log(`  Reached "${String(stream.streamName ?? '?')}" on ${host}`)
   console.log(`  Response keys: ${Object.keys(stream).join(', ')}`)
 
   const photos = stream.photos
   if (!Array.isArray(photos)) {
     console.log(`  No "photos" array. itemsReturned=${String(stream.itemsReturned)}`)
+    return
+  }
+  if (photos.length === 0) {
+    console.log('  The album is reachable and empty — nobody has added a photo yet.')
     return
   }
   console.log(`  photos: ${photos.length}`)
@@ -88,7 +92,7 @@ async function main() {
 
   const photos = await fetchAlbum({ token, maxPhotos: MAX_PHOTOS, targetWidth: TARGET_WIDTH })
   if (photos.length === 0) {
-    console.log('No photos came back. Asking Apple directly for the reason:')
+    console.log('No photos to snapshot. Checking what Apple says:')
     await diagnose(token)
     // An empty album is not a build failure — the planner falls back to its
     // own postcards, and a later run can pick the photos up.
