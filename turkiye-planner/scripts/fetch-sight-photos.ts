@@ -16,7 +16,36 @@ import { join } from 'node:path'
 
 const CANDIDATES = join(process.cwd(), 'public', 'sights', '_candidates')
 const WIDTH = 900
-const PER_SUBJECT = 4
+const PER_SUBJECT = 6
+
+// Wikimedia asks for a User-Agent that identifies the project and gives them
+// somewhere to complain, and answers 429 to anything that comes at it in a
+// tight loop. So: identify ourselves, and go slowly.
+const UA = 'turkiye-planner/1.0 (https://github.com/ColbyCho/Turkiye-Planner) trip itinerary site'
+const PAUSE_MS = 1200
+
+const sleep = (ms: number) => new Promise((r) => setTimeout(r, ms))
+
+/** GET with Wikimedia's manners: identified, paced, and patient about 429s. */
+async function polite(url: string, attempt = 0): Promise<Response | null> {
+  try {
+    const res = await fetch(url, { headers: { 'User-Agent': UA } })
+    if (res.status === 429 && attempt < 5) {
+      const wait = Number(res.headers.get('retry-after') ?? 0) * 1000 || 2000 * 2 ** attempt
+      console.log(`  429 — waiting ${Math.round(wait / 1000)}s`)
+      await sleep(wait)
+      return polite(url, attempt + 1)
+    }
+    if (!res.ok) {
+      console.log(`  HTTP ${res.status}`)
+      return null
+    }
+    return res
+  } catch (err) {
+    console.log(`  request threw: ${String(err).slice(0, 100)}`)
+    return null
+  }
+}
 
 /** What each activity wants a picture of. */
 const SUBJECTS: { slug: string; query: string }[] = [
@@ -84,15 +113,12 @@ interface ImageInfo {
 
 async function search(query: string, limit: number): Promise<Candidate[]> {
   const url =
-    `${API}?action=query&format=json&origin=*` +
+    `${API}?action=query&format=json` +
     `&generator=search&gsrsearch=${encodeURIComponent(query)}` +
     `&gsrnamespace=6&gsrlimit=${limit * 3}` +
-    `&prop=imageinfo&iiprop=url|extmetadata&iiurlwidth=${WIDTH}`
-  const res = await fetch(url, { headers: { 'User-Agent': 'turkiye-planner/1.0 (trip site)' } })
-  if (!res.ok) {
-    console.log(`  search failed: HTTP ${res.status}`)
-    return []
-  }
+    `&prop=imageinfo&iiprop=url|size|extmetadata&iiurlwidth=${WIDTH}`
+  const res = await polite(url)
+  if (!res) return []
   const json = (await res.json()) as {
     query?: { pages?: Record<string, { title?: string; imageinfo?: ImageInfo[] }> }
   }
@@ -125,11 +151,9 @@ async function search(query: string, limit: number): Promise<Candidate[]> {
 }
 
 async function download(url: string, dest: string): Promise<boolean> {
+  const res = await polite(url)
+  if (!res) return false
   try {
-    const res = await fetch(url, {
-      headers: { 'User-Agent': 'turkiye-planner/1.0 (trip site)' },
-    })
-    if (!res.ok) return false
     await writeFile(dest, Buffer.from(await res.arrayBuffer()))
     return true
   } catch {
@@ -143,6 +167,7 @@ async function main() {
 
   for (const { slug, query } of SUBJECTS) {
     console.log(`${slug}: "${query}"`)
+    await sleep(PAUSE_MS)
     const found = await search(query, PER_SUBJECT)
     if (found.length === 0) {
       console.log('  nothing usable')
@@ -151,6 +176,7 @@ async function main() {
     for (let i = 0; i < found.length; i++) {
       const c = found[i]
       const name = `${slug}-${i + 1}.jpg`
+      await sleep(PAUSE_MS)
       if (!(await download(c.thumb, join(CANDIDATES, name)))) {
         console.log(`  ✗ ${name}`)
         continue
