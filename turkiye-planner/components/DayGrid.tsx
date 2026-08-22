@@ -190,13 +190,15 @@ export default function DayGrid({ day, onSelect, activeCategories }: DayGridProp
               }}
             >
               {/* Watermark: what this block IS, at a glance. Inherits the
-                  block's ink via currentColor; skipped on slivers. */}
-              {motif && height >= 44 && (
+                  block's ink via currentColor; grows to whatever the block
+                  gives it — tall blocks get a big mark, narrow ones on a phone
+                  shrink to fit — and is skipped on slivers. */}
+              {motif && height >= 36 && (
                 <span
-                  className="pointer-events-none absolute right-2 top-1/2 -translate-y-1/2 opacity-[0.24]"
+                  className="pointer-events-none absolute inset-y-1 right-1 aspect-square max-w-[calc(100%-0.5rem)] opacity-20"
                   aria-hidden
                 >
-                  <Motif name={motif} size={Math.min(height - 10, 120)} />
+                  <Motif name={motif} fill />
                 </span>
               )}
               <span

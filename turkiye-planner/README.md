@@ -32,7 +32,33 @@ activity. No other file needs touching as plans firm up.
   (`#2026-08-25`)
 - Cheeky fun fact sticky note at the bottom of every day
 
+## Trip photos
+
+The postcard pile under each day prefers the crew's own photos from the iCloud
+shared album, falling back to the stock Wikimedia postcards on a day with none.
+A photo lands on a day page by its capture time, read on a Türkiye clock, so
+nobody has to file anything.
+
+Photos reach the page by whichever of three routes answers first:
+
+| Route | How it works | Needs |
+| --- | --- | --- |
+| Snapshot | `.github/workflows/album.yml` runs `npm run album` every two hours and commits `public/album/` | nothing — on by default |
+| Proxy | `/api/photos` reads the album server-side, same-origin | `PHOTO_PROXY=1` in the deploy env |
+| Direct | The browser calls Apple itself | Apple allowing the cross-origin call |
+
+The snapshot paints first because it's local and cached offline; anything a live
+route turns up is merged over it, so new photos appear without waiting for the
+next snapshot. All three can fail without breaking the page.
+
+Run a snapshot by hand with `npm run album`. `ALBUM_TOKEN` overrides which album
+is read; the default is the one the Photo Album stamp links to.
+
 ## Deploy
 
 `npm run build` produces a fully static site in `out/` (Next.js static export) —
 host it on Vercel, Netlify, GitHub Pages, or any static file host.
+
+Setting `PHOTO_PROXY=1` builds a Next server app instead, adding the
+`/api/photos` route above. The planner detects the route at runtime, so turning
+it on is purely an env-var change.

@@ -257,12 +257,17 @@ const RASTER = new Set<MotifName>([
 export default function Motif({
   name,
   size = 48,
+  fill = false,
   className = '',
 }: {
   name: MotifName
   size?: number
+  /** Grow to fill the wrapper instead of drawing at a fixed px size. The art
+   *  is contained, so it lands as big as the box allows on any screen. */
+  fill?: boolean
   className?: string
 }) {
+  const box = fill ? { width: '100%', height: '100%' } : { width: size, height: size }
   if (RASTER.has(name)) {
     const mask = `url(/motifs/${name}.png)`
     return (
@@ -270,8 +275,7 @@ export default function Motif({
         aria-hidden
         className={`inline-block ${className}`}
         style={{
-          width: size,
-          height: size,
+          ...box,
           backgroundColor: 'currentColor',
           WebkitMaskImage: mask,
           maskImage: mask,
@@ -288,8 +292,8 @@ export default function Motif({
   return (
     <svg
       viewBox="0 0 100 100"
-      width={size}
-      height={size}
+      width={box.width}
+      height={box.height}
       className={className}
       fill="none"
       stroke="currentColor"

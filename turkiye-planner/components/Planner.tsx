@@ -3,8 +3,7 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { ITINERARY } from '@/data/itinerary'
 import type { Activity, Category, DayPlan } from '@/lib/types'
-import { formatDate } from '@/lib/time'
-import { downloadDayICS } from '@/lib/calendar'
+import { formatDate, formatDateShort } from '@/lib/time'
 import { CATEGORIES, CATEGORY_ORDER } from '@/lib/categories'
 import DayNav from './DayNav'
 import DayGrid from './DayGrid'
@@ -181,35 +180,40 @@ function PlannerInner({
       {/* The planner page */}
       <section className="rounded-md border border-rule bg-paper-card shadow-page">
         {/* Day header */}
-        <div className="flex flex-wrap items-start justify-between gap-4 border-b-2 border-rule px-5 pb-4 pt-6 sm:px-8">
+        <div className="flex items-start justify-between gap-3 border-b-2 border-rule px-5 pb-4 pt-5 sm:gap-6 sm:px-8 sm:pt-6">
           <div>
             <p className="text-xs font-medium uppercase tracking-[0.2em] text-ink/50">
               Day {dayIndex + 1} of {ITINERARY.length}
             </p>
-            <h2 className="font-display text-3xl font-semibold sm:text-4xl">
-              {formatDate(day.date)}
+            {/* Never break the date across lines — it sets how much room the
+                stamp beside it gets, and a hyphenated date reads terribly. */}
+            <h2 className="whitespace-nowrap font-display text-3xl font-semibold sm:text-4xl">
+              <span className="sm:hidden">{formatDateShort(day.date)}</span>
+              <span className="hidden sm:inline">{formatDate(day.date)}</span>
             </h2>
             <p className="mt-1 font-hand text-2xl text-cobalt">{day.title}</p>
-            <button
-              type="button"
-              onClick={() => downloadDayICS(day)}
-              title="One .ics with every activity — open it and iPhone/Google adds the whole day"
-              className="mt-2 inline-flex items-center gap-1.5 rounded-full border border-rule bg-paper px-3 py-1 text-xs font-medium text-ink/60 shadow-block transition hover:border-spice hover:text-spice"
-            >
-              📥 Add whole day to calendar
-            </button>
           </div>
-          {/* Passport-style city stamp, with the day's forecast tucked under it */}
-          <div className="flex flex-col items-end gap-2">
-            <div className="rotate-[4deg] rounded border-2 border-spice/70 px-3 py-1.5 text-center text-spice/80">
-              <p className="text-[10px] font-bold uppercase tracking-[0.3em]">
+          {/* The day's forecast, then its passport-style city stamp. Both ride
+              in the slack beside the date block, so they cost no extra height.
+              On a transfer day the stamp stacks its two cities on phones. */}
+          <div className="flex flex-col items-end gap-1.5">
+            <DayWeather day={day} />
+            <div className="rotate-[4deg] rounded border-2 border-spice/70 px-2.5 py-1 text-center text-spice/80 sm:px-3 sm:py-1.5">
+              <p className="whitespace-nowrap text-[9px] font-bold uppercase tracking-[0.2em] sm:text-[10px] sm:tracking-[0.3em]">
                 Türkiye · {day.date.slice(5).replace('-', '/')}
               </p>
-              <p className="font-display text-lg font-bold uppercase tracking-widest">
-                {day.city}
+              <p className="font-display text-base font-bold uppercase leading-tight tracking-wider sm:text-lg sm:tracking-widest">
+                {day.city
+                  .split('→')
+                  .map((c) => c.trim())
+                  .map((city, i) => (
+                    <span key={city} className={i > 0 ? 'block sm:inline' : undefined}>
+                      {i > 0 && <span className="mx-1 font-sans font-normal">→</span>}
+                      {city}
+                    </span>
+                  ))}
               </p>
             </div>
-            <DayWeather day={day} />
           </div>
         </div>
 
@@ -262,7 +266,7 @@ function PlannerInner({
         Tap any activity for details, links & add-to-calendar. Use ← → to flip days.
       </footer>
 
-      <Postcards />
+      <Postcards date={day.date} />
 
       {selected && (
         <ActivityModal
