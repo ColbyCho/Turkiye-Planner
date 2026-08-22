@@ -6,6 +6,7 @@ import { CATEGORIES } from '@/lib/categories'
 import { formatDate, formatDuration, formatRange, toMinutes } from '@/lib/time'
 import { downloadICS, googleCalendarUrl } from '@/lib/calendar'
 import { CREW } from '@/data/itinerary'
+import { photoFor } from '@/data/sightPhotos'
 import { useProfile } from '@/lib/useProfile'
 import { useSignups } from '@/lib/useSignups'
 import CommentThread from './CommentThread'
@@ -81,6 +82,7 @@ interface ActivityModalProps {
 
 export default function ActivityModal({ day, activity, onClose }: ActivityModalProps) {
   const cat = CATEGORIES[activity.category]
+  const photo = photoFor(activity)
   const { profiles, me, openGate } = useProfile()
   const { available: rsvpReady, participantsFor, setMine } = useSignups()
   const [copied, setCopied] = useState(false)
@@ -160,11 +162,11 @@ export default function ActivityModal({ day, activity, onClose }: ActivityModalP
         <div className="flex-1 overflow-y-auto overscroll-contain p-6 sm:p-8">
         {/* Square photo (or emoji tile) — styled like the desk postcards */}
         <figure className="mx-auto mt-2 w-56 -rotate-1 bg-white p-1.5 pb-2 shadow-note transition-transform duration-300 hover:rotate-0 sm:w-64">
-          {activity.image ? (
+          {photo ? (
             // eslint-disable-next-line @next/next/no-img-element
             <img
-              src={activity.image.src}
-              alt={activity.image.alt}
+              src={photo.src}
+              alt={photo.alt}
               className="aspect-square w-full object-cover"
             />
           ) : (
@@ -183,15 +185,15 @@ export default function ActivityModal({ day, activity, onClose }: ActivityModalP
             </div>
           )}
         </figure>
-        {activity.image?.creditUrl && (
+        {photo?.creditUrl && (
           <p className="mt-1.5 text-center text-[10px] text-ink/35">
             <a
-              href={activity.image.creditUrl}
+              href={photo.creditUrl}
               target="_blank"
               rel="noopener noreferrer"
               className="underline underline-offset-2 hover:text-ink/60"
             >
-              {activity.image.creditName ?? 'source'}
+              {photo.creditName ?? 'source'}
             </a>
           </p>
         )}
