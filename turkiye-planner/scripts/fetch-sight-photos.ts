@@ -49,29 +49,13 @@ async function polite(url: string, attempt = 0): Promise<Response | null> {
 
 /** What each activity wants a picture of. */
 const SUBJECTS: { slug: string; query: string }[] = [
-  // Round three: one subject per activity that was sharing a photo with
-  // another. A köfte lunch and a dürüm dinner are different meals and should
-  // not open on the same picture.
-  { slug: 'spice-bazaar', query: 'Spice Bazaar Istanbul interior' },
-  { slug: 'nargile-cafe', query: 'nargile cafe Istanbul' },
-  { slug: 'borek', query: 'börek' },
-  { slug: 'simit', query: 'simit Istanbul' },
-  { slug: 'bosphorus-dusk', query: 'Bosphorus Istanbul sunset' },
-  { slug: 'ciya', query: 'Anatolian cuisine Turkey dishes' },
-  { slug: 'bodrum-oldtown', query: 'Bodrum old town street' },
-  { slug: 'levrek', query: 'ızgara levrek grilled sea bass' },
-  { slug: 'bodrum-night', query: 'Bodrum night' },
-  { slug: 'gozleme', query: 'gözleme' },
-  { slug: 'cokertme', query: 'çökertme kebabı' },
-  { slug: 'raki', query: 'rakı' },
-  { slug: 'bitez', query: 'Bitez Bodrum' },
-  { slug: 'castle-night', query: 'Bodrum castle night' },
-  { slug: 'selcuk', query: 'Selçuk İsa Bey Mosque' },
-  { slug: 'bodrum-harbour', query: 'Bodrum harbour evening' },
-  { slug: 'karakoy', query: 'Karaköy Istanbul' },
-  { slug: 'stadium', query: 'Başakşehir Fatih Terim Stadium' },
-  { slug: 'serpme', query: 'serpme kahvaltı' },
-  { slug: 'kahvalti2', query: 'Turkish breakfast table olives cheese' },
+  // Round four: the ones that came back empty or poor. Shorter queries.
+  { slug: 'borek', query: 'su böreği' },
+  { slug: 'ciya', query: 'lokanta Turkish food' },
+  { slug: 'bodrum-oldtown', query: 'Bodrum street' },
+  { slug: 'bodrum-harbour', query: 'Bodrum harbour' },
+  { slug: 'kahvalti2', query: 'kahvaltı' },
+  { slug: 'nargile-cafe', query: 'Çorlulu Ali Paşa Medresesi' },
 ]
 
 interface Candidate {
