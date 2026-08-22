@@ -20,34 +20,29 @@ const PER_SUBJECT = 4
 
 /** What each activity wants a picture of. */
 const SUBJECTS: { slug: string; query: string }[] = [
-  // Commons search does better with the plain name of a thing than with a
-  // descriptive phrase — these are the queries that actually returned the
-  // photographs now in public/sights/.
-  { slug: 'blue-mosque', query: 'Sultan Ahmed Mosque Istanbul exterior' },
-  { slug: 'grand-bazaar', query: 'Grand Bazaar Istanbul interior' },
-  { slug: 'topkapi', query: 'Topkapı Palace gate' },
-  { slug: 'kadikoy', query: 'Kadıköy Istanbul street market' },
-  { slug: 'ferry', query: 'Istanbul ferry Bosphorus' },
-  { slug: 'galata', query: 'Galata Tower Istanbul' },
-  { slug: 'hammam', query: 'hamam interior' },
-  { slug: 'ephesus', query: 'Library of Celsus Ephesus' },
-  { slug: 'mausoleum', query: 'Mausoleum at Halicarnassus Bodrum ruins' },
-  { slug: 'bodrum-castle', query: 'Bodrum Castle Saint Peter' },
-  { slug: 'windmills', query: 'Bodrum windmills' },
-  { slug: 'gulet', query: 'gulet' },
-  { slug: 'marina', query: 'Bodrum marina' },
-  { slug: 'beach', query: 'Bodrum beach' },
-  { slug: 'kahvalti', query: 'Turkish breakfast' },
-  { slug: 'kofte', query: 'Turkish köfte meatballs plate' },
-  { slug: 'durum', query: 'dürüm' },
-  { slug: 'pide', query: 'kıymalı pide' },
-  { slug: 'meze', query: 'meze' },
-  { slug: 'menemen', query: 'menemen Turkish eggs' },
-  { slug: 'kokorec', query: 'kokoreç Turkish street food' },
-  { slug: 'fish', query: 'balık ekmek' },
-  { slug: 'lokum', query: 'Turkish delight lokum shop' },
-  { slug: 'nargile', query: 'nargile' },
-  { slug: 'cay', query: 'Turkish tea çay glass' },
+  // Round three: one subject per activity that was sharing a photo with
+  // another. A köfte lunch and a dürüm dinner are different meals and should
+  // not open on the same picture.
+  { slug: 'spice-bazaar', query: 'Spice Bazaar Istanbul interior' },
+  { slug: 'nargile-cafe', query: 'nargile cafe Istanbul' },
+  { slug: 'borek', query: 'börek' },
+  { slug: 'simit', query: 'simit Istanbul' },
+  { slug: 'bosphorus-dusk', query: 'Bosphorus Istanbul sunset' },
+  { slug: 'ciya', query: 'Anatolian cuisine Turkey dishes' },
+  { slug: 'bodrum-oldtown', query: 'Bodrum old town street' },
+  { slug: 'levrek', query: 'ızgara levrek grilled sea bass' },
+  { slug: 'bodrum-night', query: 'Bodrum night' },
+  { slug: 'gozleme', query: 'gözleme' },
+  { slug: 'cokertme', query: 'çökertme kebabı' },
+  { slug: 'raki', query: 'rakı' },
+  { slug: 'bitez', query: 'Bitez Bodrum' },
+  { slug: 'castle-night', query: 'Bodrum castle night' },
+  { slug: 'selcuk', query: 'Selçuk İsa Bey Mosque' },
+  { slug: 'bodrum-harbour', query: 'Bodrum harbour evening' },
+  { slug: 'karakoy', query: 'Karaköy Istanbul' },
+  { slug: 'stadium', query: 'Başakşehir Fatih Terim Stadium' },
+  { slug: 'serpme', query: 'serpme kahvaltı' },
+  { slug: 'kahvalti2', query: 'Turkish breakfast table olives cheese' },
 ]
 
 interface Candidate {
