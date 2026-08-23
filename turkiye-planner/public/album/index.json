@@ -1,6 +1,420 @@
 {
-  "updatedAt": "2026-08-23T16:25:44.793Z",
+  "updatedAt": "2026-08-23T18:29:21.217Z",
   "photos": [
+    {
+      "guid": "494D8C4D-4CF9-4743-A443-3E024D80CADB",
+      "file": "/album/494D8C4D-4CF9-4743-A443-3E024D80CADB.jpg",
+      "caption": "",
+      "width": 1537,
+      "height": 2049,
+      "takenAt": "2026-08-23T15:35:57Z",
+      "day": "2026-08-23"
+    },
+    {
+      "guid": "185B7769-18BA-4F61-A733-7E261134F339",
+      "file": "/album/185B7769-18BA-4F61-A733-7E261134F339.jpg",
+      "caption": "",
+      "width": 1537,
+      "height": 2049,
+      "takenAt": "2026-08-23T12:05:00Z",
+      "day": "2026-08-23"
+    },
+    {
+      "guid": "126DC88A-C9A2-4EAD-8B06-9806EBCF4FB8",
+      "file": "/album/126DC88A-C9A2-4EAD-8B06-9806EBCF4FB8.jpg",
+      "caption": "",
+      "width": 1537,
+      "height": 2049,
+      "takenAt": "2026-08-23T12:03:59Z",
+      "day": "2026-08-23"
+    },
+    {
+      "guid": "ECC722E1-958F-467E-9605-BC0E96B712DB",
+      "file": "/album/ECC722E1-958F-467E-9605-BC0E96B712DB.jpg",
+      "caption": "",
+      "width": 1537,
+      "height": 2049,
+      "takenAt": "2026-08-23T12:03:58Z",
+      "day": "2026-08-23"
+    },
+    {
+      "guid": "97768701-11D6-4680-BF04-9F4BB61E391F",
+      "file": "/album/97768701-11D6-4680-BF04-9F4BB61E391F.jpg",
+      "caption": "",
+      "width": 1537,
+      "height": 2049,
+      "takenAt": "2026-08-23T12:03:52Z",
+      "day": "2026-08-23"
+    },
+    {
+      "guid": "8D2A7357-7C23-4F8D-8B39-BCE68809DCCA",
+      "file": "/album/8D2A7357-7C23-4F8D-8B39-BCE68809DCCA.jpg",
+      "caption": "",
+      "width": 1537,
+      "height": 2049,
+      "takenAt": "2026-08-23T12:03:48Z",
+      "day": "2026-08-23"
+    },
+    {
+      "guid": "07B3E796-D5C7-46C2-98F5-8C72F454B0C3",
+      "file": "/album/07B3E796-D5C7-46C2-98F5-8C72F454B0C3.jpg",
+      "caption": "",
+      "width": 1537,
+      "height": 2049,
+      "takenAt": "2026-08-23T12:01:57Z",
+      "day": "2026-08-23"
+    },
+    {
+      "guid": "B7367461-C3F5-4C90-A1A5-671F41111009",
+      "file": "/album/B7367461-C3F5-4C90-A1A5-671F41111009.jpg",
+      "caption": "",
+      "width": 1537,
+      "height": 2049,
+      "takenAt": "2026-08-23T12:00:14Z",
+      "day": "2026-08-23"
+    },
+    {
+      "guid": "9A496C25-A464-4376-8832-972D1D95C271",
+      "file": "/album/9A496C25-A464-4376-8832-972D1D95C271.jpg",
+      "caption": "",
+      "width": 1537,
+      "height": 2049,
+      "takenAt": "2026-08-23T11:51:39Z",
+      "day": "2026-08-23"
+    },
+    {
+      "guid": "1C97BEDB-01DE-466E-9DF7-407DA231C154",
+      "file": "/album/1C97BEDB-01DE-466E-9DF7-407DA231C154.jpg",
+      "caption": "",
+      "width": 1537,
+      "height": 2049,
+      "takenAt": "2026-08-23T11:47:35Z",
+      "day": "2026-08-23"
+    },
+    {
+      "guid": "BE98E318-A87E-43A4-B24F-F0DAA474AF05",
+      "file": "/album/BE98E318-A87E-43A4-B24F-F0DAA474AF05.jpg",
+      "caption": "",
+      "width": 1537,
+      "height": 2049,
+      "takenAt": "2026-08-23T11:44:47Z",
+      "day": "2026-08-23"
+    },
+    {
+      "guid": "02CD497D-C2DD-4E95-AD02-0BB64D200F73",
+      "file": "/album/02CD497D-C2DD-4E95-AD02-0BB64D200F73.jpg",
+      "caption": "",
+      "width": 1537,
+      "height": 2049,
+      "takenAt": "2026-08-23T11:09:28Z",
+      "day": "2026-08-23"
+    },
+    {
+      "guid": "AB63494D-89E9-4F1F-9BFA-80C77CFB8507",
+      "file": "/album/AB63494D-89E9-4F1F-9BFA-80C77CFB8507.jpg",
+      "caption": "",
+      "width": 1537,
+      "height": 2049,
+      "takenAt": "2026-08-23T10:50:26Z",
+      "day": "2026-08-23"
+    },
+    {
+      "guid": "695DD4FC-0D45-49E8-93F3-BDD7F4015245",
+      "file": "/album/695DD4FC-0D45-49E8-93F3-BDD7F4015245.jpg",
+      "caption": "",
+      "width": 1537,
+      "height": 2049,
+      "takenAt": "2026-08-23T10:50:14Z",
+      "day": "2026-08-23"
+    },
+    {
+      "guid": "E0BCFDF4-5E6D-4077-A7D9-9EEC6FED0B34",
+      "file": "/album/E0BCFDF4-5E6D-4077-A7D9-9EEC6FED0B34.jpg",
+      "caption": "",
+      "width": 2049,
+      "height": 1537,
+      "takenAt": "2026-08-23T10:50:07Z",
+      "day": "2026-08-23"
+    },
+    {
+      "guid": "339026A6-D904-4EF7-A413-1105FE6F377D",
+      "file": "/album/339026A6-D904-4EF7-A413-1105FE6F377D.jpg",
+      "caption": "",
+      "width": 1537,
+      "height": 2049,
+      "takenAt": "2026-08-23T10:03:22Z",
+      "day": "2026-08-23"
+    },
+    {
+      "guid": "7EDB5C48-F80D-44A9-A65E-FA0C74EFBBDD",
+      "file": "/album/7EDB5C48-F80D-44A9-A65E-FA0C74EFBBDD.jpg",
+      "caption": "",
+      "width": 1537,
+      "height": 2049,
+      "takenAt": "2026-08-23T10:03:05Z",
+      "day": "2026-08-23"
+    },
+    {
+      "guid": "59AAAD51-D447-4767-A14C-D97BAC3951C5",
+      "file": "/album/59AAAD51-D447-4767-A14C-D97BAC3951C5.jpg",
+      "caption": "",
+      "width": 1537,
+      "height": 2049,
+      "takenAt": "2026-08-23T09:54:20Z",
+      "day": "2026-08-23"
+    },
+    {
+      "guid": "D8B3E69E-BC8E-46E4-AEDD-ED75D6F088EB",
+      "file": "/album/D8B3E69E-BC8E-46E4-AEDD-ED75D6F088EB.jpg",
+      "caption": "",
+      "width": 1537,
+      "height": 2049,
+      "takenAt": "2026-08-23T08:50:31Z",
+      "day": "2026-08-23"
+    },
+    {
+      "guid": "3FEDCB6E-569B-4787-A17E-69380DE796B4",
+      "file": "/album/3FEDCB6E-569B-4787-A17E-69380DE796B4.jpg",
+      "caption": "",
+      "width": 1537,
+      "height": 2049,
+      "takenAt": "2026-08-23T08:50:28Z",
+      "day": "2026-08-23"
+    },
+    {
+      "guid": "DF1D4D58-8B42-4C4E-B4F6-9EFB34CD6232",
+      "file": "/album/DF1D4D58-8B42-4C4E-B4F6-9EFB34CD6232.jpg",
+      "caption": "",
+      "width": 1537,
+      "height": 2049,
+      "takenAt": "2026-08-23T08:49:36Z",
+      "day": "2026-08-23"
+    },
+    {
+      "guid": "5F35DC13-CE31-4CA0-9175-948121141B92",
+      "file": "/album/5F35DC13-CE31-4CA0-9175-948121141B92.jpg",
+      "caption": "",
+      "width": 1537,
+      "height": 2049,
+      "takenAt": "2026-08-23T08:49:35Z",
+      "day": "2026-08-23"
+    },
+    {
+      "guid": "ED4B5B1D-39CB-455F-B0FE-3FDBF0359E5E",
+      "file": "/album/ED4B5B1D-39CB-455F-B0FE-3FDBF0359E5E.jpg",
+      "caption": "",
+      "width": 1537,
+      "height": 2049,
+      "takenAt": "2026-08-23T08:49:34Z",
+      "day": "2026-08-23"
+    },
+    {
+      "guid": "4706F1DE-52C1-4A78-B1F6-5F93103957CB",
+      "file": "/album/4706F1DE-52C1-4A78-B1F6-5F93103957CB.jpg",
+      "caption": "",
+      "width": 1537,
+      "height": 2049,
+      "takenAt": "2026-08-23T08:48:41Z",
+      "day": "2026-08-23"
+    },
+    {
+      "guid": "44920453-3F48-4E8A-B768-DCCAE04938B5",
+      "file": "/album/44920453-3F48-4E8A-B768-DCCAE04938B5.jpg",
+      "caption": "",
+      "width": 1537,
+      "height": 2049,
+      "takenAt": "2026-08-23T08:48:40Z",
+      "day": "2026-08-23"
+    },
+    {
+      "guid": "2C4EE700-31AA-46F3-B785-66D00DF4CCD4",
+      "file": "/album/2C4EE700-31AA-46F3-B785-66D00DF4CCD4.jpg",
+      "caption": "",
+      "width": 1537,
+      "height": 2049,
+      "takenAt": "2026-08-23T08:45:54Z",
+      "day": "2026-08-23"
+    },
+    {
+      "guid": "3D758458-E5CD-4C7F-889B-67A0AB7C7B95",
+      "file": "/album/3D758458-E5CD-4C7F-889B-67A0AB7C7B95.jpg",
+      "caption": "",
+      "width": 1537,
+      "height": 2049,
+      "takenAt": "2026-08-23T08:34:23Z",
+      "day": "2026-08-23"
+    },
+    {
+      "guid": "98767242-00FD-46FA-827C-0ACA7541E1D2",
+      "file": "/album/98767242-00FD-46FA-827C-0ACA7541E1D2.jpg",
+      "caption": "",
+      "width": 1537,
+      "height": 2049,
+      "takenAt": "2026-08-23T08:34:21Z",
+      "day": "2026-08-23"
+    },
+    {
+      "guid": "F6D3476E-0001-470D-8DFE-C7D75A2512D2",
+      "file": "/album/F6D3476E-0001-470D-8DFE-C7D75A2512D2.jpg",
+      "caption": "",
+      "width": 1537,
+      "height": 2049,
+      "takenAt": "2026-08-23T08:31:51Z",
+      "day": "2026-08-23"
+    },
+    {
+      "guid": "30A7166C-35C6-4FFB-B5B4-C57181CEAACB",
+      "file": "/album/30A7166C-35C6-4FFB-B5B4-C57181CEAACB.jpg",
+      "caption": "",
+      "width": 1537,
+      "height": 2049,
+      "takenAt": "2026-08-23T08:31:49Z",
+      "day": "2026-08-23"
+    },
+    {
+      "guid": "562A2071-6103-4FB4-A8F9-06AB0A3BE4F1",
+      "file": "/album/562A2071-6103-4FB4-A8F9-06AB0A3BE4F1.jpg",
+      "caption": "",
+      "width": 1537,
+      "height": 2049,
+      "takenAt": "2026-08-23T08:17:12Z",
+      "day": "2026-08-23"
+    },
+    {
+      "guid": "AF4CC512-808E-48E0-9099-1112FDD00E5F",
+      "file": "/album/AF4CC512-808E-48E0-9099-1112FDD00E5F.jpg",
+      "caption": "",
+      "width": 1537,
+      "height": 2049,
+      "takenAt": "2026-08-23T07:11:43Z",
+      "day": "2026-08-23"
+    },
+    {
+      "guid": "F1FCD850-4D10-44BF-BE06-FC478F8AFC8D",
+      "file": "/album/F1FCD850-4D10-44BF-BE06-FC478F8AFC8D.jpg",
+      "caption": "",
+      "width": 1537,
+      "height": 2049,
+      "takenAt": "2026-08-23T07:11:40Z",
+      "day": "2026-08-23"
+    },
+    {
+      "guid": "9C9E91B0-719A-4861-8B4A-54CDFE100203",
+      "file": "/album/9C9E91B0-719A-4861-8B4A-54CDFE100203.jpg",
+      "caption": "",
+      "width": 1537,
+      "height": 2049,
+      "takenAt": "2026-08-23T07:09:38Z",
+      "day": "2026-08-23"
+    },
+    {
+      "guid": "B2494681-0F21-4D4C-93F0-7853E84BD72D",
+      "file": "/album/B2494681-0F21-4D4C-93F0-7853E84BD72D.jpg",
+      "caption": "",
+      "width": 1537,
+      "height": 2049,
+      "takenAt": "2026-08-23T07:09:23Z",
+      "day": "2026-08-23"
+    },
+    {
+      "guid": "2BE530C0-1D28-4118-9C70-9B940A85FFF9",
+      "file": "/album/2BE530C0-1D28-4118-9C70-9B940A85FFF9.jpg",
+      "caption": "",
+      "width": 1537,
+      "height": 2049,
+      "takenAt": "2026-08-23T07:01:59Z",
+      "day": "2026-08-23"
+    },
+    {
+      "guid": "A4FE9DBA-4140-4619-B7F8-4AA3DCBFACC0",
+      "file": "/album/A4FE9DBA-4140-4619-B7F8-4AA3DCBFACC0.jpg",
+      "caption": "",
+      "width": 1537,
+      "height": 2049,
+      "takenAt": "2026-08-23T07:01:41Z",
+      "day": "2026-08-23"
+    },
+    {
+      "guid": "DC1C4290-890C-47B9-A9C3-51AB8B48EF10",
+      "file": "/album/DC1C4290-890C-47B9-A9C3-51AB8B48EF10.jpg",
+      "caption": "",
+      "width": 1537,
+      "height": 2049,
+      "takenAt": "2026-08-23T07:01:37Z",
+      "day": "2026-08-23"
+    },
+    {
+      "guid": "0D7C7CCF-EBDA-4CE7-AB66-F0728AD24254",
+      "file": "/album/0D7C7CCF-EBDA-4CE7-AB66-F0728AD24254.jpg",
+      "caption": "",
+      "width": 1537,
+      "height": 2049,
+      "takenAt": "2026-08-23T06:53:59Z",
+      "day": "2026-08-23"
+    },
+    {
+      "guid": "DC285CF1-DB76-42EC-A01C-F9721795AEB0",
+      "file": "/album/DC285CF1-DB76-42EC-A01C-F9721795AEB0.jpg",
+      "caption": "",
+      "width": 1537,
+      "height": 2049,
+      "takenAt": "2026-08-23T06:49:55Z",
+      "day": "2026-08-23"
+    },
+    {
+      "guid": "82557EB1-71A5-4CF9-8596-D5ED41A96BD4",
+      "file": "/album/82557EB1-71A5-4CF9-8596-D5ED41A96BD4.jpg",
+      "caption": "",
+      "width": 1537,
+      "height": 2049,
+      "takenAt": "2026-08-23T06:43:25Z",
+      "day": "2026-08-23"
+    },
+    {
+      "guid": "CCC636BE-9B40-4F7D-B12A-8319E32CF112",
+      "file": "/album/CCC636BE-9B40-4F7D-B12A-8319E32CF112.jpg",
+      "caption": "",
+      "width": 1537,
+      "height": 2049,
+      "takenAt": "2026-08-23T06:35:50Z",
+      "day": "2026-08-23"
+    },
+    {
+      "guid": "C64991F1-A045-4E15-ABDC-106D8BBFEE0C",
+      "file": "/album/C64991F1-A045-4E15-ABDC-106D8BBFEE0C.jpg",
+      "caption": "",
+      "width": 1537,
+      "height": 2049,
+      "takenAt": "2026-08-23T06:35:15Z",
+      "day": "2026-08-23"
+    },
+    {
+      "guid": "2638F9EE-117F-4289-A952-3E73D3D98B89",
+      "file": "/album/2638F9EE-117F-4289-A952-3E73D3D98B89.jpg",
+      "caption": "",
+      "width": 1537,
+      "height": 2049,
+      "takenAt": "2026-08-23T06:33:18Z",
+      "day": "2026-08-23"
+    },
+    {
+      "guid": "DDF4E77D-E7B9-4CC0-BF90-7682ACB06D0B",
+      "file": "/album/DDF4E77D-E7B9-4CC0-BF90-7682ACB06D0B.jpg",
+      "caption": "",
+      "width": 1537,
+      "height": 2049,
+      "takenAt": "2026-08-23T06:31:51Z",
+      "day": "2026-08-23"
+    },
+    {
+      "guid": "CE81BDB1-6BD9-4A6B-8D98-77992B547F85",
+      "file": "/album/CE81BDB1-6BD9-4A6B-8D98-77992B547F85.jpg",
+      "caption": "",
+      "width": 1537,
+      "height": 2049,
+      "takenAt": "2026-08-23T06:28:47Z",
+      "day": "2026-08-23"
+    },
     {
       "guid": "98CB31E1-D4BF-4791-986D-62047D50E313",
       "file": "/album/98CB31E1-D4BF-4791-986D-62047D50E313.jpg",
@@ -11,12 +425,192 @@
       "day": "2026-08-23"
     },
     {
+      "guid": "80F9A139-80B6-48F8-97D5-D4B46F88908A",
+      "file": "/album/80F9A139-80B6-48F8-97D5-D4B46F88908A.jpg",
+      "caption": "",
+      "width": 1537,
+      "height": 2049,
+      "takenAt": "2026-08-23T06:27:02Z",
+      "day": "2026-08-23"
+    },
+    {
+      "guid": "ACDC5537-040A-4FA7-AE84-4F4DFBAA3C30",
+      "file": "/album/ACDC5537-040A-4FA7-AE84-4F4DFBAA3C30.jpg",
+      "caption": "",
+      "width": 1537,
+      "height": 2049,
+      "takenAt": "2026-08-23T06:09:16Z",
+      "day": "2026-08-23"
+    },
+    {
+      "guid": "D3D00F10-7701-4639-BB1F-CC5CB56508FE",
+      "file": "/album/D3D00F10-7701-4639-BB1F-CC5CB56508FE.jpg",
+      "caption": "",
+      "width": 1537,
+      "height": 2049,
+      "takenAt": "2026-08-23T06:09:16Z",
+      "day": "2026-08-23"
+    },
+    {
+      "guid": "0A92B977-C66C-46BD-A289-86FCB73E1821",
+      "file": "/album/0A92B977-C66C-46BD-A289-86FCB73E1821.jpg",
+      "caption": "",
+      "width": 1537,
+      "height": 2049,
+      "takenAt": "2026-08-23T06:05:58Z",
+      "day": "2026-08-23"
+    },
+    {
+      "guid": "FCA645B6-3D78-4A46-AA1F-0945CE67BF47",
+      "file": "/album/FCA645B6-3D78-4A46-AA1F-0945CE67BF47.jpg",
+      "caption": "",
+      "width": 1537,
+      "height": 2049,
+      "takenAt": "2026-08-23T06:03:14Z",
+      "day": "2026-08-23"
+    },
+    {
+      "guid": "CDE95D80-B856-406A-8633-F9D9F31284A7",
+      "file": "/album/CDE95D80-B856-406A-8633-F9D9F31284A7.jpg",
+      "caption": "",
+      "width": 1537,
+      "height": 2049,
+      "takenAt": "2026-08-23T06:03:13Z",
+      "day": "2026-08-23"
+    },
+    {
+      "guid": "6FA776FF-5DE7-4443-9873-08813EC5FE07",
+      "file": "/album/6FA776FF-5DE7-4443-9873-08813EC5FE07.jpg",
+      "caption": "",
+      "width": 1537,
+      "height": 2049,
+      "takenAt": "2026-08-23T06:01:12Z",
+      "day": "2026-08-23"
+    },
+    {
       "guid": "85A9B4BE-F474-49D0-B999-DA3DA9F4FD17",
       "file": "/album/85A9B4BE-F474-49D0-B999-DA3DA9F4FD17.jpg",
       "caption": "",
       "width": 1537,
       "height": 2049,
       "takenAt": "2026-08-22T20:47:11Z",
+      "day": "2026-08-22"
+    },
+    {
+      "guid": "F7EC6A2E-6DAC-43C7-AD5B-BC629ABA5820",
+      "file": "/album/F7EC6A2E-6DAC-43C7-AD5B-BC629ABA5820.jpg",
+      "caption": "",
+      "width": 1537,
+      "height": 2049,
+      "takenAt": "2026-08-22T20:47:06Z",
+      "day": "2026-08-22"
+    },
+    {
+      "guid": "554CE80B-6050-451C-A334-7F6EB669A90B",
+      "file": "/album/554CE80B-6050-451C-A334-7F6EB669A90B.jpg",
+      "caption": "",
+      "width": 1537,
+      "height": 2049,
+      "takenAt": "2026-08-22T20:21:45Z",
+      "day": "2026-08-22"
+    },
+    {
+      "guid": "E8BA5841-0F4F-484D-921B-A1D0A2CB0B61",
+      "file": "/album/E8BA5841-0F4F-484D-921B-A1D0A2CB0B61.jpg",
+      "caption": "",
+      "width": 1537,
+      "height": 2049,
+      "takenAt": "2026-08-22T16:14:31Z",
+      "day": "2026-08-22"
+    },
+    {
+      "guid": "94EF9208-F76C-4246-AFDD-B9D56E3D6195",
+      "file": "/album/94EF9208-F76C-4246-AFDD-B9D56E3D6195.jpg",
+      "caption": "",
+      "width": 1537,
+      "height": 2049,
+      "takenAt": "2026-08-22T16:13:59Z",
+      "day": "2026-08-22"
+    },
+    {
+      "guid": "590501AD-55A6-4938-8656-B7CA42673A13",
+      "file": "/album/590501AD-55A6-4938-8656-B7CA42673A13.jpg",
+      "caption": "",
+      "width": 1537,
+      "height": 2049,
+      "takenAt": "2026-08-22T16:03:18Z",
+      "day": "2026-08-22"
+    },
+    {
+      "guid": "9DDE9F3D-0072-4C29-8B49-A35335230622",
+      "file": "/album/9DDE9F3D-0072-4C29-8B49-A35335230622.jpg",
+      "caption": "",
+      "width": 1537,
+      "height": 2049,
+      "takenAt": "2026-08-22T16:02:46Z",
+      "day": "2026-08-22"
+    },
+    {
+      "guid": "753EAC30-4E9D-411E-94E1-C7BC78E9B14B",
+      "file": "/album/753EAC30-4E9D-411E-94E1-C7BC78E9B14B.jpg",
+      "caption": "",
+      "width": 1537,
+      "height": 2049,
+      "takenAt": "2026-08-22T16:02:45Z",
+      "day": "2026-08-22"
+    },
+    {
+      "guid": "C0FDB6BD-D53B-4431-9396-FE971FD714AC",
+      "file": "/album/C0FDB6BD-D53B-4431-9396-FE971FD714AC.jpg",
+      "caption": "",
+      "width": 1537,
+      "height": 2049,
+      "takenAt": "2026-08-22T16:02:43Z",
+      "day": "2026-08-22"
+    },
+    {
+      "guid": "4D2031D0-FDA8-406A-A3CA-AE5C02A3317D",
+      "file": "/album/4D2031D0-FDA8-406A-A3CA-AE5C02A3317D.jpg",
+      "caption": "",
+      "width": 1537,
+      "height": 2049,
+      "takenAt": "2026-08-22T16:02:40Z",
+      "day": "2026-08-22"
+    },
+    {
+      "guid": "6215D984-21D3-4452-8747-95B41071243A",
+      "file": "/album/6215D984-21D3-4452-8747-95B41071243A.jpg",
+      "caption": "",
+      "width": 1537,
+      "height": 2049,
+      "takenAt": "2026-08-22T15:23:37Z",
+      "day": "2026-08-22"
+    },
+    {
+      "guid": "35104377-8284-4898-BB8C-BD34AA33FEBC",
+      "file": "/album/35104377-8284-4898-BB8C-BD34AA33FEBC.jpg",
+      "caption": "",
+      "width": 1537,
+      "height": 2049,
+      "takenAt": "2026-08-22T15:23:33Z",
+      "day": "2026-08-22"
+    },
+    {
+      "guid": "CF9E7948-577D-44C5-99E8-85CB0DF9497C",
+      "file": "/album/CF9E7948-577D-44C5-99E8-85CB0DF9497C.jpg",
+      "caption": "",
+      "width": 1537,
+      "height": 2049,
+      "takenAt": "2026-08-22T15:17:27Z",
+      "day": "2026-08-22"
+    },
+    {
+      "guid": "E8315F25-333C-4733-B29D-1BFDE6E3F33F",
+      "file": "/album/E8315F25-333C-4733-B29D-1BFDE6E3F33F.jpg",
+      "caption": "",
+      "width": 1537,
+      "height": 2049,
+      "takenAt": "2026-08-22T15:10:21Z",
       "day": "2026-08-22"
     },
     {
@@ -38,12 +632,138 @@
       "day": "2026-08-22"
     },
     {
+      "guid": "49934A2A-13F7-43CB-94C3-94CC872D4DFF",
+      "file": "/album/49934A2A-13F7-43CB-94C3-94CC872D4DFF.jpg",
+      "caption": "",
+      "width": 1537,
+      "height": 2049,
+      "takenAt": "2026-08-22T15:04:11Z",
+      "day": "2026-08-22"
+    },
+    {
+      "guid": "5B2B7DB0-B223-4EC8-902A-EC2659306F92",
+      "file": "/album/5B2B7DB0-B223-4EC8-902A-EC2659306F92.jpg",
+      "caption": "",
+      "width": 1537,
+      "height": 2049,
+      "takenAt": "2026-08-22T15:04:04Z",
+      "day": "2026-08-22"
+    },
+    {
+      "guid": "3459BFFE-F25E-4DD5-A5D1-81E97FF8AB32",
+      "file": "/album/3459BFFE-F25E-4DD5-A5D1-81E97FF8AB32.jpg",
+      "caption": "",
+      "width": 1537,
+      "height": 2049,
+      "takenAt": "2026-08-22T15:04:03Z",
+      "day": "2026-08-22"
+    },
+    {
+      "guid": "05D11278-A965-4B47-9B2A-C97F7C968F46",
+      "file": "/album/05D11278-A965-4B47-9B2A-C97F7C968F46.jpg",
+      "caption": "",
+      "width": 1537,
+      "height": 2049,
+      "takenAt": "2026-08-22T14:53:40Z",
+      "day": "2026-08-22"
+    },
+    {
+      "guid": "A2D9D10B-45C8-4BB1-9D7C-F9E4105B710E",
+      "file": "/album/A2D9D10B-45C8-4BB1-9D7C-F9E4105B710E.jpg",
+      "caption": "",
+      "width": 1537,
+      "height": 2049,
+      "takenAt": "2026-08-22T14:53:40Z",
+      "day": "2026-08-22"
+    },
+    {
+      "guid": "4DFAA1F1-B728-4709-B5ED-7833B74FC3AA",
+      "file": "/album/4DFAA1F1-B728-4709-B5ED-7833B74FC3AA.jpg",
+      "caption": "",
+      "width": 1537,
+      "height": 2049,
+      "takenAt": "2026-08-22T14:48:50Z",
+      "day": "2026-08-22"
+    },
+    {
+      "guid": "B1419094-B65D-41CC-802D-D2B8E9CDC723",
+      "file": "/album/B1419094-B65D-41CC-802D-D2B8E9CDC723.jpg",
+      "caption": "",
+      "width": 1537,
+      "height": 2049,
+      "takenAt": "2026-08-22T14:48:48Z",
+      "day": "2026-08-22"
+    },
+    {
+      "guid": "52E3D230-57B1-4F2D-9844-887691F955B1",
+      "file": "/album/52E3D230-57B1-4F2D-9844-887691F955B1.jpg",
+      "caption": "",
+      "width": 1537,
+      "height": 2049,
+      "takenAt": "2026-08-22T14:48:14Z",
+      "day": "2026-08-22"
+    },
+    {
+      "guid": "6E86CDE0-892E-4BE9-AD76-6222BBD2E6DE",
+      "file": "/album/6E86CDE0-892E-4BE9-AD76-6222BBD2E6DE.jpg",
+      "caption": "",
+      "width": 1537,
+      "height": 2049,
+      "takenAt": "2026-08-22T13:41:13Z",
+      "day": "2026-08-22"
+    },
+    {
+      "guid": "F8FBA09B-7235-4ADE-8334-EAD59D813661",
+      "file": "/album/F8FBA09B-7235-4ADE-8334-EAD59D813661.jpg",
+      "caption": "",
+      "width": 1537,
+      "height": 2049,
+      "takenAt": "2026-08-22T13:29:56Z",
+      "day": "2026-08-22"
+    },
+    {
+      "guid": "BB3E21FA-1143-436E-A614-3FBFB064F787",
+      "file": "/album/BB3E21FA-1143-436E-A614-3FBFB064F787.jpg",
+      "caption": "",
+      "width": 1537,
+      "height": 2049,
+      "takenAt": "2026-08-22T13:29:17Z",
+      "day": "2026-08-22"
+    },
+    {
+      "guid": "3B3D41B1-F11B-42C0-BA41-749B1586451F",
+      "file": "/album/3B3D41B1-F11B-42C0-BA41-749B1586451F.jpg",
+      "caption": "",
+      "width": 1537,
+      "height": 2049,
+      "takenAt": "2026-08-22T13:29:15Z",
+      "day": "2026-08-22"
+    },
+    {
       "guid": "AA08F49B-C04D-4199-B4BE-716C0A4BE023",
       "file": "/album/AA08F49B-C04D-4199-B4BE-716C0A4BE023.jpg",
       "caption": "",
       "width": 1537,
       "height": 2049,
       "takenAt": "2026-08-22T13:29:06Z",
+      "day": "2026-08-22"
+    },
+    {
+      "guid": "26411933-F8A0-4323-8DAA-1A2A3737A637",
+      "file": "/album/26411933-F8A0-4323-8DAA-1A2A3737A637.jpg",
+      "caption": "",
+      "width": 1537,
+      "height": 2049,
+      "takenAt": "2026-08-22T13:28:24Z",
+      "day": "2026-08-22"
+    },
+    {
+      "guid": "CB3EFDFA-595A-4685-8572-0FDF1152B659",
+      "file": "/album/CB3EFDFA-595A-4685-8572-0FDF1152B659.jpg",
+      "caption": "First batch",
+      "width": 1536,
+      "height": 2048,
+      "takenAt": "2026-08-22T03:09:30Z",
       "day": "2026-08-22"
     }
   ]
